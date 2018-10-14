@@ -15,22 +15,21 @@ const reunionAddPg = (params) => {
 
 const reunionList = () => {
   client.connect();
-  r = [];
-  return new Promise(() => client.query(`SELECT * FROM reunion;`, (err, res) => {
-    if (err) {
-      console.log('error', err);
-      return null;
-    }
-    // for (let row of res.rows) {
-    //   r.push(row);
-    // }
-    return res.rows;
-    // client.end();
-  })).then(r => {
-    console.log('then r', r);
-    return r;
-  })
-}
+  return new Promise((res, rej) => {
+    res(client.query(`SELECT * FROM reunion;`, (err, res) => {
+      if (err) {
+        console.log('error', err);
+        return null;
+      }
+      // for (let row of res.rows) {
+      //   r.push(row);
+      // }
+      console.log('res.rows', res.rows);
+      return res.rows;
+      // client.end();
+    }));
+  });
+};
 
 module.exports = {
   reunionAddPg,
