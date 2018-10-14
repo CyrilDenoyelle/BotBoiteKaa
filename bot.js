@@ -40,11 +40,11 @@ setInterval(() => {
   const now = new Date();
   // console.log(reunions, now);
   reunions.map(e => {
-    if (e.date < now && !e.isDeleted) {
+    if (e && e.date < now && !e.isDeleted) {
       e.isDeleted = true;
       console.log(e);
     }
   });
-}, 2000);
+}, 30000);
 
 client.login('NDk5MzQ3MTg3ODU2MTc5MjUw.DqP-KA.kH6ZFDx1B2kvPajMELzNEK29sjE');
