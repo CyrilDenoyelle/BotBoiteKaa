@@ -13,6 +13,24 @@ const reunionAddPg = (params) => {
   });
 }
 
+const reunionList = () => {
+  client.connect();
+  client.query(`SELECT * FROM reunion`, (err, res) => {
+    if (err) {
+      console.log(err);
+      return null;
+    }
+    for (let row of res.rows) {
+      console.log(JSON.stringify(row));
+    }
+    client.end();
+    return res && res.rows;
+  });
+
+  // client.end();
+}
+
 module.exports = {
-  reunionAddPg
+  reunionAddPg,
+  reunionList
 }

@@ -42,7 +42,7 @@ callReunion = (r) => {
 }
 
 getAllReunions = () => {
-  return reunions;
+  return reunionList();
 }
 
 module.exports = {
