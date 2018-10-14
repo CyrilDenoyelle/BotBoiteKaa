@@ -17,7 +17,7 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-  msgHandler();
+  msgHandler(msg);
 });
 
 setInterval(() => {
