@@ -15,8 +15,7 @@ const reunionAddPg = (params) => {
 
 const reunionList = () => {
   client.connect();
-  let reunions;
-  client.query(`SELECT * FROM reunion;`, (err, res) => {
+  return client.query(`SELECT * FROM reunion;`, (err, res) => {
     if (err) {
       console.log(err);
       return null;
@@ -25,14 +24,8 @@ const reunionList = () => {
     for (let row of res.rows) {
       console.log(JSON.stringify(row));
     }
-    reunions = res.rows;
     client.end();
-    return res.rows;
   });
-
-  console.log('reunions', reunions);
-  return reunions;
-  // client.end();
 }
 
 module.exports = {
