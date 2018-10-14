@@ -16,7 +16,7 @@ const reunionAddPg = (params) => {
 const reunionList = () => {
   client.connect();
   r = [];
-  new Promise(() => {
+  return new Promise(() => {
     client.query(`SELECT * FROM reunion;`, (err, res) => {
       if (err) {
         console.log('error', err);
@@ -31,7 +31,8 @@ const reunionList = () => {
     console.log('r end', r);
     return r
   }).then(r => {
-    console.log(r);
+    console.log('then r', r);
+    return r;
   })
 }
 
