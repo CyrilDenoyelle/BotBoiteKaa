@@ -22,7 +22,8 @@ newReunion = (msg) => {
 
     // console.log('process.env.DATABASE_URL ', process.env.DATABASE_URL);
     if (process.env.DATABASE_URL) {
-      reunionAddPg(params).catch(e => console.log('error', e));
+      reunionAddPg(params);
+      // .catch(e => console.log('error', e));
     } else {
       reunions.push(params);
       console.log(reunions);
