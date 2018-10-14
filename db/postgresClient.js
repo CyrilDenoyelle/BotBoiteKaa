@@ -20,9 +20,8 @@ const reunionList = () => {
       console.log(err);
       return null;
     }
-    console.log('res', res);
     for (let row of res.rows) {
-      console.log(JSON.stringify(row));
+      // console.log(JSON.stringify(row));
     }
     client.end();
   });
