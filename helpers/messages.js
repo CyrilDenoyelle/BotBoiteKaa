@@ -17,7 +17,7 @@ msgHandler = (msg) => {
   if (msg.content.startsWith('!reunion ')) {
     reunion.newReunion(msg);
   }
-  if (msg.content.startsWith('!reunionList ')) {
+  if (msg.content.startsWith('!reunionList')) {
     reunion.getAllReunions(msg);
   }
 

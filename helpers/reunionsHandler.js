@@ -1,5 +1,5 @@
 let reunions = [];
-const { reunionAddPg } = require('../db/postgresClient');
+const { reunionAddPg, reunionList } = require('../db/postgresClient');
 
 
 newReunion = (msg) => {
