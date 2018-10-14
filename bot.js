@@ -34,6 +34,8 @@ client.on('message', msg => {
   newReunionSeeds(e);
 })
 
+
+console.log('getAllReunions', getAllReunions());
 setInterval(() => {
   const now = new Date();
   console.log('getAllReunions', getAllReunions());
