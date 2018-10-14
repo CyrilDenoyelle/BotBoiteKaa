@@ -38,7 +38,9 @@ client.on('message', msg => {
 })
 
 reunionList().then(e => {
-  console.log('e bot.js', e);
+  e.map(row => {
+    console.log('row.id', row.id);
+  })
 })
 
 setInterval(() => {
