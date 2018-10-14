@@ -7,9 +7,14 @@ express().get('/', (req, res) => { res })
 
 const Discord = require('discord.js');
 const { msgHandler } = require('./helpers/messages.js');
+const {
+  newReunion,
+  cancelReunion,
+  callReunion,
+  getAllReunions
+} = require('./helpers/reunionsHandler.js');
 const client = new Discord.Client();
 
-const reunions = [];
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
@@ -23,13 +28,13 @@ client.on('message', msg => {
 setInterval(() => {
   const now = new Date();
   // console.log(reunions, now);
-  reunions.map(e => {
+  getAllReunions().map(e => {
     if (e && e.date < now && !e.isDeleted) {
       e.isDeleted = true;
       console.log(e);
     }
   });
-}, 30000);
+}, 60000);
 
 client.login('NDk5MzQ3MTg3ODU2MTc5MjUw.DqP-KA.kH6ZFDx1B2kvPajMELzNEK29sjE');
 
