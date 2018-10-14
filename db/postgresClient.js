@@ -26,10 +26,10 @@ const reunionList = () => {
       console.log(JSON.stringify(row));
     }
     reunions = res.rows;
+    client.end();
     return res.rows;
   });
 
-  client.end();
   console.log('reunions', reunions);
   return reunions;
   // client.end();
