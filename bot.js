@@ -38,7 +38,7 @@ client.on('message', msg => {
 })
 
 reunionList().then(e => {
-  console.log('e bot.js')
+  console.log('e bot.js', e);
 })
 
 setInterval(() => {
