@@ -23,9 +23,9 @@ const reunionList = async () => {
     for (let row of res.rows) {
       console.log(JSON.stringify(row));
     }
-    client.end();
-    return res && res.rows;
+    return res.rows;
   });
+  client.end();
   console.log('reunions', reunions);
   return reunions;
   // client.end();
