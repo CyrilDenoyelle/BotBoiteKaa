@@ -15,7 +15,8 @@ const reunionAddPg = (params) => {
 
 const reunionList = async () => {
   client.connect();
-  const reunions = await client.query(`SELECT * FROM reunion`, (err, res) => {
+  let reunions;
+  await client.query(`SELECT * FROM reunion`, (err, res) => {
     if (err) {
       console.log(err);
       return null;
@@ -23,8 +24,10 @@ const reunionList = async () => {
     for (let row of res.rows) {
       console.log(JSON.stringify(row));
     }
+    reunions = res.rows;
     return res.rows;
   });
+
   client.end();
   console.log('reunions', reunions);
   return reunions;
