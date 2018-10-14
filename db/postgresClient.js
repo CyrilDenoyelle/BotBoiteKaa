@@ -5,22 +5,26 @@ const client = () => new Client({
 });
 
 const reunionAddPg = (params) => {
-  client().connect().query(`INSERT INTO reunion VALUES('${params.id}', '${params.name}', '${params.date}', '${params.user_id}', '${params.created_at}');`, (err, res) => {
+  tempClient = client();
+  tempClient.connect();
+  tempClient.query(`INSERT INTO reunion VALUES('${params.id}', '${params.name}', '${params.date}', '${params.user_id}', '${params.created_at}');`, (err, res) => {
     if (err) console.log(err);
-    pg.end();
+    tempClient.end();
     return res;
-  }).end()
+  });
 }
 
 const reunionList = () => {
   return new Promise((resolve, rej) => {
-    client().connect().query(`SELECT * FROM reunion;`, (err, res) => {
+    tempClient.connect();
+    tempClient.query(`SELECT * FROM reunion;`, (err, res) => {
       if (err) {
         console.log('error', err);
         return null;
       }
       resolve(res.rows);
-    }).end();
+      tempClient.end();
+    });
   });
 };
 
