@@ -13,10 +13,10 @@ const reunionAddPg = (params) => {
   });
 }
 
-const reunionList = async () => {
+const reunionList = () => {
   client.connect();
   let reunions;
-  await client.query(`SELECT * FROM reunion;`, (err, res) => {
+  client.query(`SELECT * FROM reunion;`, (err, res) => {
     if (err) {
       console.log(err);
       return null;
