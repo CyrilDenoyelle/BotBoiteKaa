@@ -13,7 +13,7 @@ const reunionAddPg = (params) => {
 
 
   client.query(`INSERT INTO reunion VALUES('${params.name}', '${params.date}', '${params.user_id}', '${params.created_at}');`, (err, res) => {
-    if (err) throw err;
+    if (err) console.log(err);
     // for (let row of res.rows) {
     //   console.log(JSON.stringify(row));
     // }
