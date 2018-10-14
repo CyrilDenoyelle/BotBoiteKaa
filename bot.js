@@ -5,13 +5,15 @@ express().get('/', (req, res) => { res })
     console.log('Our app is running on http://localhost:' + port);
   });
 
+
 const Discord = require('discord.js');
+const client = new Discord.Client();
+
 const { msgHandler } = require('./helpers/messages.js');
 const {
   newReunionSeeds,
   getAllReunions
 } = require('./helpers/reunionsHandler.js');
-const client = new Discord.Client();
 
 
 client.on('ready', () => {
@@ -34,7 +36,7 @@ client.on('message', msg => {
 
 setInterval(() => {
   const now = new Date();
-  console.log('getAllReunions', await getAllReunions());
+  console.log('getAllReunions', getAllReunions());
   // .map(e => {
   //   if (e && e.date > now && !e.isDeleted) {
   //     e.isDeleted = true;
