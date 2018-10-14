@@ -14,8 +14,8 @@ const reunionAddPg = (params) => {
 }
 
 const reunionList = () => {
-  client.connect();
   return new Promise((resolve, rej) => {
+    client.connect();
     client.query(`SELECT * FROM reunion;`, (err, res) => {
       if (err) {
         console.log('error', err);
