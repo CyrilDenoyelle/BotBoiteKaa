@@ -15,15 +15,17 @@ const reunionAddPg = (params) => {
 
 const reunionList = () => {
   client.connect();
-  return client.query(`SELECT * FROM reunion;`, (err, res) => {
+  client.query(`SELECT * FROM reunion;`, (err, res) => {
     if (err) {
       console.log(err);
       return null;
     }
+    r = []
     for (let row of res.rows) {
-      // console.log(JSON.stringify(row));
+      r.push(row);
     }
     client.end();
+    return r;
   });
 }
 
