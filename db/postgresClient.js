@@ -21,12 +21,8 @@ const reunionList = () => {
         console.log('error', err);
         return null;
       }
-      // for (let row of res.rows) {
-      //   r.push(row);
-      // }
-      console.log('res.rows', res.rows);
+      client.end();
       return resolve(res.rows);
-      // client.end();
     });
   });
 };
