@@ -8,9 +8,7 @@ express().get('/', (req, res) => { res })
 const Discord = require('discord.js');
 const { msgHandler } = require('./helpers/messages.js');
 const {
-  newReunion,
-  cancelReunion,
-  callReunion,
+  newReunionSeeds,
   getAllReunions
 } = require('./helpers/reunionsHandler.js');
 const client = new Discord.Client();
@@ -25,16 +23,29 @@ client.on('message', msg => {
   msgHandler(msg);
 });
 
+
+[
+  '!reunion R&D 2018-10-14T17:23:00',
+  '!reunion coucou 2018-10-14T17:24:00',
+  '!reunion trulu 2018-10-14T17:25:00'
+].map(e => {
+  newReunionSeeds(e);
+})
+
 setInterval(() => {
   const now = new Date();
-  // console.log(reunions, now);
   getAllReunions().map(e => {
-    if (e && e.date < now && !e.isDeleted) {
+    if (e && e.date > now && !e.isDeleted) {
       e.isDeleted = true;
-      console.log(e);
+
+      // if (process.env.DATABASE_URL) {
+      //   client.channels.get('500978775878664195').send(`${process.env.DATABASE_URL ? '@veryone' : '@veryone'} c'est l'heure de ${e.name}`);
+      // } else {
+      // }
+      console.log(`@everyone c'est l'heure de ${e.name}`);
     }
   });
-}, 60000);
+}, process.env.DATABASE_URL ? 60000 : 10000);
 
 client.login('NDk5MzQ3MTg3ODU2MTc5MjUw.DqP-KA.kH6ZFDx1B2kvPajMELzNEK29sjE');
 
