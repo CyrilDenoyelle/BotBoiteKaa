@@ -21,9 +21,9 @@ const reunionList = () => {
         console.log('error', err);
         return null;
       }
+      client.end();
       return resolve(res.rows);
     });
-    client.end();
   });
 };
 
