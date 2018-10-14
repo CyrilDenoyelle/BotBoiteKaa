@@ -21,8 +21,8 @@ const reunionList = () => {
         console.log('error', err);
         return null;
       }
+      resolve(res.rows);
       client.end();
-      return resolve(res.rows);
     });
   });
 };
