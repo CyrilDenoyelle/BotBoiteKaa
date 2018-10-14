@@ -37,8 +37,10 @@ client.on('message', msg => {
   newReunionSeeds(e);
 })
 
+reunionList().then(e => {
+  console.log('e bot.js')
+})
 
-console.log('reunionList', reunionList());
 setInterval(() => {
   const now = new Date();
   // console.log('getAllReunions', getAllReunions());
