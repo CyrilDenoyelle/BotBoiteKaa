@@ -26,6 +26,7 @@ const reunionList = async () => {
     client.end();
     return res && res.rows;
   });
+  console.log('reunions', reunions);
   return reunions;
   // client.end();
 }
