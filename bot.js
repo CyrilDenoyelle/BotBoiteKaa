@@ -31,6 +31,6 @@ setInterval(() => {
   });
 }, 30000);
 
-client.login('NDk5MzQ3MTg3ODU2MTc5MjUw.DqP-KA.kH6ZFDx1B2kvPajMELzNEK29sjE');
+client.login('');
 
 
