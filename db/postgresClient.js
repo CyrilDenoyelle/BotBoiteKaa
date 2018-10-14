@@ -16,21 +16,17 @@ const reunionAddPg = (params) => {
 const reunionList = () => {
   client.connect();
   r = [];
-  return new Promise(() => {
-    client.query(`SELECT * FROM reunion;`, (err, res) => {
-      if (err) {
-        console.log('error', err);
-        return null;
-      }
-      for (let row of res.rows) {
-        r.push(row);
-      }
-      console.log('r', r);
-      // client.end();
-    })
-    console.log('r end', r);
-    return r
-  }).then(r => {
+  return new Promise(() => client.query(`SELECT * FROM reunion;`, (err, res) => {
+    if (err) {
+      console.log('error', err);
+      return null;
+    }
+    // for (let row of res.rows) {
+    //   r.push(row);
+    // }
+    return res.rows;
+    // client.end();
+  })).then(r => {
     console.log('then r', r);
     return r;
   })
