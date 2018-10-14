@@ -27,7 +27,9 @@ const reunionList = () => {
     }
     client.end();
     return r;
-  });
+  }).then((e) => {
+    console.log(e);
+  })
 }
 
 module.exports = {
