@@ -16,6 +16,7 @@ const reunionAddPg = (params) => {
 
 const reunionList = () => {
   return new Promise((resolve, rej) => {
+    tempClient = client();
     tempClient.connect();
     tempClient.query(`SELECT * FROM reunion;`, (err, res) => {
       if (err) {
