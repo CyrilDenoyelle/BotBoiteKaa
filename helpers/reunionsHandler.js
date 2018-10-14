@@ -9,11 +9,9 @@ newReunion = (msg) => {
     msg.reply(`reunion set au ${args[1]} pour ${args[0]}`);
 
     const now = new Date().valueOf() + 36000;
-    console.log('now', now);
     const argsDate = new Date(args[1]);
     reuDate = new Date(Date.UTC(argsDate.getFullYear(), argsDate.getMonth(), argsDate.getDate(), argsDate.getHours(), argsDate.getMinutes(), argsDate.getSeconds()));
 
-    console.log('reuDate', reuDate);
     msg.channel.send(reuDate);
     const params = {
       name: args[0],
@@ -22,9 +20,9 @@ newReunion = (msg) => {
       created_at: now
     }
 
-    console.log('process.env.DATABASE_URL ', process.env.DATABASE_URL);
+    // console.log('process.env.DATABASE_URL ', process.env.DATABASE_URL);
     if (process.env.DATABASE_URL) {
-      reunionAddPg(params);
+      reunionAddPg(params).catch(e => console.log('error', e));
     } else {
       reunions.push(params);
       console.log(reunions);
