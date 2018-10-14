@@ -21,6 +21,7 @@ const reunionList = async () => {
       console.log(err);
       return null;
     }
+    console.log(res);
     for (let row of res.rows) {
       console.log(JSON.stringify(row));
     }
