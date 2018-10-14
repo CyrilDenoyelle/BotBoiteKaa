@@ -14,10 +14,10 @@ const {
   newReunionSeeds,
   getAllReunions
 } = require('./helpers/reunionsHandler.js');
+
 const {
   reunionList,
-} = require('./helpers/postgresClient.js');
-
+} = require('./db/postgresClient.js');
 
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
