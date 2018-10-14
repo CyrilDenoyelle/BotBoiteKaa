@@ -34,7 +34,7 @@ client.on('message', msg => {
 
 setInterval(() => {
   const now = new Date();
-  console.log('getAllReunions', getAllReunions());
+  console.log('getAllReunions', await getAllReunions());
   // .map(e => {
   //   if (e && e.date > now && !e.isDeleted) {
   //     e.isDeleted = true;
