@@ -1,8 +1,9 @@
 
-const reunion = require('./reunionsHandler.js');
+const { newReunion,
+  getAllReunions
+} = require('./reunionsHandler.js');
 const botMsg = require('./botResponseTemplates');
-const msgTutoReunion = 'pour utiliser la fonction de reunion votre message doit ressembler a ça biatch: "!reunion pourquoiSansEspace 1995-12-17T13:25:00" attention ce truk va faire un "@"chanel sur le discord. pour annuler une reunion: c\'est tres simple aussi !reunionList affiche toute les reunion il suffi de faire un !cancelReunion ID_REUNION.'
-const msgListingReunion = ''
+const msgTutoReunion = `pour utiliser la fonction de reunion votre message doit ressembler a ça biatch: \n "!reunion pourquoiSansEspace 1995-12-17T13:25:00" \n (attention ce truk va faire un "@"everyone sur le discord.) \n pour annuler une reunion: c\'est tres simple aussi !reunionList affiche toute les reunion il suffi de faire un !cancelReunion ID_REUNION.`
 
 msgHandler = (msg) => {
 
@@ -11,15 +12,16 @@ msgHandler = (msg) => {
       tts: true
     });
   }
-  if (msg.content.includes('bite')) {
+  if (msg.content.includes('bite') || msg.content.includes('queue') || msg.content.includes('sex')) {
     msg.react("🍆");
   }
 
   if (msg.content.startsWith('!reunion ')) {
-    reunion.newReunion(msg);
+    newReunion(msg);
   }
-  if (msg.content.startsWith('!reunionList ')) {
-    allReunions = reunion.getAllReunions(msg);
+
+  if (msg.content.startsWith('!reunionList')) {
+    allReunions = getAllReunions(msg);
     botMsg.reunionList(msg, allReunions);
   }
 
