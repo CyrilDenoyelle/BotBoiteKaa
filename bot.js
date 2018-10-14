@@ -1,4 +1,12 @@
+var port = process.env.PORT || 8080;
+const express = require('express');
+express().get('/', (req, res) => { res })
+  .listen(port, function () {
+    console.log('Our app is running on http://localhost:' + port);
+  });
+
 const Discord = require('discord.js');
+const { msgHandler } = require('./helpers/messages.js');
 const client = new Discord.Client();
 
 const reunions = [];
@@ -9,32 +17,8 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-  if (msg.content.includes('ping')) {
-    msg.reply('');
-    msg.channel.send('Pong! connard', {
-      tts: true
-    });
-  }
-
-  if (msg.content.includes('bite')) {
-    msg.react("🍆");
-  }
-
-  if (msg.content.startsWith('!reunion ')) {
-    const args = msg.content.split(' ');
-    msg.reply(`reunion set au ${args[2]} pour ${args[1]}`);
-    reunions.push({
-      name: args[1],
-      date: new Date(args[2])
-    })
-  }
-
-  if (msg.content.startsWith('?reunion')) {
-    msg.reply('pour utiliser la fonction de reunion votre message doit ressembler a ça biatch: "!reunion pourquoi jj/mm/aa" attention ce truk va pinguer tout le monde sur le discord. pour annuler une reunion: ');
-  }
-
+  msgHandler();
 });
-
 
 setInterval(() => {
   const now = new Date();
@@ -48,3 +32,5 @@ setInterval(() => {
 }, 30000);
 
 client.login('NDk5MzQ3MTg3ODU2MTc5MjUw.DqP-KA.kH6ZFDx1B2kvPajMELzNEK29sjE');
+
+
