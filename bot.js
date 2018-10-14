@@ -37,26 +37,23 @@ client.on('message', msg => {
   newReunionSeeds(e);
 })
 
-reunionList().then(e => {
-  e.map(row => {
-    console.log('row.id', row.id);
-  })
-})
-
 setInterval(() => {
   const now = new Date();
   // console.log('getAllReunions', getAllReunions());
-  // .map(e => {
-  //   if (e && e.date > now && !e.isDeleted) {
-  //     e.isDeleted = true;
+  reunionList().then(e => {
+    e.map(row => {
+      console.log('reunion list then map row', row);
+      if (row && row.date > now && !row.isDeleted) {
+        // e.isDeleted = true;
 
-  //     // if (process.env.DATABASE_URL) {
-  //     //   client.channels.get('500978775878664195').send(`${process.env.DATABASE_URL ? '@veryone' : '@veryone'} c'est l'heure de ${e.name}`);
-  //     // } else {
-  //     // }
-  //     console.log(`@everyone c'est l'heure de ${e.name}`);
-  //   }
-  // });
+        // if (process.env.DATABASE_URL) {
+        //   client.channels.get('500978775878664195').send(`${process.env.DATABASE_URL ? '@veryone' : '@veryone'} c'est l'heure de ${e.name}`);
+        // } else {
+        // }
+        console.log(`@everyone c'est l'heure de ${row.name}`);
+      }
+    })
+  })
 }, process.env.DATABASE_URL ? 60000 : 10000);
 
 client.login('NDk5MzQ3MTg3ODU2MTc5MjUw.DqP-KA.kH6ZFDx1B2kvPajMELzNEK29sjE');
