@@ -62,9 +62,9 @@ callReunion = (r) => {
   console.log(r);
 }
 
-getAllReunions = () => {
+getAllReunions = async () => {
   if (process.env.DATABASE_URL) {
-    return reunionList();
+    return await reunionList();
   } else {
     return reunions;
   }
