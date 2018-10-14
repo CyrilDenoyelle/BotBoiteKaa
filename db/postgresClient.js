@@ -16,7 +16,7 @@ const reunionAddPg = (params) => {
 const reunionList = async () => {
   client.connect();
   let reunions;
-  await client.query(`SELECT * FROM reunion`, (err, res) => {
+  await client.query(`SELECT * FROM reunion;`, (err, res) => {
     if (err) {
       console.log(err);
       return null;
