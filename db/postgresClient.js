@@ -15,8 +15,8 @@ const reunionAddPg = (params) => {
 
 const reunionList = () => {
   client.connect();
-  return new Promise((res, rej) => {
-    res(client.query(`SELECT * FROM reunion;`, (err, res) => {
+  return new Promise((resolve, rej) => {
+    client.query(`SELECT * FROM reunion;`, (err, resp) => {
       if (err) {
         console.log('error', err);
         return null;
@@ -25,9 +25,9 @@ const reunionList = () => {
       //   r.push(row);
       // }
       console.log('res.rows', res.rows);
-      return res.rows;
+      return resolve(res.rows);
       // client.end();
-    }));
+    });
   });
 };
 
