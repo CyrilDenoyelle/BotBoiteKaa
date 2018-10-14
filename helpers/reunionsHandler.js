@@ -42,7 +42,11 @@ callReunion = (r) => {
 }
 
 getAllReunions = () => {
-  return reunionList();
+  if (process.env.DATABASE_URL) {
+    return reunionList();
+  } else {
+    return reunions;
+  }
 }
 
 module.exports = {
