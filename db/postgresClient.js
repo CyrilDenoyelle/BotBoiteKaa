@@ -22,9 +22,9 @@ const reunionList = () => {
     }
     r = [];
     for (let row of res.rows) {
-      console.log('row', row);
       r.push(row);
     }
+    console.log('r', r);
     // client.end();
     return r;
   })
