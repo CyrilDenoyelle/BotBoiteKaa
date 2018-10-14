@@ -14,6 +14,9 @@ const {
   newReunionSeeds,
   getAllReunions
 } = require('./helpers/reunionsHandler.js');
+const {
+  reunionList,
+} = require('./helpers/postgresClient.js');
 
 
 client.on('ready', () => {
@@ -35,10 +38,10 @@ client.on('message', msg => {
 })
 
 
-console.log('getAllReunions', getAllReunions());
+console.log('reunionList', reunionList());
 setInterval(() => {
   const now = new Date();
-  console.log('getAllReunions', getAllReunions());
+  // console.log('getAllReunions', getAllReunions());
   // .map(e => {
   //   if (e && e.date > now && !e.isDeleted) {
   //     e.isDeleted = true;
