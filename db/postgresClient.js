@@ -6,21 +6,13 @@ const client = () => new Client({
 
 const createReunion = (params) => {
   tempClient = client();
-  // tempClient.connect();
-  // tempClient.query(`INSERT INTO reunion VALUES('${params.id}', '${params.name}', '${params.date}', '${params.user_id}', '${params.created_at}');`, (err, res) => {
-  //   if (err) console.log(err);
-  //   tempClient.end();
-  //   return res;
-  // });
   tempClient.connect();
   tempClient.query(`INSERT INTO reunion VALUES('${Object.values(params).join('\', \'')}')`, (err, res) => {
-    if (err) console.log(err);
+    if (err) return err;
     tempClient.end();
     return res;
   });
 }
-
-
 
 const listReunion = () => {
   return new Promise((resolve, rej) => {
