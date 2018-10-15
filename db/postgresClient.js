@@ -7,7 +7,7 @@ const client = () => new Client({
 const createReunion = (params) => {
   tempClient = client();
   tempClient.connect();
-  tempClient.query(`INSERT INTO reunion VALUES('${params.id}', '${params.name}', '${params.date}', '${params.user_id}', '${params.created_at}');`, (err, res) => {
+  tempClient.query('INSERT INTO reunion SET ?', params, (err, res) => {
     if (err) console.log(err);
     tempClient.end();
     return res;
