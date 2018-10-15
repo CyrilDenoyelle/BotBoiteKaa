@@ -54,7 +54,7 @@ const newReunionSeeds = (msg) => {
 
 const cancel = (id) => {
   pgc.getReunionById(id).then(reunion => {
-    console.log(`reunion ${r.id}`, reunion);
+    console.log(`reunion ${id}`, reunion);
     return reunion;
   })
 }
