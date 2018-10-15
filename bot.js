@@ -12,7 +12,8 @@ const client = new Discord.Client();
 const { msgHandler } = require('./helpers/messages.js');
 const {
   newReunionSeeds,
-  getAllReunions
+  reunionList,
+  cancelReunion
 } = require('./helpers/reunionsHandler.js');
 
 const {
