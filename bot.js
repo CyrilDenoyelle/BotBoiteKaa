@@ -12,12 +12,11 @@ const client = new Discord.Client();
 const { msgHandler } = require('./helpers/messages.js');
 const {
   newReunionSeeds,
-  reunionList,
-  cancelReunion
+  getAllReunions
 } = require('./helpers/reunionsHandler.js');
 
 const {
-  reunionList,
+  listReunion,
 } = require('./db/postgresClient.js');
 
 client.on('ready', () => {
