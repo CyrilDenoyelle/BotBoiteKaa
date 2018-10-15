@@ -7,7 +7,7 @@ const msgTutoReunion = `pour utiliser la fonction de reunion votre message doit 
 
 msgHandler = (msg) => {
 
-  if (msg.content.includes('ping')) {
+  if (msg.content.includes('ping') || msg.content.includes('Ping')) {
     msg.channel.send('Pong!', {
       tts: true
     });
