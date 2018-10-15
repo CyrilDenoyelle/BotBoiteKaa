@@ -4,7 +4,7 @@ const uuid = require('uuid');
 
 "reunion create quelquechose de bien, demain"
 const create = (msg) => {
-  const args = msg.content.split(' ')[1].slice(2).join(' ').split(', ');
+  const args = msg.content.split(' ').slice(2).join(' ').split(', ');
   console.log('args ', args);
   if (args.length >= 2) {
     msg.reply(`reunion set au ${args[0]} pour ${args[1]}`);
