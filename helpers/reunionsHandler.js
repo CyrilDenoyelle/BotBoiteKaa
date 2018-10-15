@@ -24,7 +24,7 @@ const handlers = {
       }
 
       if (process.env.DATABASE_URL) {
-        pgc.createReunion(params);
+        console.log(pgc.createReunion(params));
       } else {
         reunions.push(params);
         console.log('reunions', reunions);
