@@ -37,6 +37,8 @@ client.on('message', msg => {
   newReunionSeeds(e);
 })
 
+cancelReunion('3eb8598a-1456-4cfc-bbc4-d34795ef5eed');
+
 setInterval(() => {
   const now = new Date();
   // console.log('getAllReunions', getAllReunions());
