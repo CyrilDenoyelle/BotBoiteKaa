@@ -78,7 +78,7 @@ tuto = (msg) => {
   msg.reply(msgTutoReunion);
 }
 
-handler = (msg) => {
+msgHandler = (msg) => {
   s = msg.content.split(' ')[1];
 
   if (s && Object.keys(handlers).includes(s)) {
@@ -89,6 +89,7 @@ handler = (msg) => {
 }
 
 module.exports = {
-  handler,
+  msgHandler,
+  handlers,
   tuto
 }

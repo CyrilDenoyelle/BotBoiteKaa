@@ -15,7 +15,7 @@ msgHandler = (msg) => {
 
   if (msg.content.startsWith('!reunion')) {
     // reunion[msg.content.split(' ')[1]](msg);
-    reunion.handler(msg);
+    reunion.msgHandler(msg);
   }
 
   if (msg.content.startsWith('?reunion')) {
