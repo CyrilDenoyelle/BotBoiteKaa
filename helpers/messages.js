@@ -1,7 +1,7 @@
 
 const {
-  createReunion,
-  listReunions
+  create,
+  list
 } = require('./reunionsHandler.js');
 const botMsg = require('./botResponseTemplates');
 const msgTutoReunion = `pour utiliser la fonction de reunion votre message doit ressembler a ça biatch: \n "!reunion pourquoiSansEspace 1995-12-17T13:25:00" \n (attention ce truk va faire un "@"everyone sur le discord.) \n pour annuler une reunion: c\'est tres simple aussi !reunionList affiche toute les reunion il suffi de faire un !cancelReunion ID_REUNION.`
@@ -18,12 +18,12 @@ msgHandler = (msg) => {
   }
 
   if (msg.content.startsWith('!reunion ')) {
-    createReunion(msg);
+    create(msg);
   }
 
   if (msg.content.startsWith('!reunionList')) {
-    allReunions = listReunions(msg);
-    botMsg.reunionList(msg, allReunions);
+    allReunions = list(msg);
+    botMsg.listReunion(msg, allReunions);
   }
 
   if (msg.content.startsWith('?reunion')) {

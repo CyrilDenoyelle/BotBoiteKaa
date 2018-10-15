@@ -1,12 +1,8 @@
 let reunions = [];
-const {
-  createReunion,
-  listReunion,
-  getReunionById
-} = require('../db/postgresClient');
+const pgc = require('../db/postgresClient');
 const uuid = require('uuid');
 
-createReunion = (msg) => {
+const create = (msg) => {
   const args = msg.content.split('!reunion ')[1].split(' ');
   console.log('args ', args);
   if (args.length >= 2) {
@@ -25,7 +21,7 @@ createReunion = (msg) => {
     }
 
     if (process.env.DATABASE_URL) {
-      createReunion(params);
+      pgc.createReunion(params);
     } else {
       reunions.push(params);
       console.log('reunions', reunions);
@@ -35,7 +31,7 @@ createReunion = (msg) => {
   }
 }
 
-newReunionSeeds = (msg) => {
+const newReunionSeeds = (msg) => {
   const args = msg.split('!reunion ')[1].split(' ');
   console.log('args ', args);
   if (args.length >= 2) {
@@ -56,29 +52,29 @@ newReunionSeeds = (msg) => {
   }
 }
 
-cancelReunion = (id) => {
-  getReunionById(id).then(reunion => {
+const cancel = (id) => {
+  pgc.getReunionById(id).then(reunion => {
     return reunion;
     console.log(`reunion ${r.id}`, reunion);
   })
 }
 
-callReunion = (r) => {
+const callReunion = (r) => {
   console.log(r);
 }
 
-getAllReunions = () => {
+const list = () => {
   if (process.env.DATABASE_URL) {
-    return listReunion();
+    return pgc.listReunion();
   } else {
     return reunions;
   }
 }
 
 module.exports = {
-  createReunion,
-  cancelReunion,
+  create,
+  cancel,
   callReunion,
   newReunionSeeds,
-  getAllReunions
+  list
 }

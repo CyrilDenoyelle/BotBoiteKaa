@@ -11,11 +11,9 @@ const client = new Discord.Client();
 
 const { msgHandler } = require('./helpers/messages.js');
 const {
-  createReunion,
-  cancelReunion,
-  callReunion,
+  cancel, // testing
   newReunionSeeds,
-  getAllReunions
+  list,
 } = require('./helpers/reunionsHandler.js');
 
 const {
@@ -40,12 +38,12 @@ client.on('message', msg => {
   newReunionSeeds(e);
 })
 
-cancelReunion('3eb8598a-1456-4cfc-bbc4-d34795ef5eed');
+cancel('3eb8598a-1456-4cfc-bbc4-d34795ef5eed'); // testing
 
 setInterval(() => {
   const now = new Date();
   // console.log('getAllReunions', getAllReunions());
-  reunionList().then(e => {
+  list().then(e => {
     e.map(row => {
       if (row && row.date > now && !row.isDeleted) {
         // e.isDeleted = true;

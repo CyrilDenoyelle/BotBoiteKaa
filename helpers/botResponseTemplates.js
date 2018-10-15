@@ -1,5 +1,5 @@
 
-const reunionList = (msg, allReunions) => {
+const listReunion = (msg, allReunions) => {
   stres = [];
   allReunions.map(r => {
     stres.push(`${r.id} | ${r.name} | ${r.date}`);
@@ -8,5 +8,5 @@ const reunionList = (msg, allReunions) => {
 }
 
 module.exports = {
-  reunionList
+  listReunion
 }
