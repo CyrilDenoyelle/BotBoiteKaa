@@ -42,15 +42,13 @@ setInterval(() => {
   // console.log('getAllReunions', getAllReunions());
   reunionList().then(e => {
     e.map(row => {
-      console.log('reunion list then map row', row);
       if (row && row.date > now && !row.isDeleted) {
         // e.isDeleted = true;
 
-        // if (process.env.DATABASE_URL) {
-        //   client.channels.get('500978775878664195').send(`${process.env.DATABASE_URL ? '@veryone' : '@veryone'} c'est l'heure de ${e.name}`);
-        // } else {
-        // }
-        console.log(`@everyone c'est l'heure de ${row.name}`);
+        if (process.env.DATABASE_URL) {
+          console.log(`@everyone c'est l'heure de ${row.name}`);
+          // client.channels.get('500978775878664195').send(`${process.env.DATABASE_URL ? '@veryone' : '@veryone'} c'est l'heure de ${e.name}`);
+        }
       }
     })
   })
