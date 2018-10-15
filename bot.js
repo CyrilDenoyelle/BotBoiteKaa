@@ -56,6 +56,7 @@ setInterval(() => {
   })
 }, process.env.DATABASE_URL ? 60000 : 10000);
 
-client.login('NDk5MzQ3MTg3ODU2MTc5MjUw.DqP-KA.kH6ZFDx1B2kvPajMELzNEK29sjE');
+token = process.env.TDPASS || require('./token');
+client.login(token);
 
 
