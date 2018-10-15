@@ -35,8 +35,6 @@ const newReunionSeeds = (msg) => {
   const args = msg.split('!reunion ')[1].split(' ');
   console.log('args ', args);
   if (args.length >= 2) {
-
-
     const now = new Date().valueOf() + 36000;
     const argsDate = new Date(args[1]);
     reuDate = new Date(Date.UTC(argsDate.getFullYear(), argsDate.getMonth(), argsDate.getDate(), argsDate.getHours(), argsDate.getMinutes(), argsDate.getSeconds()));
@@ -52,7 +50,8 @@ const newReunionSeeds = (msg) => {
   }
 }
 
-const cancel = (id) => {
+const cancel = (msg) => {
+  const id = msg.split('!reunionCancel ')[1].split(' ')[0];
   pgc.getReunionById(id).then(reunion => {
     console.log(`reunion ${id}`, reunion);
     return reunion;
