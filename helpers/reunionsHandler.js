@@ -6,7 +6,7 @@ const {
 } = require('../db/postgresClient');
 const uuid = require('uuid');
 
-newReunion = (msg) => {
+createReunion = (msg) => {
   const args = msg.content.split('!reunion ')[1].split(' ');
   console.log('args ', args);
   if (args.length >= 2) {
@@ -76,7 +76,7 @@ getAllReunions = () => {
 }
 
 module.exports = {
-  newReunion,
+  createReunion,
   cancelReunion,
   callReunion,
   newReunionSeeds,
