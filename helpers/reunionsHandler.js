@@ -1,10 +1,10 @@
 let reunions = [];
 const pgc = require('../db/postgresClient');
-
 const msgTutoReunion = `pour utiliser la fonction de reunion votre message doit ressembler a ça biatch: \n "!reunion pourquoiSansEspace 1995-12-17T13:25:00" \n (attention ce truk va faire un "@"everyone sur le discord.) \n pour annuler une reunion: c\'est tres simple aussi !reunionList affiche toute les reunion il suffi de faire un !reunionCancel ID_REUNION.`
+
 const handlers = {
 
-  create = (msg) => {
+  create: (msg) => {
     const args = msg.content.split(' ').slice(2).join(' ').split(', ');
     console.log('args ', args);
     if (args.length >= 2) {
@@ -32,7 +32,8 @@ const handlers = {
       msg.reply(msgTutoReunion);
     }
   },
-  newReunionSeeds = (msg) => {
+
+  newReunionSeeds: (msg) => {
     const args = msg.split('!reunion ')[1].split(' ');
     console.log('args ', args);
     if (args.length >= 2) {
@@ -50,23 +51,27 @@ const handlers = {
       reunions.push(params);
     }
   },
-  cancel = (msg) => {
+
+  cancel: (msg) => {
     const id = msg.split(' ')[2];
     pgc.getReunionById(id).then(reunion => {
       console.log(`reunion ${id}`, reunion);
       return reunion;
     })
   },
-  callReunion = (r) => {
+
+  callReunion: (r) => {
     console.log(r);
   },
-  list = () => {
+
+  list: () => {
     if (process.env.DATABASE_URL) {
       return pgc.listReunion();
     } else {
       return reunions;
     }
   }
+
 }
 
 tuto = (msg) => {
