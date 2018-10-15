@@ -13,7 +13,7 @@ const createReunion = (params) => {
   //   return res;
   // });
   tempClient.connect();
-  tempClient.query('INSERT INTO reunion SET ?', params, (err, res) => {
+  tempClient.query('INSERT INTO reunion SET ?', [params], (err, res) => {
     if (err) console.log(err);
     tempClient.end();
     return res;
