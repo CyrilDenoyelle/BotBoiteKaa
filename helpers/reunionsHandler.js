@@ -24,10 +24,10 @@ const handlers = {
       }
 
       if (process.env.DATABASE_URL) {
-        console.log(pgc.createReunion(params));
+        console.log('pgc.createReunion reunionHandler.js', pgc.createReunion(params));
       } else {
         reunions.push(params);
-        console.log('reunions', reunions);
+        console.log('push reunionHandler.js', reunions);
       }
     } else {
       msg.reply(msgTutoReunion);
