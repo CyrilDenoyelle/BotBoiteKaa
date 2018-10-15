@@ -18,12 +18,11 @@ msgHandler = (msg) => {
     msg.react("🍆");
   }
 
-  if (msg.content.startsWith('!reunion ')) {
-    create(msg);
-  }
-
-  if (msg.content.startsWith('!reunionCancel ')) {
-    cancel(msg);
+  // !reunion cancel ID
+  // !reunion list 
+  // !reunion add
+  if (msg.content.startsWith('!reunion')) {
+    reunion[msg.content.split(' ')[1]](msg);
   }
 
   if (msg.content.startsWith('!reunionList')) {

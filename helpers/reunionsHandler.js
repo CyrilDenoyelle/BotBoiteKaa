@@ -2,11 +2,12 @@ let reunions = [];
 const pgc = require('../db/postgresClient');
 const uuid = require('uuid');
 
+"reunion create quelquechose de bien, demain"
 const create = (msg) => {
-  const args = msg.content.split('!reunion ')[1].split(' ');
+  const args = msg.content.split(' ')[1].slice(2).join(' ').split(', ');
   console.log('args ', args);
   if (args.length >= 2) {
-    msg.reply(`reunion set au ${args[1]} pour ${args[0]}`);
+    msg.reply(`reunion set au ${args[0]} pour ${args[1]}`);
 
     const now = new Date().valueOf() + 36000;
     const argsDate = new Date(args[1]);
@@ -49,9 +50,8 @@ const newReunionSeeds = (msg) => {
     reunions.push(params);
   }
 }
-
 const cancel = (msg) => {
-  const id = msg.split('!reunionCancel ')[1].split(' ')[0];
+  const id = msg.split(' ')[2];
   pgc.getReunionById(id).then(reunion => {
     console.log(`reunion ${id}`, reunion);
     return reunion;
