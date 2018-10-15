@@ -38,7 +38,6 @@ client.on('message', msg => {
   newReunionSeeds(e);
 })
 
-cancel('3eb8598a-1456-4cfc-bbc4-d34795ef5eed'); // testing
 
 setInterval(() => {
   const now = new Date();
