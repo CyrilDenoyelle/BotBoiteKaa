@@ -1,5 +1,9 @@
 let reunions = [];
-const { reunionAddPg, reunionList } = require('../db/postgresClient');
+const {
+  createReunion,
+  listReunion,
+  getReunionById
+} = require('../db/postgresClient');
 const uuid = require('uuid');
 
 newReunion = (msg) => {
@@ -22,7 +26,7 @@ newReunion = (msg) => {
 
     // console.log('process.env.DATABASE_URL ', process.env.DATABASE_URL);
     if (process.env.DATABASE_URL) {
-      reunionAddPg(params);
+      createReunion(params);
       // .catch(e => console.log('error', e));
     } else {
       reunions.push(params);
@@ -55,7 +59,9 @@ newReunionSeeds = (msg) => {
 }
 
 cancelReunion = (r) => {
-  reunions.index(r);
+  getReunionById(r.id).then(reunion => {
+    console.log(`reunion ${r.id}`, reunion);
+  })
 }
 
 callReunion = (r) => {
@@ -64,7 +70,7 @@ callReunion = (r) => {
 
 getAllReunions = () => {
   if (process.env.DATABASE_URL) {
-    return reunionList();
+    return listReunion();
   } else {
     return reunions;
   }
