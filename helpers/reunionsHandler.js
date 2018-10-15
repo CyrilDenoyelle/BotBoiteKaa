@@ -24,10 +24,8 @@ newReunion = (msg) => {
       created_at: now
     }
 
-    // console.log('process.env.DATABASE_URL ', process.env.DATABASE_URL);
     if (process.env.DATABASE_URL) {
       createReunion(params);
-      // .catch(e => console.log('error', e));
     } else {
       reunions.push(params);
       console.log('reunions', reunions);
