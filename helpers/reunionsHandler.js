@@ -56,8 +56,9 @@ newReunionSeeds = (msg) => {
   }
 }
 
-cancelReunion = (r) => {
-  getReunionById(r.id).then(reunion => {
+cancelReunion = (id) => {
+  getReunionById(id).then(reunion => {
+    return reunion;
     console.log(`reunion ${r.id}`, reunion);
   })
 }
