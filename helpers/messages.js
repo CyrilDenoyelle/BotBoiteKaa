@@ -10,12 +10,11 @@ msgHandler = (msg) => {
       tts: true
     });
   }
-  if (msg.content.includes('bite') || msg.content.includes('queue') || msg.content.includes('sex')) {
+  if (msg.content.includes('bite') || msg.content.includes('queue')) {
     msg.react("🍆");
   }
 
   if (msg.content.startsWith('!reunion')) {
-    // reunion[msg.content.split(' ')[1]](msg);
     reunion.msgHandler(msg);
   }
 
