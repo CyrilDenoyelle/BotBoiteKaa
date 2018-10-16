@@ -34,6 +34,22 @@ const handlers = {
     }
   },
 
+  list: () => {
+    if (process.env.DATABASE_URL) {
+      return pgc.listReunion();
+    } else {
+      return reunions;
+    }
+  },
+
+  cancel: (msg) => {
+    const id = msg.split(' ')[2];
+    pgc.getReunionById(id).then(reunion => {
+      console.log(`reunion ${id}`, reunion);
+      return reunion;
+    })
+  },
+
   newReunionSeeds: (msg) => {
     const args = msg.split('!reunion ')[1].split(' ');
     console.log('args ', args);
@@ -51,28 +67,7 @@ const handlers = {
       }
       reunions.push(params);
     }
-  },
-
-  cancel: (msg) => {
-    const id = msg.split(' ')[2];
-    pgc.getReunionById(id).then(reunion => {
-      console.log(`reunion ${id}`, reunion);
-      return reunion;
-    })
-  },
-
-  callReunion: (r) => {
-    console.log(r);
-  },
-
-  list: () => {
-    if (process.env.DATABASE_URL) {
-      return pgc.listReunion();
-    } else {
-      return reunions;
-    }
   }
-
 }
 
 tuto = (msg) => {
