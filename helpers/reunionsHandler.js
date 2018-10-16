@@ -2,7 +2,7 @@ let reunions = [];
 const pgc = require('../db/postgresClient');
 const uuid = require('uuid');
 const msgTutoReunion = `pour utiliser la fonction de reunion votre message doit ressembler a ça biatch: \n "!reunion pourquoiSansEspace 1995-12-17T13:25:00" \n (attention ce truk va faire un "@"everyone sur le discord.) \n pour annuler une reunion: c\'est tres simple aussi !reunionList affiche toute les reunion il suffi de faire un !reunionCancel ID_REUNION.`
-
+const prod = process.env.DATABASE_URL ? true : false;
 const handlers = {
 
   create: (msg) => {
@@ -23,7 +23,7 @@ const handlers = {
         created_at: now
       }
 
-      if (process.env.DATABASE_URL) {
+      if (prod) {
         console.log('pgc.createReunion reunionHandler.js', pgc.createReunion(params));
       } else {
         reunions.push(params);
@@ -35,7 +35,7 @@ const handlers = {
   },
 
   list: () => {
-    if (process.env.DATABASE_URL) {
+    if (prod) {
       return pgc.listReunion();
     } else {
       return reunions;
@@ -44,10 +44,14 @@ const handlers = {
 
   cancel: (msg) => {
     const id = msg.split(' ')[2];
-    pgc.getReunionById(id).then(reunion => {
-      console.log(`reunion ${id}`, reunion);
-      return reunion;
-    })
+    if (prod) {
+      pgc.getReunionById(id).then(reunion => {
+        console.log(`reunion ${id}`, reunion);
+        return reunion;
+      })
+    } else {
+      return reunions;
+    }
   },
 
   newReunionSeeds: (msg) => {

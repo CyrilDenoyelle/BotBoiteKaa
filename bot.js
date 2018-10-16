@@ -39,19 +39,19 @@ if (!prod) {
 
 setInterval(() => {
   const now = new Date();
-  // console.log('getAllReunions', getAllReunions());
+
   reunion.handlers.list().then(e => {
     e.map(row => {
       if (row && row.date > now && !row.isDeleted) {
         // e.isDeleted = true;
         if (prod) {
-          console.log(`@everyone c'est l'heure de ${row.name}`);
-          // client.channels.get('500978775878664195').send(`${process.env.DATABASE_URL ? '@veryone' : '@veryone'} c'est l'heure de ${row.name}`);
+          // client.channels.get('500978775878664195').send(`${prod ? '@veryone' : '@veryone'} c'est l'heure de ${row.name}`);
         }
+        console.log(`@everyone c'est l'heure de ${row.name}`);
       }
     })
   })
-}, process.env.DATABASE_URL ? 60000 : 10000);
+}, prod ? 60000 : 10000);
 
 token = process.env.TDPASS || require('./token');
 client.login(token);
