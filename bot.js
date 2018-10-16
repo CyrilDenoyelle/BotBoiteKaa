@@ -20,37 +20,36 @@ const {
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
   // console.log(client.channels.find('name', 'général').id)
+
+  setInterval(() => {
+    const now = new Date();
+    reunion[`${prod ? 'h' : 'localH'}andlers`].list().then(e => {
+      e.map(row => {
+        if (row && row.date > now && !row.isDeleted) {
+          // e.isDeleted = true;
+          // client.channels.get('500978775878664195').send(`${prod ? '@veryone' : '@veryone'} c'est l'heure de ${row.name}`);
+          console.log(`@everyone c'est l'heure de ${row.name}`);
+        }
+      })
+    })
+  }, prod ? 60000 : 10000);
+
+  if (!prod) {
+    [
+      '!reunion R&D 2018-10-14T17:23:00',
+      '!reunion coucou 2018-10-14T17:24:00',
+      '!reunion trulu 2018-10-14T17:25:00'
+    ].map(e => {
+      reunion.handlers.newReunionSeeds(e);
+    });
+  }
+
 });
 
 client.on('message', msg => {
   msgHandler(msg);
 });
 
-if (!prod) {
-  [
-    '!reunion R&D 2018-10-14T17:23:00',
-    '!reunion coucou 2018-10-14T17:24:00',
-    '!reunion trulu 2018-10-14T17:25:00'
-  ].map(e => {
-    reunion.handlers.newReunionSeeds(e);
-  });
-}
 
 const token = process.env.TDPASS || require('./token');
 client.login(token);
-
-setInterval(() => {
-  const now = new Date();
-
-  reunion.handlers.list().then(e => {
-    e.map(row => {
-      if (row && row.date > now && !row.isDeleted) {
-        // e.isDeleted = true;
-        if (prod) {
-          // client.channels.get('500978775878664195').send(`${prod ? '@veryone' : '@veryone'} c'est l'heure de ${row.name}`);
-        }
-        console.log(`@everyone c'est l'heure de ${row.name}`);
-      }
-    })
-  })
-}, prod ? 60000 : 10000);
