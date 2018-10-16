@@ -4,11 +4,13 @@ const botMsg = require('./botResponseTemplates');
 
 msgHandler = (msg) => {
 
-  if (msg.content.includes('pong') || msg.content.includes('Pong')) {
-    msg.channel.send('Ping', {
-      tts: true
-    });
-  }
+  console.log('msg', msg);
+  console.log('self', this);
+  // if (msg.content.includes('pong') || msg.content.includes('Pong')) {
+  //   msg.channel.send('Ping', {
+  //     tts: true
+  //   });
+  // }
   if (msg.content.includes('ping') || msg.content.includes('Ping')) {
     const biatch = Math.random() > 0.89 ? 'biatch' : '';
     msg.channel.send(`Pong! ${biatch}`, {

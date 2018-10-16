@@ -1,7 +1,7 @@
 let reunions = [];
 const pgc = require('../db/postgresClient');
 const uuid = require('uuid');
-const msgTutoReunion = `pour utiliser la fonction de reunion votre message doit ressembler a ça biatch: \n "!reunion pourquoiSansEspace 1995-12-17T13:25:00" \n (attention ce truk va faire un "@"everyone sur le discord.) \n pour annuler une reunion: c\'est tres simple aussi !reunionList affiche toute les reunion il suffi de faire un !reunionCancel ID_REUNION.`
+const msgTutoReunion = `pour utiliser la fonction de reunion votre message doit ressembler a ça biatch: \n "!reunion pour sans guillemet 1995-12-17T13:25:00" \n (attention ce truk va faire un "@"everyone sur le discord.) \n pour annuler une reunion: c\'est tres simple aussi !reunionList affiche toute les reunion il suffi de faire un !reunionCancel ID_REUNION.`
 const prod = process.env.DATABASE_URL ? true : false;
 const handlers = {
 
@@ -38,7 +38,9 @@ const handlers = {
     if (prod) {
       return pgc.listReunion();
     } else {
-      return reunions;
+      return new Promise(() => {
+        res(reunions);
+      });
     }
   },
 
