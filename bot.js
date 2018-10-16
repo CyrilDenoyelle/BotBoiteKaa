@@ -36,6 +36,8 @@ if (!prod) {
   });
 }
 
+const token = process.env.TDPASS || require('./token');
+client.login(token);
 
 setInterval(() => {
   const now = new Date();
@@ -52,8 +54,3 @@ setInterval(() => {
     })
   })
 }, prod ? 60000 : 10000);
-
-token = process.env.TDPASS || require('./token');
-client.login(token);
-
-
