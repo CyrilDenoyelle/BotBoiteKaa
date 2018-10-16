@@ -5,7 +5,8 @@ const botMsg = require('./botResponseTemplates');
 msgHandler = (msg) => {
 
   if (msg.content.includes('ping') || msg.content.includes('Ping')) {
-    msg.channel.send('Pong!', {
+    const biatch = Math.random() > 0.89 ? 'biatch' : '';
+    msg.channel.send(`Pong! ${biatch}`, {
       tts: true
     });
   }
