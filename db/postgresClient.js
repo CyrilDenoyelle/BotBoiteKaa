@@ -5,12 +5,14 @@ const client = () => new Client({
 });
 
 const createReunion = (params) => {
-  tempClient = client();
-  tempClient.connect();
-  tempClient.query(`INSERT INTO reunion VALUES('${Object.values(params).join('\', \'')}')`, (err, res) => {
-    if (err) return err;
-    tempClient.end();
-    return res;
+  return new Promise((resolve, rej) => {
+    tempClient = client();
+    tempClient.connect();
+    tempClient.query(`INSERT INTO reunion VALUES('${Object.values(params).join('\', \'')}')`, (err, res) => {
+      if (err) return err;
+      resolve(res);
+      tempClient.end();
+    });
   });
 }
 
