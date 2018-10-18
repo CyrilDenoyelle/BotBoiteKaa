@@ -14,7 +14,7 @@ const { msgHandler } = require('./helpers/messages.js');
 const reunion = require('./helpers/reunionsHandler.js');
 
 client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}!`);
+  console.log(`Logged in as ${client.user.tag}! id ${client.user.id}`);
   // console.log(client.channels.find('name', 'général').id);
 
   setInterval(() => {
