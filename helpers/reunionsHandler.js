@@ -79,6 +79,7 @@ msgHandler = (msg) => {
   const s = msg.content.split(' ')[1];
   const p = `${prod ? 'h' : 'localH'}andlers`;
   // p is for use h.handlers in prod and h.localHandlers in local
+  console.log('p = ', p);
   if (s && Object.keys(h[p]).includes(s)) {
     return h[p](s);
   } else {
