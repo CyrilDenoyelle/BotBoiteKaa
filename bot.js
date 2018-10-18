@@ -1,10 +1,10 @@
 var port = process.env.PORT || 8080;
 const express = require('express');
-express().get('/', (req, res) => { res })
+express()
+  .get('/', (req, res) => { res })
   .listen(port, function () {
     console.log('Our app is running on http://localhost:' + port);
   });
-
 
 const Discord = require('discord.js');
 const client = new Discord.Client();
@@ -13,13 +13,9 @@ const prod = process.env.DATABASE_URL ? true : false;
 const { msgHandler } = require('./helpers/messages.js');
 const reunion = require('./helpers/reunionsHandler.js');
 
-const {
-  listReunion,
-} = require('./db/postgresClient.js');
-
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}!`);
-  // console.log(client.channels.find('name', 'général').id)
+  // console.log(client.channels.find('name', 'général').id);
 
   setInterval(() => {
     const now = new Date();
