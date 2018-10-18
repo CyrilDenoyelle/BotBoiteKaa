@@ -44,10 +44,10 @@ const h = {
     },
 
     cancel: (msg) => {
-      const id = paramsFormaters.cancel(msg);
-      pgc.getReunionById(id).then(reunion => {
+      console.log('msg cancel reunionsHandler.js', msg);
+      // const id = paramsFormaters.cancel(msg);
+      pgc.getReunionById(msg).then(reunion => {
         console.log(`reunion ${id}`, reunion);
-        return reunion;
       })
     }
   },
