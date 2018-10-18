@@ -16,7 +16,9 @@ const reunion = require('./helpers/reunionsHandler.js');
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}! id ${client.user.id}`);
   // console.log(client.channels.find('name', 'général').id);
+  // process.env.UP_GEN
 
+  client.channels.get(process.env.UP_GEN).send('@everyone UPUPUP');
   setInterval(() => {
     const now = new Date();
     reunion[`${prod ? 'h' : 'localH'}andlers`].list().then(e => {
