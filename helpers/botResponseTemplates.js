@@ -4,7 +4,7 @@ const listReunion = (msg, allReunions) => {
   allReunions.map(r => {
     stres.push(`${r.id} | ${r.name} | ${r.date}`);
   });
-  msg.reply(` id | name | date \n ${stres.join('\n')}`);
+  msg.reply(`\n id | name | date \n ${stres.join('\n')}`);
 }
 
 module.exports = {
