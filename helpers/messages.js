@@ -1,5 +1,6 @@
 
 const reunion = require('./reunionsHandler.js');
+const msgtemplate = require('./botResponseTemplates');
 
 msgHandler = (msg) => {
   if (msg.author.id !== process.env.SELF_ID) {
@@ -20,8 +21,8 @@ msgHandler = (msg) => {
     }
 
     if (msg.content.toLowerCase().startsWith('!reunion')) {
-      reunion.msgHandler(msg).then(e => {
-        console.log('msgHandler promise', e);
+      reunion.msgHandler(msg).then(list => {
+        msgtemplate.listReunion(msg, list);
       });
     }
 
