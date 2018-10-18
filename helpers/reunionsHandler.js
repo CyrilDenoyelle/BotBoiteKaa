@@ -1,7 +1,7 @@
 let reunions = [];
 const pgc = require('../db/postgresClient');
 const uuid = require('uuid');
-const msgTutoReunion = `pour utiliser la fonction de reunion votre message doit ressembler a ça biatch: \n "!reunion pour sans guillemet 1995-12-17T13:25:00" \n (attention ce truk va faire un "@"everyone sur le discord.) \n pour annuler une reunion: c\'est tres simple aussi !reunionList affiche toute les reunion il suffi de faire un !reunionCancel ID_REUNION.`
+const msgTutoReunion = `pour utiliser la fonction de reunion votre message doit ressembler a ça biatch: \n "!reunion pour sans guillemet 1995-12-17T13:25:00" \n (attention ce truk va faire un "@"everyone sur le discord.) \n pour annuler une reunion: c\'est tres simple aussi !reunionList affiche toute les reunion il suffi de faire un !reunionCancel ID_REUNION.`;
 const prod = process.env.DATABASE_URL ? true : false;
 
 
@@ -32,38 +32,42 @@ paramsFormaters = {
   }
 }
 
-const handlers = {
-  create: (msg) => {
-    params = paramsFormaters.create();
-    return params ? pgc.createReunion(params) : tuto(msg);
+const h = {
+  handlers: {
+    create: (msg) => {
+      params = paramsFormaters.create();
+      return params ? pgc.createReunion(params) : tuto(msg);
+    },
+
+    list: () => {
+      return pgc.listReunion();
+    },
+
+    cancel: (msg) => {
+      const id = paramsFormaters.cancel(msg);
+      pgc.getReunionById(id).then(reunion => {
+        console.log(`reunion ${id}`, reunion);
+        return reunion;
+      })
+    }
   },
 
-  list: () => {
-    return pgc.listReunion();
-  },
-
-  cancel: (msg) => {
-    const id = paramsFormaters.cancel(msg)
-    pgc.getReunionById(id).then(reunion => {
-      console.log(`reunion ${id}`, reunion);
-      return reunion;
-    })
-  }
-}
-
-localHandlers = {
-  create: (msg) => {
-    const params = paramsFormaters.create(msg);
-    params ? reunions.push(params) : tuto(msg);
-  },
-  list: () => {
-    return new Promise(() => {
-      res(reunions);
-    });
-  },
-  cancel: (msg) => {
-    const id = msg.split(' ')[2];
-    return reunions.filter({ id });
+  localHandlers: {
+    create: (msg) => {
+      const params = paramsFormaters.create(msg);
+      params ? reunions.push(params) : tuto(msg);
+    },
+    list: () => {
+      return new Promise(() => {
+        res(reunions);
+      });
+    },
+    cancel: (msg) => {
+      const id = msg.split(' ')[2];
+      return new Promise(() => {
+        res(reunions.filter({ id }));
+      });
+    }
   }
 }
 
@@ -72,26 +76,19 @@ tuto = (msg) => {
 }
 
 msgHandler = (msg) => {
-  s = msg.content.split(' ')[1];
-  // [`${prod ? 'h' : 'localH'}andlers`]
-  if (prod) {
-    if (s && Object.keys(handlers).includes(s)) {
-      handlers[s](msg);
-    } else {
-      tuto(msg);
-    }
+  const s = msg.content.split(' ')[1];
+  const p = `${prod ? 'h' : 'localH'}andlers`;
+  // p is for use h.handlers in prod and h.localHandlers in local
+  if (s && Object.keys(h[p]).includes(s)) {
+    return h[p](s);
   } else {
-    if (s && Object.keys(localHandlers).includes(s)) {
-      localHandlers[s](msg);
-    } else {
-      tuto(msg);
-    }
+    tuto(msg);
   }
 }
 
 module.exports = {
   msgHandler,
-  handlers,
-  localHandlers,
+  handlers: h.handlers,
+  localHandlers: h.localHandlers,
   tuto
 }
