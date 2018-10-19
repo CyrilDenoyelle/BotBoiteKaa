@@ -68,7 +68,7 @@ const h = {
           pgc.getReunionById(id)
             .then(deletedReunion => {
               deletedReunion.is_deleted = true;
-              pgc.updateReunion(id, deletedReunion).then((e) => {
+              pgc.updateReunion(id, { is_deleted = true }).then((e) => {
                 resolve({
                   msgTemplateName: 'deleteReunion',
                   payload: deletedReunion
