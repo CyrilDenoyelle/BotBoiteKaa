@@ -24,13 +24,10 @@ paramsFormaters = {
     }
   },
   delete: (msg) => {
-    console.log('msg.content', msg.content);
     const id = msg.content.split(' ')[2];
     if (/[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/.test(id)) {
-      console.log('id ook', id);
       return id;
     } else {
-      console.log('id pas ook', id);
       return false;
     }
   }
@@ -71,12 +68,12 @@ const h = {
           pgc.getReunionById(id)
             .then(deletedReunion => {
               resolve({
-                msgTemplateName: 'deletedReunion',
+                msgTemplateName: 'deleteReunion',
                 payload: deletedReunion
               });
             });
         } else {
-          rej({ tutoName: 'delete' });
+          rej({ tutoName: 'deleteReunion' });
         }
       });
     }
@@ -90,7 +87,7 @@ const h = {
           reunions.push(params);
           res({ msgTemplateName: 'createReunion', payload: params });
         } else {
-          rej({ tutoName: 'create' });
+          rej({ tutoName: 'createReunion' });
         }
       });
     },
