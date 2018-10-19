@@ -66,7 +66,7 @@ const h = {
       return new Promise((resolve, rej) => {
         if (id) {
           pgc.getReunionById(id)
-            .then(deleted => {
+            .then(deletedReunion => {
               resolve({
                 msgTemplateName: 'deletedReunion',
                 payload: deletedReunion
@@ -87,7 +87,7 @@ const h = {
           reunions.push(params);
           res({ msgTemplateName: 'createReunion', payload: params });
         } else {
-          rej('create');
+          rej({ tutoName: 'create' });
         }
       });
     },
@@ -112,7 +112,7 @@ const h = {
             });
           }
         });
-        rej('delete');
+        rej({ tutoName: 'delete' });
       });
     }
   }
