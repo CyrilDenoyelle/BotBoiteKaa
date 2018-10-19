@@ -26,8 +26,10 @@ paramsFormaters = {
   delete: (msg) => {
     const id = msg.content.split(' ')[2];
     if (/[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/.test(id)) {
+      console.log('id ook', id);
       return id;
     } else {
+      console.log('id pas ook', id);
       return false;
     }
   }
