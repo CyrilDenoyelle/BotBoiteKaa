@@ -7,7 +7,7 @@ const prod = process.env.DATABASE_URL ? true : false;
 
 paramsFormaters = {
   create: (msg) => {
-    const args = msg.split('!reunion ')[1].split(' ');
+    const args = msg.content.split('!reunion ')[1].split(' ');
     if (args.length >= 2) {
       const now = new Date().valueOf() + 36000;
       const argsDate = new Date(args[1]);
@@ -25,9 +25,11 @@ paramsFormaters = {
     }
   },
   cancel: (msg) => {
-    const id = msg.split(' ')[2]
-    if (id) {
+    const id = msg.content.split(' ')[2];
+    if (/[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/.test(id)) {
       return id;
+    } else {
+
     }
   }
 }
@@ -35,7 +37,7 @@ paramsFormaters = {
 const h = {
   handlers: {
     create: (msg) => {
-      params = paramsFormaters.create();
+      params = paramsFormaters.create(msg);
       return params ? pgc.createReunion(params) : tuto(msg);
     },
 
@@ -45,7 +47,7 @@ const h = {
 
     cancel: (msg) => {
       console.log('msg cancel reunionsHandler.js', msg);
-      const id = paramsFormaters.cancel(msg.content);
+      const id = paramsFormaters.cancel(msg);
       pgc.getReunionById(id)
         .then(reunion => {
           console.log(`reunion ${id}`, reunion);
