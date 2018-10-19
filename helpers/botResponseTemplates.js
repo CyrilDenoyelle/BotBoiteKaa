@@ -11,6 +11,10 @@ const createReunion = (msg, created) => {
   msg.reply(`c'est vous l'doc doc: \n id | name | date \n ${created.id} | ${created.name} | ${created.date}`);
 }
 
+const deleteReunion = (msg, created) => {
+  msg.reply(`c'est vous l'doc doc: \n id | name | date \n ${created.id} | ${created.name} | ${created.date}`);
+}
+
 const tutos = {
   createReunion: `pour creer une reunion votre message doit ressembler a ça biatch: \n "!reunion create pourquoi sans apostrophe 1995-12-17T13:25:00" \n (attention ce truk va faire un "@"everyone sur le discord a l'heure donnée.)`,
   deleteReunion: `pour annuler une reunion: "!reunion delete ID_REUNION." (!reunion list affiche toutes les reunions)`,
@@ -22,5 +26,6 @@ const tutos = {
 module.exports = {
   listReunion,
   createReunion,
+  deleteReunion,
   tutos
 }
