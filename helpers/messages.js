@@ -30,6 +30,7 @@ msgHandler = (msg) => {
           }
         })
         .catch(e => {
+          console.log('error', e);
           msg.reply(msgTemplate.tuto[e.tutoName]);
         });
     }
