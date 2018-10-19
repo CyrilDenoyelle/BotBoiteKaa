@@ -9,7 +9,7 @@ const createReunion = (params) => {
     tempClient = client();
     tempClient.connect();
     console.log('params', params);
-    if (params.date.toLowerCase() !== 'invalid date') {
+    if (typeof params.date !== 'string') {
       tempClient.query(`INSERT INTO reunion VALUES('${Object.values(params).join('\', \'')}')`, (err, res) => {
         if (err) rej('createReunion');
         resolve(params);
