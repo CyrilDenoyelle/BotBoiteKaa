@@ -19,7 +19,7 @@ const createReunion = (params) => {
       rej('createReunion');
     }
   });
-}
+};
 
 const listReunion = () => {
   return new Promise((resolve, rej) => {
