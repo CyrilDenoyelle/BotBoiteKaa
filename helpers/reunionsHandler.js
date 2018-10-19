@@ -39,9 +39,10 @@ const h = {
       return new Promise((res, rej) => {
         const params = paramsFormaters.create(msg);
         if (params) {
-          pgc.createReunion(params).then(created => {
-            res({ msgTemplateName: 'createReunion', payload: created });
-          });
+          pgc.createReunion(params)
+            .then(created => {
+              res({ msgTemplateName: 'createReunion', payload: created });
+            });
         } else {
           rej({ tutoName: 'create' });
         }
@@ -72,7 +73,7 @@ const h = {
               });
             });
         } else {
-          rej('cancel');
+          rej({ tutoName: 'cancel' });
         }
       });
     }
