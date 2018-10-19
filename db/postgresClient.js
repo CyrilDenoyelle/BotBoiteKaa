@@ -8,7 +8,8 @@ const createReunion = (params) => {
   return new Promise((resolve, rej) => {
     tempClient = client();
     tempClient.connect();
-    if (params.date !== 'Invalid Date') {
+    console.log('params', params);
+    if (params.date.toLowerCase() !== 'invalid date') {
       tempClient.query(`INSERT INTO reunion VALUES('${Object.values(params).join('\', \'')}')`, (err, res) => {
         if (err) rej('createReunion');
         resolve(params);
