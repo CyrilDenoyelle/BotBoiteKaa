@@ -1,7 +1,6 @@
 let reunions = [];
 const pgc = require('../db/postgresClient');
 const uuid = require('uuid');
-const msgTutoReunion = `pour utiliser la fonction de reunion votre message doit ressembler a ça biatch: \n "!reunion pour sans guillemet 1995-12-17T13:25:00" \n (attention ce truk va faire un "@"everyone sur le discord.) \n pour annuler une reunion: c\'est tres simple aussi !reunionList affiche toute les reunion il suffi de faire un !reunionCancel ID_REUNION.`;
 const prod = process.env.DATABASE_URL ? true : false;
 
 
@@ -29,7 +28,7 @@ paramsFormaters = {
     if (/[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/.test(id)) {
       return id;
     } else {
-
+      return false;
     }
   }
 }
@@ -37,45 +36,85 @@ paramsFormaters = {
 const h = {
   handlers: {
     create: (msg) => {
-      params = paramsFormaters.create(msg);
-      return params ? pgc.createReunion(params) : tuto(msg);
+      return Promise((res, rej) => {
+        const params = paramsFormaters.create(msg);
+        if (params) {
+          pgc.createReunion(params).then(created => {
+            res({ msgTemplateName: 'createReunion', payload: created });
+          })
+        } else {
+          rej({ tutoName: 'create' });
+        }
+      })
     },
 
     list: () => {
-      return pgc.listReunion();
+      return Promise((resolve, rej) => {
+        pgc.listReunion()
+          .then((e) => {
+            resolve({
+              msgTemplateName: 'listReunion',
+              payload: e
+            });
+          });
+      });
     },
 
     cancel: (msg) => {
-      console.log('msg cancel reunionsHandler.js', msg);
       const id = paramsFormaters.cancel(msg);
-      return pgc.getReunionById(id)
-        .then(reunion => {
-          console.log(`reunion ${id}`, reunion);
-        })
+      return new Promise((resolve, rej) => {
+        if (id) {
+          pgc.getReunionById(id)
+            .then(canceledReunion => {
+              resolve({
+                msgTemplateName: 'cancelReunion',
+                payload: canceledReunion
+              });
+            });
+        } else {
+          rej('cancel');
+        }
+      });
     }
   },
 
   localHandlers: {
     create: (msg) => {
-      const params = paramsFormaters.create(msg);
-      params ? reunions.push(params) : tuto(msg);
+      return Promise((res, rej) => {
+        const params = paramsFormaters.create(msg);
+        if (params) {
+          reunions.push(params);
+          res({ msgTemplateName: 'createReunion', payload: params });
+        } else {
+          rej('create');
+        }
+      });
     },
     list: () => {
       return new Promise(() => {
-        res(reunions);
+        res({
+          msgTemplateName: 'listReunion',
+          payload: reunions
+        });
       });
     },
     cancel: (msg) => {
       const id = msg.split(' ')[2];
-      return new Promise(() => {
-        res(reunions.filter({ id }));
+      return new Promise((res, rej) => {
+        reunions.map((e) => {
+          if (e.id === id) {
+            e.isDeleted = true;
+            canceledReunion = e;
+            return res({
+              msgTemplateName: 'cancelReunion',
+              payload: canceledReunion
+            });
+          }
+        });
+        rej('cancel');
       });
     }
   }
-}
-
-tuto = (msg) => {
-  msg.reply(msgTutoReunion);
 }
 
 msgHandler = (msg) => {
