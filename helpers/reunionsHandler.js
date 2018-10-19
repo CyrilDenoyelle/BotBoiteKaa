@@ -24,7 +24,7 @@ paramsFormaters = {
     }
   },
   delete: (msg) => {
-    const id = msg.content && msg.content.split(' ')[2] || msg;
+    const id = msg.content && msg.content.split(' ')[2] || typeof msg === 'string' && msg; // in case we call delete function with id
     if (/[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/.test(id)) {
       return id;
     } else {
