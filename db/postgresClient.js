@@ -8,11 +8,15 @@ const createReunion = (params) => {
   return new Promise((resolve, rej) => {
     tempClient = client();
     tempClient.connect();
-    tempClient.query(`INSERT INTO reunion VALUES('${Object.values(params).join('\', \'')}')`, (err, res) => {
-      if (err) return rej('create');
-      resolve(params);
-      tempClient.end();
-    });
+    if (params.date !== 'Invalid Date') {
+      tempClient.query(`INSERT INTO reunion VALUES('${Object.values(params).join('\', \'')}')`, (err, res) => {
+        if (err) rej('createReunion');
+        resolve(params);
+        tempClient.end();
+      });
+    } else {
+      rej('createReunion');
+    }
   });
 }
 
