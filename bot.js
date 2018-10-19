@@ -19,7 +19,7 @@ client.on('ready', () => {
   // process.env.UP_GEN
 
   client.channels.get(process.env.UP_GEN).send('@here UPUPUP');
-  setInterval(() => {
+  const intervalFunc = () => {
     const now = new Date();
     reunion[`${prod ? 'h' : 'localH'}andlers`].list().then(e => {
       e.payload.map(row => {
@@ -30,6 +30,10 @@ client.on('ready', () => {
         }
       })
     })
+  }
+  intervalFunc();
+  setInterval(() => {
+    intervalFunc();
   }, prod ? 60000 : 10000);
 
   if (!prod) {
