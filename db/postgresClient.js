@@ -7,7 +7,7 @@ const client = () => new Client({
 const updateParamsFormater = (params) => {
   arr = [];
   Object.values(params).map(paramName => { arr.push(`${paramName} = ${params[paramName]}`) });
-  return arr;
+  return arr.join(', ');
 }
 
 const createReunion = (params) => {
