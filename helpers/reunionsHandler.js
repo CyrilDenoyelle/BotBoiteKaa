@@ -9,12 +9,12 @@ paramsFormaters = {
     const args = msg.content.split('!reunion ')[1].split(' ');
     if (args.length >= 2) {
       const now = new Date().valueOf() + 36000;
-      const argsDate = new Date(args[1]);
+      const argsDate = new Date(args[2]);
       const reuDate = new Date(Date.UTC(argsDate.getFullYear(), argsDate.getMonth(), argsDate.getDate(), argsDate.getHours(), argsDate.getMinutes(), argsDate.getSeconds()));
 
       return params = {
         id: uuid(),
-        name: args[0],
+        name: args[1],
         date: reuDate,
         user_id: 11111111111111,
         created_at: now
@@ -41,11 +41,11 @@ const h = {
         if (params) {
           pgc.createReunion(params).then(created => {
             res({ msgTemplateName: 'createReunion', payload: created });
-          })
+          });
         } else {
           rej({ tutoName: 'create' });
         }
-      })
+      });
     },
 
     list: () => {
