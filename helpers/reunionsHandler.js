@@ -119,9 +119,11 @@ const h = {
 
 msgHandler = (msg) => {
   const s = msg.content.split(' ')[1];
+  // s is the function user want to call
   const p = `${prod ? 'h' : 'localH'}andlers`;
   // p is for use h.handlers in prod and h.localHandlers in local
   if (s && Object.keys(h[p]).includes(s)) {
+    // here we call the env where we are and so the function we need
     return h[p][s](msg);
   } else {
     return new Promise((res, rej) => {
