@@ -134,5 +134,4 @@ module.exports = {
   msgHandler,
   handlers: h.handlers,
   localHandlers: h.localHandlers,
-  tuto
 }
