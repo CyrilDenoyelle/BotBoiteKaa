@@ -47,7 +47,7 @@ const getReunionById = (id) => {
   return new Promise((resolve, rej) => {
     tempClient = client();
     tempClient.connect();
-    console.log(`SQL GETREUNIONBYID => SELECT * FROM reunion where id = '${id}' ;`)
+    console.log(`SQL GETREUNIONBYID => SELECT * FROM reunion where id = '${id}' ;`);
     tempClient.query(`SELECT * FROM reunion where id = '${id}' ;`, (err, res) => {
       if (err) {
         console.log('error', err);
