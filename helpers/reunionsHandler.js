@@ -36,7 +36,7 @@ paramsFormaters = {
 const h = {
   handlers: {
     create: (msg) => {
-      return Promise((res, rej) => {
+      return new Promise((res, rej) => {
         const params = paramsFormaters.create(msg);
         if (params) {
           pgc.createReunion(params).then(created => {
@@ -49,7 +49,7 @@ const h = {
     },
 
     list: () => {
-      return Promise((resolve, rej) => {
+      return new Promise((resolve, rej) => {
         pgc.listReunion()
           .then((e) => {
             resolve({
@@ -80,7 +80,7 @@ const h = {
 
   localHandlers: {
     create: (msg) => {
-      return Promise((res, rej) => {
+      return new Promise((res, rej) => {
         const params = paramsFormaters.create(msg);
         if (params) {
           reunions.push(params);
