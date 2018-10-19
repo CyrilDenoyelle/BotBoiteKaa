@@ -124,7 +124,9 @@ msgHandler = (msg) => {
   if (s && Object.keys(h[p]).includes(s)) {
     return h[p][s](msg);
   } else {
-    tuto(msg);
+    return new Promise((res, rej) => {
+      res({ tutoName: 'reunion' })
+    })
   }
 }
 
