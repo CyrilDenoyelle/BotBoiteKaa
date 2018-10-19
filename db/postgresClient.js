@@ -14,8 +14,8 @@ const createReunion = (params) => {
   return new Promise((resolve, rej) => {
     tempClient = client();
     tempClient.connect();
-    console.log('params', params);
     if (typeof params.date !== 'string') {
+      console.log(`SQL CREATEREUNION => INSERT INTO reunion VALUES('${Object.values(params).join('\', \'')}')`);
       tempClient.query(`INSERT INTO reunion VALUES('${Object.values(params).join('\', \'')}')`, (err, res) => {
         if (err) rej('createReunion');
         resolve(params);
@@ -31,6 +31,7 @@ const listReunion = () => {
   return new Promise((resolve, rej) => {
     tempClient = client();
     tempClient.connect();
+    console.log(`SQL LISTREUNION => SELECT * FROM reunion;`);
     tempClient.query(`SELECT * FROM reunion;`, (err, res) => {
       if (err) {
         console.log('error', err);
@@ -46,6 +47,7 @@ const getReunionById = (id) => {
   return new Promise((resolve, rej) => {
     tempClient = client();
     tempClient.connect();
+    console.log(`SQL GETREUNIONBYID => SELECT * FROM reunion where id = '${id}' ;`)
     tempClient.query(`SELECT * FROM reunion where id = '${id}' ;`, (err, res) => {
       if (err) {
         console.log('error', err);
@@ -61,8 +63,7 @@ const updateReunion = (id, params) => {
   return new Promise((resolve, rej) => {
     tempClient = client();
     tempClient.connect();
-    console.log('params', params);
-    console.log(`UPDATE reunion SET ${updateParamsFormater(params)} WHERE id = '${id}'`);
+    console.log(`SQL UPDATEREUNION => UPDATE reunion SET ${updateParamsFormater(params)} WHERE id = '${id}'`);
     tempClient.query(`UPDATE reunion SET ${updateParamsFormater(params)} WHERE id = '${id}'`, (err, res) => {
       if (err) {
         console.log('error', err);
