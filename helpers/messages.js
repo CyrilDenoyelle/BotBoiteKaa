@@ -1,6 +1,6 @@
 
 const reunion = require('./reunionsHandler.js');
-const msgtemplate = require('./botResponseTemplates');
+const msgTemplate = require('./botResponseTemplates');
 
 msgHandler = (msg) => {
   if (msg.author.id !== process.env.SELF_ID) {
@@ -21,9 +21,17 @@ msgHandler = (msg) => {
     }
 
     if (msg.content.toLowerCase().startsWith('!reunion')) {
-      reunion.msgHandler(msg).then(list => {
-        msgtemplate.listReunion(msg, list);
-      });
+      reunion.msgHandler(msg)
+        .then(e => {
+          if (e && e.msgTemplateName) {
+            msgTemplate[e.msgTemplateName](msg, e.payload);
+          } else if (e.tutoName) {
+            msg.reply(msgTemplate.tuto[e.tutoName]);
+          }
+        })
+        .catch(e => {
+          msg.reply(msgTemplate.tuto[e.tutoName]);
+        });
     }
 
     if (msg.content.startsWith('?reunion')) {
