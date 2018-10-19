@@ -26,12 +26,12 @@ msgHandler = (msg) => {
           if (e && e.msgTemplateName) {
             msgTemplate[e.msgTemplateName](msg, e.payload);
           } else if (e.tutoName) {
-            msg.reply(msgTemplate.tuto[e.tutoName]);
+            msg.reply(msgTemplate.tutos[e.tutoName]);
           }
         })
         .catch(e => {
           console.log('error', e);
-          msg.reply(msgTemplate.tuto[e.tutoName]);
+          msg.reply(msgTemplate.tutos[e.tutoName]);
         });
     }
 
