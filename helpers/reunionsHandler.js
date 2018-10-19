@@ -23,7 +23,7 @@ paramsFormaters = {
       return false;
     }
   },
-  cancel: (msg) => {
+  delete: (msg) => {
     const id = msg.content.split(' ')[2];
     if (/[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/.test(id)) {
       return id;
@@ -61,19 +61,19 @@ const h = {
       });
     },
 
-    cancel: (msg) => {
-      const id = paramsFormaters.cancel(msg);
+    delete: (msg) => {
+      const id = paramsFormaters.delete(msg);
       return new Promise((resolve, rej) => {
         if (id) {
           pgc.getReunionById(id)
-            .then(canceledReunion => {
+            .then(deleted => {
               resolve({
-                msgTemplateName: 'cancelReunion',
-                payload: canceledReunion
+                msgTemplateName: 'deletedReunion',
+                payload: deletedReunion
               });
             });
         } else {
-          rej({ tutoName: 'cancel' });
+          rej({ tutoName: 'delete' });
         }
       });
     }
@@ -99,20 +99,20 @@ const h = {
         });
       });
     },
-    cancel: (msg) => {
+    delete: (msg) => {
       const id = msg.split(' ')[2];
       return new Promise((res, rej) => {
         reunions.map((e) => {
           if (e.id === id) {
             e.isDeleted = true;
-            canceledReunion = e;
+            deletedReunion = e;
             return res({
-              msgTemplateName: 'cancelReunion',
-              payload: canceledReunion
+              msgTemplateName: 'deleteReunion',
+              payload: deletedReunion
             });
           }
         });
-        rej('cancel');
+        rej('delete');
       });
     }
   }
