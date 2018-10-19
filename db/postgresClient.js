@@ -75,5 +75,6 @@ const updateReunion = (id, params) => {
 module.exports = {
   createReunion,
   listReunion,
-  getReunionById
+  getReunionById,
+  updateReunion
 }
