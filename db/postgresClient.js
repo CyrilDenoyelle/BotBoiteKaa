@@ -27,11 +27,11 @@ const createReunion = (params) => {
   });
 };
 
-const listReunion = () => {
+const listReunion = (nologs) => {
   return new Promise((resolve, rej) => {
     tempClient = client();
     tempClient.connect();
-    console.log(`SQL LISTREUNION => SELECT * FROM reunion;`);
+    if (!nologs) console.log(`SQL LISTREUNION => SELECT * FROM reunion;`);
     tempClient.query(`SELECT * FROM reunion;`, (err, res) => {
       if (err) {
         console.log('error', err);

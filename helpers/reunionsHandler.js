@@ -49,9 +49,9 @@ const h = {
       });
     },
 
-    list: () => {
+    list: (nologs) => {
       return new Promise((resolve, rej) => {
-        pgc.listReunion()
+        pgc.listReunion(nologs)
           .then((e) => {
             resolve({
               msgTemplateName: 'listReunion',
