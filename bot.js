@@ -23,7 +23,7 @@ client.on('ready', () => {
     const now = new Date();
     reunion[`${prod ? 'h' : 'localH'}andlers`].list().then(e => {
       e.payload.map(row => {
-        if (row && row.date > now && !row.isDeleted) {
+        if (row && row.date > now && !row.is_deleted) {
           reunion[`${prod ? 'h' : 'localH'}andlers`].delete(row.id);
           // client.channels.get('500978775878664195').send(`${prod ? '@veryone' : '@veryone'} c'est l'heure de ${row.name}`);
           console.log(`@everyone c'est l'heure de ${row.name}`);
