@@ -16,7 +16,7 @@ const createReunion = (params) => {
         tempClient.end();
       });
     } else {
-      rej('createReunion');
+      rej({ tutoName: 'createReunion' });
     }
   });
 };
