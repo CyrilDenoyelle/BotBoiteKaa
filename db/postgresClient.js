@@ -4,6 +4,12 @@ const client = () => new Client({
   ssl: true,
 });
 
+const updateParamsFormater = (params) => {
+  arr = [];
+  Object.values(params).map(paramName => { arr.push(`${paramName} = ${params[paramName]}`) });
+  return arr;
+}
+
 const createReunion = (params) => {
   return new Promise((resolve, rej) => {
     tempClient = client();
@@ -41,6 +47,21 @@ const getReunionById = (id) => {
     tempClient = client();
     tempClient.connect();
     tempClient.query(`SELECT * FROM reunion where id = '${id}' ;`, (err, res) => {
+      if (err) {
+        console.log('error', err);
+        return null;
+      }
+      resolve(res.rows[0]);
+      tempClient.end();
+    });
+  });
+};
+
+const updateReunion = (id, params) => {
+  return new Promise((resolve, rej) => {
+    tempClient = client();
+    tempClient.connect();
+    tempClient.query(`UPDATE table SET ${updateParamsFormater(params)} WHERE id = ${id}`, (err, res) => {
       if (err) {
         console.log('error', err);
         return null;
