@@ -35,7 +35,7 @@ msgHandler = (msg) => {
     }
 
     if (msg.content.startsWith('?reunion')) {
-      msg.reply(msgTemplate.tuto['reunion']);
+      msg.reply(msgTemplate.tutos['reunion']);
     }
   }
 }
