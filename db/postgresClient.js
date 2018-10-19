@@ -45,7 +45,7 @@ const getReunionById = (id) => {
         console.log('error', err);
         return null;
       }
-      resolve(res);
+      resolve(res.rows[0]);
       tempClient.end();
     });
   });
