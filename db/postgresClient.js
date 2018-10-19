@@ -9,9 +9,8 @@ const createReunion = (params) => {
     tempClient = client();
     tempClient.connect();
     tempClient.query(`INSERT INTO reunion VALUES('${Object.values(params).join('\', \'')}')`, (err, res) => {
-      if (err) return err;
-      console.log('res', res);
-      resolve(res);
+      if (err) return rej(err);
+      resolve(params);
       tempClient.end();
     });
   });
