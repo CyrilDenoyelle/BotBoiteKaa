@@ -22,7 +22,7 @@ client.on('ready', () => {
   setInterval(() => {
     const now = new Date();
     reunion[`${prod ? 'h' : 'localH'}andlers`].list().then(e => {
-      e.map(row => {
+      e.payload.map(row => {
         if (row && row.date > now && !row.isDeleted) {
           // e.isDeleted = true;
           // client.channels.get('500978775878664195').send(`${prod ? '@veryone' : '@veryone'} c'est l'heure de ${row.name}`);
