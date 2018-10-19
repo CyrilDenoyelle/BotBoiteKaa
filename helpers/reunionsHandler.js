@@ -67,10 +67,13 @@ const h = {
         if (id) {
           pgc.getReunionById(id)
             .then(deletedReunion => {
-              resolve({
-                msgTemplateName: 'deleteReunion',
-                payload: deletedReunion
-              });
+              deletedReunion.isDeleted = true;
+              pgc.updateReunion(id, deletedReunion).then((e) => {
+                resolve({
+                  msgTemplateName: 'deleteReunion',
+                  payload: deletedReunion
+                });
+              })
             });
         } else {
           rej({ tutoName: 'deleteReunion' });
