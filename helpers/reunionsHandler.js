@@ -47,7 +47,7 @@ const h = {
               res({ msgTemplateName: 'createReunion', payload: created });
             });
         } else {
-          rej({ tutoName: 'create' });
+          rej({ tutoName: 'createReunion' });
         }
       });
     },
@@ -115,7 +115,7 @@ const h = {
             });
           }
         });
-        rej({ tutoName: 'delete' });
+        rej({ tutoName: 'deleteReunion' });
       });
     }
   }
