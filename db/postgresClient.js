@@ -62,7 +62,7 @@ const updateReunion = (id, params) => {
     tempClient = client();
     tempClient.connect();
     console.log(`UPDATE reunion SET ${updateParamsFormater(params)} WHERE id = ${id}`);
-    tempClient.query(`UPDATE reunion SET ${updateParamsFormater(params)} WHERE id = ${id}`, (err, res) => {
+    tempClient.query(`UPDATE reunion SET ${updateParamsFormater(params)} WHERE id = '${id}'`, (err, res) => {
       if (err) {
         console.log('error', err);
         return null;
