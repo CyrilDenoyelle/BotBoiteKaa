@@ -11,7 +11,7 @@ const generalFormater = (params) => {
 }
 
 const createSqlFormater = (params) => {
-  return `(${Object.keys(params).join('\', \'')}) VALUES (${Object.values(params).join('\', \'')})`;
+  return `(${Object.keys(params).join(', ')}) VALUES (${Object.values(params).join('\', \'')})`;
 
 }
 
