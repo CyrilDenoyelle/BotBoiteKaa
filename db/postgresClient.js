@@ -4,7 +4,7 @@ const client = () => new Client({
   ssl: true,
 });
 
-const updateParamsFormater = (params) => {
+const generalFormater = (params) => {
   arr = [];
   Object.keys(params).map(paramName => { arr.push(`${paramName} = '${params[paramName]}'`) });
   return arr.join(', ');
@@ -15,8 +15,8 @@ const createReunion = (params) => {
     tempClient = client();
     tempClient.connect();
     if (typeof params.date !== 'string') {
-      console.log(`SQL CREATEREUNION => INSERT INTO reunion VALUES('${Object.values(params).join('\', \'')}')`);
-      tempClient.query(`INSERT INTO reunion VALUES('${Object.values(params).join('\', \'')}')`, (err, res) => {
+      console.log(`SQL CREATEREUNION => INSERT INTO reunion SET ${generalFormater}`);
+      tempClient.query(`INSERT INTO reunion SET ${generalFormater}`, (err, res) => {
         if (err) rej('createReunion');
         resolve(params);
         tempClient.end();
@@ -63,8 +63,8 @@ const updateReunion = (id, params) => {
   return new Promise((resolve, rej) => {
     tempClient = client();
     tempClient.connect();
-    console.log(`SQL UPDATEREUNION => UPDATE reunion SET ${updateParamsFormater(params)} WHERE id = '${id}'`);
-    tempClient.query(`UPDATE reunion SET ${updateParamsFormater(params)} WHERE id = '${id}'`, (err, res) => {
+    console.log(`SQL UPDATEREUNION => UPDATE reunion SET ${generalFormater(params)} WHERE id = '${id}'`);
+    tempClient.query(`UPDATE reunion SET ${generalFormater(params)} WHERE id = '${id}'`, (err, res) => {
       if (err) {
         console.log('error', err);
         return null;
