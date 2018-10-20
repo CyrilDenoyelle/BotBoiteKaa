@@ -29,7 +29,7 @@ msgHandler = (msg) => {
 
     // GUILD MIDDLEWARES
     //  || msg.author.id == process.env.ADMIN
-    if (isWhiteListGuild(msg.guild.id)) {
+    if (msg.guild && guildsisWhiteListGuild(msg.guild.id)) {
       // REUNIONS
       if (msg.content.toLowerCase().startsWith('!reunion') || msg.content.toLowerCase().startsWith('!réunion')) {
         reunion.msgHandler(msg)
