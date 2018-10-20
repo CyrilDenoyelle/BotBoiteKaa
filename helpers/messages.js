@@ -1,17 +1,18 @@
 
 const reunion = require('./reunionsHandler.js');
 const msgTemplate = require('./botResponseTemplates');
+const rand = require('./secondary/rand');
 
 msgHandler = (msg) => {
   if (msg.author.id !== process.env.SELF_ID) {
     console.log('msg.author.id', msg.author.id);
     if (msg.content.toLowerCase().includes('pong')) {
-      msg.channel.send(`Ping ${Math.random() >= 0.75 ? 'biatch' : ''}`, {
+      msg.channel.send(`Ping ${rand.on100(10) ? 'biatch' : ''}`, {
         tts: true
       });
     }
     if (msg.content.toLowerCase().includes('ping')) {
-      msg.channel.send(`Pong! ${Math.random() >= 0.75 ? 'biatch' : ''}`, {
+      msg.channel.send(`Pong! ${rand.on100(10) ? 'biatch' : ''}`, {
         tts: true
       });
     }
