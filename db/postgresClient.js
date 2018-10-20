@@ -22,7 +22,7 @@ const createReunion = (params) => {
     tempClient.query(`INSERT INTO reunion ${createSqlFormater(params)}`, (err, res) => {
       if (err) {
         console.log('error sql', err);
-        rej({ tutoName: 'createReunion', err })
+        return rej({ tutoName: 'createReunion', err })
       };
       resolve(params);
       tempClient.end();
