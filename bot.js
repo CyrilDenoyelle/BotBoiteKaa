@@ -21,7 +21,7 @@ const intervalFunc = () => {
     e.payload.map(row => {
       if (row && new Date(row.date).getTime() < now && !row.is_deleted) {
         reunion[`${prod ? 'h' : 'localH'}andlers`].delete(row.id);
-        client.channels.get('500978775878664195').send(`${prod ? '@everyone' : '@veryone'} c'est l'heure de ${row.name}`);
+        // client.channels.get('500978775878664195').send(`${prod ? '@everyone' : '@veryone'} c'est l'heure de ${row.name}`);
         console.log(`@everyone c'est l'heure de ${row.name}`);
       }
     })
