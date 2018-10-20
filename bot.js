@@ -10,18 +10,18 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const prod = process.env.DATABASE_URL ? true : false;
 
-const addHours = (date, h) => date.setTime(date.getTime() + (h * 60 * 60 * 1000));
-
+// requires
 const { msgHandler } = require('./helpers/messages.js');
 const reunion = require('./helpers/reunionsHandler.js');
+const d = require('./helpers/secondary/date.js');
 
 const intervalFunc = () => {
-  const now = addHours(new Date(), 2);
-  reunion[`${prod ? 'h' : 'localH'}andlers`].list(true).then(e => {
+  const now = d.hours(new Date(), +2);
+  reunion[`${prod ? 'h' : 'localH'}andlers`].list({ noLogs: true }).then(e => {
     e.payload.map(row => {
       if (row && new Date(row.date).getTime() < now && !row.is_deleted) {
         reunion[`${prod ? 'h' : 'localH'}andlers`].delete(row.id);
-        client.channels.get('500978775878664195').send(`${prod ? '@veryone' : '@veryone'} c'est l'heure de ${row.name}`);
+        client.channels.get('500978775878664195').send(`${prod ? '@everyone' : '@veryone'} c'est l'heure de ${row.name}`);
         console.log(`@everyone c'est l'heure de ${row.name}`);
       }
     })
