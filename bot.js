@@ -20,7 +20,6 @@ const intervalFunc = () => {
   const now = d.hours(new Date(), +2);
   reunion[`${prod ? 'h' : 'localH'}andlers`].list({ noLogs: true }).then(e => {
     e.payload.map(row => {
-      console.log('client.guilds.get(row.discord_place)', client.guilds.get(row.discord_place));
       if (row && new Date(row.date).getTime() < now && !row.is_deleted) {
         reunion[`${prod ? 'h' : 'localH'}andlers`].delete(row.id);
         client.guilds.get(row.discord_place).channels.find('name', 'reunions').send(`${prod ? '@everyone' : '@veryone'} c'est l'heure de ${row.name}`);
