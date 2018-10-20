@@ -21,6 +21,9 @@ const paramsFormaters = {
       const argsDate = new Date(args[1]);
       const reuDate = new Date(Date.UTC(argsDate.getFullYear(), argsDate.getMonth(), argsDate.getDate(), argsDate.getHours(), argsDate.getMinutes(), argsDate.getSeconds()));
 
+      console.log(new Date(Date.UTC(args[1])));
+      console.log(reuDate);
+
       if (new Date(reuDate).getTime() < now) return false;
 
       return params = {
