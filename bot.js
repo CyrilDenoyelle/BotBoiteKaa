@@ -5,7 +5,7 @@ express()
   .listen(port, function () {
     console.log('Our app is running on http://localhost:' + port);
   });
-
+// set discorde BOT
 const Discord = require('discord.js');
 const client = new Discord.Client();
 const prod = process.env.DATABASE_URL ? true : false;
@@ -30,7 +30,7 @@ const intervalFunc = () => {
 }
 
 client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}! id ${client.user.id}`);
+  console.log(`Logged in as ${client.user.tag}! id: ${client.user.id}`);
 
   client.channels.get(process.env.UP_GEN).send('@here COOLCOOLCOOL');
   intervalFunc();
