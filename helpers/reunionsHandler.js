@@ -18,17 +18,14 @@ const paramsFormaters = {
     const args = msg.content.split('create ')[1].split(', ');
     if (args.length >= 2) {
       const now = d.hours(new Date(), 2);
-      const argsDate = new Date(args[1]);
-      const reuDate = new Date(Date.UTC(argsDate.getFullYear(), argsDate.getMonth(), argsDate.getDate(), argsDate.getHours(), argsDate.getMinutes(), argsDate.getSeconds()));
-      console.log('argsDate', new Date(d.hours(argsDate, 2)));
-      console.log('reuDate', reuDate);
+      const date = new Date(args[1]);
 
-      if (new Date(reuDate).getTime() < now) return false;
+      if (new Date(date).getTime() < now) return false;
 
       return params = {
         id: uuid(),
         name: args[0],
-        date: reuDate,
+        date,
         user_id: msg.author.id,
         created_at: now
       }
