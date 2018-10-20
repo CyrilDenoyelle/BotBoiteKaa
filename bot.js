@@ -46,7 +46,6 @@ client.on('ready', () => {
       reunion.handlers.newReunionSeeds(e);
     });
   }
-
 });
 
 client.on('message', msg => {
