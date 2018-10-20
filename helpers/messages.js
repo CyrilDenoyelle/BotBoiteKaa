@@ -22,6 +22,7 @@ msgHandler = (msg) => {
     }
 
     if (msg.content.toLowerCase().startsWith('!reunion') || msg.content.toLowerCase().startsWith('!réunion')) {
+      console.log('msg complete', msg);
       reunion.msgHandler(msg)
         .then(e => {
           if (e && e.msgTemplateName) {
