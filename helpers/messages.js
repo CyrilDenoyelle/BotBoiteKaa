@@ -6,7 +6,6 @@ const msgTemplate = require('./botResponseTemplates');
 const rand = require('./secondary/rand');
 
 msgHandler = (msg) => {
-  console.log(msg);
   // IN EVERY CASES
   if (msg.content.toLowerCase().includes('bite') || msg.content.toLowerCase().includes('queue')) {
     msg.react("🍆");
@@ -26,6 +25,7 @@ msgHandler = (msg) => {
         tts: true
       });
     }
+
 
     // GUILD MIDDLEWARES
     //  || msg.author.id == process.env.ADMIN
@@ -54,6 +54,11 @@ msgHandler = (msg) => {
         msg.reply(msgTemplate.tutos['reunion']);
       }
     }
+
+    if (msg.guild === null) {
+      msg.reply('coucou');
+    }
+
   }
 }
 module.exports = {
