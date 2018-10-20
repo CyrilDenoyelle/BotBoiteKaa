@@ -25,7 +25,8 @@ client.on('ready', () => {
       e.payload.map(row => {
         console.log('now', now);
         console.log('new Date(row.date)', new Date(row.date));
-        if (row && new Date(row.date) < now && !row.is_deleted) {
+        console.log(new Date(row.date).getTime() < now);
+        if (row && new Date(row.date).getTime() < now && !row.is_deleted) {
           console.log('yes row.is_deleted', row.is_deleted);
           reunion[`${prod ? 'h' : 'localH'}andlers`].delete(row.id);
           // client.channels.get('500978775878664195').send(`${prod ? '@veryone' : '@veryone'} c'est l'heure de ${row.name}`);
