@@ -1,7 +1,7 @@
 
 // requires
 const reunion = require('./reunionsHandler.js');
-const isWhiteList = require('./middlewares/isWhiteListGuild.js');
+const { isWhiteListGuild } = require('./middlewares/guilds.js');
 const msgTemplate = require('./botResponseTemplates');
 const rand = require('./secondary/rand');
 
@@ -26,7 +26,7 @@ msgHandler = (msg) => {
     }
 
     // GUILD MIDDLEWARES
-    if (isWhiteList(msg.guild.id)) {
+    if (isWhiteListGuild(msg.guild.id)) {
       // REUNIONS
       if (msg.content.toLowerCase().startsWith('!reunion') || msg.content.toLowerCase().startsWith('!réunion')) {
         reunion.msgHandler(msg)
