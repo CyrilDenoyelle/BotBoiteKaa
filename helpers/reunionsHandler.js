@@ -3,6 +3,8 @@ const pgc = require('../db/postgresClient');
 const uuid = require('uuid');
 const prod = process.env.DATABASE_URL ? true : false;
 
+// alter date object
+Date.prototype.addHours = h => this.setHours(this.getHours() + h);
 
 const isUuid = (id) => /[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/.test(id);
 
@@ -10,7 +12,7 @@ const paramsFormaters = {
   create: (msg) => {
     const args = msg.content.split('create ')[1].split(', ');
     if (args.length >= 2) {
-      const now = new Date().valueOf() + 36000;
+      const now = new Date().addHours(2);
       const argsDate = new Date(args[1]);
       const reuDate = new Date(Date.UTC(argsDate.getFullYear(), argsDate.getMonth(), argsDate.getDate(), argsDate.getHours(), argsDate.getMinutes(), argsDate.getSeconds()));
 
