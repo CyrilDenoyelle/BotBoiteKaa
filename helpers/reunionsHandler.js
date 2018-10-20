@@ -96,9 +96,8 @@ const h = {
         if (params) {
           reunions.push(params);
           res({ msgTemplateName: 'createReunion', payload: params });
-        } else {
-          rej({ tutoName: 'createReunion' });
         }
+        rej({ tutoName: 'createReunion' });
       });
     },
     list: () => {
@@ -136,11 +135,10 @@ msgHandler = (msg) => {
   if (s && Object.keys(h[p]).includes(s)) {
     // here we call the env where we are and so the function we need
     return h[p][s](msg);
-  } else {
-    return new Promise((res, rej) => {
-      res({ tutoName: 'reunion' })
-    })
   }
+  return new Promise((res, rej) => {
+    res({ tutoName: 'reunion' })
+  })
 }
 
 module.exports = {
