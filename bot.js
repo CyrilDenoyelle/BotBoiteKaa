@@ -29,7 +29,7 @@ client.on('ready', () => {
         if (row && new Date(row.date).getTime() < now && !row.is_deleted) {
           console.log('yes row.is_deleted', row.is_deleted);
           reunion[`${prod ? 'h' : 'localH'}andlers`].delete(row.id);
-          // client.channels.get('500978775878664195').send(`${prod ? '@veryone' : '@veryone'} c'est l'heure de ${row.name}`);
+          client.channels.get('500978775878664195').send(`${prod ? '@veryone' : '@veryone'} c'est l'heure de ${row.name}`);
           console.log(`@everyone c'est l'heure de ${row.name}`);
         }
       })
