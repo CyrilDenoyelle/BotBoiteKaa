@@ -15,26 +15,23 @@ const addHours = (date, h) => date.setTime(date.getTime() + (h * 60 * 60 * 1000)
 const { msgHandler } = require('./helpers/messages.js');
 const reunion = require('./helpers/reunionsHandler.js');
 
+const intervalFunc = () => {
+  const now = addHours(new Date(), 2);
+  reunion[`${prod ? 'h' : 'localH'}andlers`].list(true).then(e => {
+    e.payload.map(row => {
+      if (row && new Date(row.date).getTime() < now && !row.is_deleted) {
+        reunion[`${prod ? 'h' : 'localH'}andlers`].delete(row.id);
+        client.channels.get('500978775878664195').send(`${prod ? '@veryone' : '@veryone'} c'est l'heure de ${row.name}`);
+        console.log(`@everyone c'est l'heure de ${row.name}`);
+      }
+    })
+  })
+}
+
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}! id ${client.user.id}`);
 
   client.channels.get(process.env.UP_GEN).send('@here COOLCOOLCOOL');
-  const intervalFunc = () => {
-    const now = addHours(new Date(), 2);
-    reunion[`${prod ? 'h' : 'localH'}andlers`].list(true).then(e => {
-      e.payload.map(row => {
-        console.log('now', now);
-        console.log('new Date(row.date)', new Date(row.date));
-        console.log(new Date(row.date).getTime() < now);
-        if (row && new Date(row.date).getTime() < now && !row.is_deleted) {
-          console.log('yes row.is_deleted', row.is_deleted);
-          reunion[`${prod ? 'h' : 'localH'}andlers`].delete(row.id);
-          client.channels.get('500978775878664195').send(`${prod ? '@veryone' : '@veryone'} c'est l'heure de ${row.name}`);
-          console.log(`@everyone c'est l'heure de ${row.name}`);
-        }
-      })
-    })
-  }
   intervalFunc();
   setInterval(() => {
     intervalFunc();
