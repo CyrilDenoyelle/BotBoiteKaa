@@ -18,7 +18,7 @@ const paramsFormaters = {
         id: uuid(),
         name: args[0],
         date: reuDate,
-        user_id: 11111111111111,
+        user_id: msg.author.id,
         created_at: now
       }
     } else {
