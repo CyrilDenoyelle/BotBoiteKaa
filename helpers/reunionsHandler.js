@@ -28,6 +28,7 @@ const paramsFormaters = {
         name: args[0],
         date,
         user_id: msg.author.id,
+        discord_place: msg.guild.id,
         created_at: now
       }
     }
