@@ -53,7 +53,7 @@ const h = {
               res({ msgTemplateName: 'createReunion', payload: created });
             });
         }
-        else rej({ tutoName: 'createReunion' })
+        rej({ tutoName: 'createReunion' })
       });
     },
 
