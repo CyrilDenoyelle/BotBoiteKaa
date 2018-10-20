@@ -26,6 +26,7 @@ msgHandler = (msg) => {
     }
 
     // GUILD MIDDLEWARES
+    //  || msg.author.id == process.env.ADMIN
     if (isWhiteListGuild(msg.guild.id)) {
       // REUNIONS
       if (msg.content.toLowerCase().startsWith('!reunion') || msg.content.toLowerCase().startsWith('!réunion')) {
@@ -41,7 +42,7 @@ msgHandler = (msg) => {
             if (e.tutoName) {
               msg.reply(msgTemplate.tutos[e.tutoName]);
             }
-            else console.log(`that message "${msg.content}" throwed this:`, e);
+            console.log(`that message "${msg.content}" throwed this:`, e);
           });
       }
 
