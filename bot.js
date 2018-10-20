@@ -10,9 +10,7 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 const prod = process.env.DATABASE_URL ? true : false;
 
-// alter Date Object
-// Date.prototype.addHours = (h) => this.setTime(this.getTime() + (h * 60 * 60 * 1000));
-Date.prototype.addHours = (h) => console.log('this Date', this);
+const addHours = (date, h) => date.setTime(this.getTime() + (h * 60 * 60 * 1000));
 
 const { msgHandler } = require('./helpers/messages.js');
 const reunion = require('./helpers/reunionsHandler.js');
@@ -22,7 +20,7 @@ client.on('ready', () => {
 
   client.channels.get(process.env.UP_GEN).send('@here COOLCOOLCOOL');
   const intervalFunc = () => {
-    const now = new Date().addHours(2)
+    const now = addHours(new Date(), 2);
     console.log('now', now);
     reunion[`${prod ? 'h' : 'localH'}andlers`].list(true).then(e => {
       e.payload.map(row => {
