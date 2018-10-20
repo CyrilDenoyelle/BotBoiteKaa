@@ -6,6 +6,7 @@ const msgTemplate = require('./botResponseTemplates');
 const rand = require('./secondary/rand');
 
 msgHandler = (msg) => {
+  console.log(msg);
   // IN EVERY CASES
   if (msg.content.toLowerCase().includes('bite') || msg.content.toLowerCase().includes('queue')) {
     msg.react("🍆");
