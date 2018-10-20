@@ -21,10 +21,16 @@ client.on('ready', () => {
     const now = new Date();
     reunion[`${prod ? 'h' : 'localH'}andlers`].list(true).then(e => {
       e.payload.map(row => {
+        console.log('row.is_deleted', row.is_deleted);
+        console.log('!row.is_deleted', !row.is_deleted);
         if (row && new Date(row.date) < now && !row.is_deleted) {
+          console.log('yes row.is_deleted', row.is_deleted);
           reunion[`${prod ? 'h' : 'localH'}andlers`].delete(row.id);
           // client.channels.get('500978775878664195').send(`${prod ? '@veryone' : '@veryone'} c'est l'heure de ${row.name}`);
           console.log(`@everyone c'est l'heure de ${row.name}`);
+        } else {
+          console.log('no !row.is_deleted', row.is_deleted);
+
         }
       })
     })
