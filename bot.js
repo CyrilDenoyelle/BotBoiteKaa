@@ -18,7 +18,7 @@ client.on('ready', () => {
   // console.log(client.channels.find('name', 'général').id);
   // process.env.UP_GEN
 
-  client.channels.get(process.env.UP_GEN).send('@here UPUPUP');
+  client.channels.get(process.env.UP_GEN).send('@here COOLCOOLCOOL');
   const intervalFunc = () => {
     const now = new Date();
     reunion[`${prod ? 'h' : 'localH'}andlers`].list(true).then(e => {
