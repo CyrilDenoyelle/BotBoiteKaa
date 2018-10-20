@@ -4,7 +4,9 @@ const uuid = require('uuid');
 const prod = process.env.DATABASE_URL ? true : false;
 
 
-paramsFormaters = {
+const isUuid = (id) => /[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/.test(id);
+
+const paramsFormaters = {
   create: (msg) => {
     const args = msg.content.split('create ')[1].split(', ');
     if (args.length >= 2) {
@@ -25,7 +27,7 @@ paramsFormaters = {
   },
   delete: (msg) => {
     const id = msg.content && msg.content.split(' ')[2] || typeof msg === 'string' && msg; // in case we call delete function with id
-    if (/[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/.test(id)) {
+    if (isUuid(id)) {
       return id;
     } else {
       return false;
