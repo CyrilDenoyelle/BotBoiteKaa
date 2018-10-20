@@ -20,11 +20,10 @@ const intervalFunc = () => {
   reunion[`${prod ? 'h' : 'localH'}andlers`].list({ noLogs: true }).then(e => {
     e.payload.map(row => {
       console.log('client.guilds.get(row.discord_place)', client.guilds.get(row.discord_place));
-      client.guilds.get(row.discord_place).channels.find('name', 'reunions').send('coucou');
       if (row && new Date(row.date).getTime() < now && !row.is_deleted) {
         reunion[`${prod ? 'h' : 'localH'}andlers`].delete(row.id);
-        client.guild.get(msg.discord_place).send(`${prod ? '@everyone' : '@veryone'} c'est l'heure de ${row.name}`);
-        console.log(`@everyone c'est l'heure de ${row.name}`);
+        client.guilds.get(row.discord_place).channels.find('name', 'reunions').send(`${prod ? '@everyone' : '@veryone'} c'est l'heure de ${row.name}`);
+        console.log(`C'est l'heure de ${row.name} sur le discorde id:${row.discord_place}.`);
       }
     });
   });
