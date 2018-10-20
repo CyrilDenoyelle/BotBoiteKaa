@@ -19,17 +19,13 @@ const createReunion = (params) => {
   return new Promise((resolve, rej) => {
     tempClient = client();
     tempClient.connect();
-    console.log('typeof params.date', typeof params.date);
-    if (typeof params.date !== 'string') {
-      console.log(`SQL CREATEREUNION => INSERT INTO reunion ${createSqlFormater(params)}`); // Object.values(params).join('\', \'')
-      return tempClient.query(`INSERT INTO reunion ${createSqlFormater(params)}`, (err, res) => {
-        if (err) rej('createReunion');
-        resolve(params);
-        tempClient.end();
-      });
-    } else {
-      rej({ tutoName: 'createReunion' });
-    }
+    console.log(`SQL CREATEREUNION => INSERT INTO reunion ${createSqlFormater(params)}`);
+    tempClient.query(`INSERT INTO reunion ${createSqlFormater(params)}`, (err, res) => {
+      if (err) rej({ tutoName: 'createReunion', err });
+      resolve(params);
+      tempClient.end();
+    });
+    rej({ tutoName: 'createReunion', err: 'no sql response' });
   });
 };
 
