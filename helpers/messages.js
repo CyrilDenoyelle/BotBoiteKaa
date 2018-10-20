@@ -1,5 +1,7 @@
 
+// requires
 const reunion = require('./reunionsHandler.js');
+const whitelist = require('./middleware/whitelist.js');
 const msgTemplate = require('./botResponseTemplates');
 const rand = require('./secondary/rand');
 
@@ -21,8 +23,9 @@ msgHandler = (msg) => {
       msg.react("🍆");
     }
 
+    // REUNIONS
     if (msg.content.toLowerCase().startsWith('!reunion') || msg.content.toLowerCase().startsWith('!réunion')) {
-      console.log('msg complete', msg);
+      // msg.guild.id
       reunion.msgHandler(msg)
         .then(e => {
           if (e && e.msgTemplateName) {
@@ -36,7 +39,6 @@ msgHandler = (msg) => {
           if (e.tutoName) msg.reply(msgTemplate.tutos[e.tutoName]);
         });
     }
-
     if (msg.content.startsWith('?reunion')) {
       msg.reply(msgTemplate.tutos['reunion']);
     }
