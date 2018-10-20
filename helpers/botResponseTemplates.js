@@ -8,18 +8,18 @@ const listReunion = (msg, allReunions) => {
 }
 
 const createReunion = (msg, created) => {
-  msg.reply(`c'est vous l'doc doc: \n id | name | date \n ${created.id} | ${created.name} | ${created.date}`);
+  msg.reply(`c'est vous l'doc doc: réunion créée \n ${created.id} | ${created.name} | ${created.date}`);
 }
 
-const deleteReunion = (msg, created) => {
-  msg.reply(`c'est vous l'doc doc: \n id | name | date \n ${created.id} | ${created.name} | ${created.date}`);
+const deleteReunion = (msg, deleted) => {
+  msg.reply(`c'est vous l'doc doc: réunion supprimée \n ${deleted.name} | ${deleted.date}`);
 }
 
 const tutos = {
-  createReunion: `pour creer une reunion votre message doit ressembler a ça biatch: \n "!reunion create pourquoi sans apostrophe, 1995-12-17T13:25:00" \n (attention ce truk va faire un "@"everyone sur le discord a l'heure donnée.)`,
-  deleteReunion: `pour annuler une reunion: "!reunion delete ID_REUNION." ("!reunion list" affiche toutes les reunions)`,
-  listReunion: `"!reunion list" affiche toutes les reunions`,
-  reunion: `pour utiliser la fonction de reunion votre message doit ressembler a ça biatch: \n "!reunion create pourquoi sans apostrophe, 1995-12-17T13:25:00" \n (attention ce truk va faire un "@"everyone sur le discord.) \n pour annuler une reunion: c\'est tres simple aussi "!reunion list" affiche toute les reunions il suffit de faire un "!reunion delete ID_REUNION".`,
+  createReunion: `pour créer une réunion votre message doit ressembler a ça les biatches: \n "!reunion create pourquoi sans apostrophe, AAAA-MM-JJTHH:mm:ss" \n (attention ce truk va faire un "@"everyone sur le discord a l'heure donnée.)`,
+  deleteReunion: `pour annuler une réunion: "!reunion delete ID_REUNION." ("!reunion list" affiche toutes les réunions)`,
+  listReunion: `"!reunion list" affiche toutes les réunions`,
+  reunion: `pour utiliser les fonctions de réunion votre message doit ressembler a ça les biatches: \n "!reunion create pourquoi sans apostrophe, AAAA-MM-JJTHH:mm:ss" \n pour annuler une reunion: c\'est tres simple aussi "!reunion list" affiche toute les réunions il suffit alors de faire un "!reunion delete ID_REUNION".`,
   helpReunion: `azerjkqsldfkxcvnorutapiurqkdjwbcxbkhfdgaurieysqgojfsnbmsfh`
 }
 
