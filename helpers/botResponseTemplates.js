@@ -16,10 +16,10 @@ const deleteReunion = (msg, created) => {
 }
 
 const tutos = {
-  createReunion: `pour creer une reunion votre message doit ressembler a ça biatch: \n "!reunion create pourquoi sans apostrophe 1995-12-17T13:25:00" \n (attention ce truk va faire un "@"everyone sur le discord a l'heure donnée.)`,
+  createReunion: `pour creer une reunion votre message doit ressembler a ça biatch: \n "!reunion create pourquoi sans apostrophe, 1995-12-17T13:25:00" \n (attention ce truk va faire un "@"everyone sur le discord a l'heure donnée.)`,
   deleteReunion: `pour annuler une reunion: "!reunion delete ID_REUNION." (!reunion list affiche toutes les reunions)`,
   listReunion: `!reunion list affiche toutes les reunions`,
-  reunion: `pour utiliser la fonction de reunion votre message doit ressembler a ça biatch: \n "!reunion create pourquoi sans apostrophe 1995-12-17T13:25:00" \n (attention ce truk va faire un "@"everyone sur le discord.) \n pour annuler une reunion: c\'est tres simple aussi "!reunion list" affiche toute les reunions il suffit de faire un "!reunion delete ID_REUNION".`,
+  reunion: `pour utiliser la fonction de reunion votre message doit ressembler a ça biatch: \n "!reunion create pourquoi sans apostrophe, 1995-12-17T13:25:00" \n (attention ce truk va faire un "@"everyone sur le discord.) \n pour annuler une reunion: c\'est tres simple aussi "!reunion list" affiche toute les reunions il suffit de faire un "!reunion delete ID_REUNION".`,
   helpReunion: `azerjkqsldfkxcvnorutapiurqkdjwbcxbkhfdgaurieysqgojfsnbmsfh`
 }
 
