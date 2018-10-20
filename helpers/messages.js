@@ -11,7 +11,7 @@ msgHandler = (msg) => {
     msg.react("🍆");
   }
 
-  // ID NOT SELF MESSAGE
+  // IF NOT SELF MESSAGE
   if (msg.author.id !== process.env.SELF_ID) {
 
     console.log('msg.author.id', msg.author.id);
