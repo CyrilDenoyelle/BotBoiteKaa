@@ -1,11 +1,17 @@
 
 // requires
 const reunion = require('./reunionsHandler.js');
-const whitelist = require('./middleware/whitelist.js');
+const isWhiteList = require('./middlewares/isWhiteListGuild.js');
 const msgTemplate = require('./botResponseTemplates');
 const rand = require('./secondary/rand');
 
 msgHandler = (msg) => {
+  // IN EVERY CASES
+  if (msg.content.toLowerCase().includes('bite') || msg.content.toLowerCase().includes('queue')) {
+    msg.react("🍆");
+  }
+
+  // ID NOT SELF MESSAGE
   if (msg.author.id !== process.env.SELF_ID) {
     console.log('msg.author.id', msg.author.id);
     if (msg.content.toLowerCase().includes('pong')) {
@@ -19,28 +25,30 @@ msgHandler = (msg) => {
       });
     }
 
-    if (msg.content.toLowerCase().includes('bite') || msg.content.toLowerCase().includes('queue')) {
-      msg.react("🍆");
-    }
+    // GUILD MIDDLEWARES
+    if (isWhiteList(msg.guild.id)) {
+      // REUNIONS
+      if (msg.content.toLowerCase().startsWith('!reunion') || msg.content.toLowerCase().startsWith('!réunion')) {
+        reunion.msgHandler(msg)
+          .then(e => {
+            if (e && e.msgTemplateName) {
+              msgTemplate[e.msgTemplateName](msg, e.payload);
+            } else if (e.tutoName) {
+              msg.reply(msgTemplate.tutos[e.tutoName]);
+            }
+          })
+          .catch(e => {
+            if (e.tutoName) {
+              msg.reply(msgTemplate.tutos[e.tutoName]);
+            }
+            else console.log(`that message "${msg.content}" throwed this:`, e);
+          });
+      }
 
-    // REUNIONS
-    if (msg.content.toLowerCase().startsWith('!reunion') || msg.content.toLowerCase().startsWith('!réunion')) {
-      // msg.guild.id
-      reunion.msgHandler(msg)
-        .then(e => {
-          if (e && e.msgTemplateName) {
-            msgTemplate[e.msgTemplateName](msg, e.payload);
-          } else if (e.tutoName) {
-            msg.reply(msgTemplate.tutos[e.tutoName]);
-          }
-        })
-        .catch(e => {
-          console.log('error', e);
-          if (e.tutoName) msg.reply(msgTemplate.tutos[e.tutoName]);
-        });
-    }
-    if (msg.content.startsWith('?reunion')) {
-      msg.reply(msgTemplate.tutos['reunion']);
+      // ask for reunion tuto
+      if (msg.content.startsWith('?reunion')) {
+        msg.reply(msgTemplate.tutos['reunion']);
+      }
     }
   }
 }
