@@ -15,8 +15,8 @@ const createReunion = (params) => {
     tempClient = client();
     tempClient.connect();
     if (typeof params.date !== 'string') {
-      console.log(`SQL CREATEREUNION => INSERT INTO reunion SET ${generalFormater}`);
-      return tempClient.query(`INSERT INTO reunion SET ${generalFormater}`, (err, res) => {
+      console.log(`SQL CREATEREUNION => INSERT INTO reunion SET ${generalFormater(params)}`);
+      return tempClient.query(`INSERT INTO reunion SET ${generalFormater(params)}`, (err, res) => {
         if (err) rej('createReunion');
         resolve(params);
         tempClient.end();
