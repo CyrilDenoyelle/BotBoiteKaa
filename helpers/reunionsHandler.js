@@ -20,6 +20,8 @@ const paramsFormaters = {
       const now = d.hours(new Date(), 2);
       const date = new Date(args[1]);
 
+      console.log('date', date);
+
       if (new Date(date).getTime() < now) return false;
 
       return params = {
