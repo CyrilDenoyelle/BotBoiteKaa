@@ -21,7 +21,7 @@ msgHandler = (msg) => {
       msg.react("🍆");
     }
 
-    if (msg.content.toLowerCase().startsWith('!reunion')) {
+    if (msg.content.toLowerCase().startsWith('!reunion') || msg.content.toLowerCase().startsWith('!réunion')) {
       reunion.msgHandler(msg)
         .then(e => {
           if (e && e.msgTemplateName) {
