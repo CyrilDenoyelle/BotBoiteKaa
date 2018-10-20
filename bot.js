@@ -26,8 +26,8 @@ const intervalFunc = () => {
         client.guild.get(msg.discord_place).send(`${prod ? '@everyone' : '@veryone'} c'est l'heure de ${row.name}`);
         console.log(`@everyone c'est l'heure de ${row.name}`);
       }
-    })
-  })
+    });
+  });
 }
 
 client.on('ready', () => {
