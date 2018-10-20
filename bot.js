@@ -19,7 +19,7 @@ client.on('ready', () => {
   client.channels.get(process.env.UP_GEN).send('@here COOLCOOLCOOL');
   const intervalFunc = () => {
     const now = new Date();
-    console.log('now', now);
+    console.log('now, new Date(row.date)', now, new Date(row.date));
     reunion[`${prod ? 'h' : 'localH'}andlers`].list(true).then(e => {
       e.payload.map(row => {
         if (row && new Date(row.date) < now && !row.is_deleted) {
