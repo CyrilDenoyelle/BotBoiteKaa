@@ -19,10 +19,7 @@ const paramsFormaters = {
     if (args.length >= 2) {
       const now = d.hours(new Date(), 2);
       const date = new Date(args[1]);
-      const reuDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()));
-
-      console.log('reuDate', reuDate);
-      console.log('date', date);
+      // const reuDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()));
 
       if (new Date(date).getTime() < now) return false;
 
