@@ -15,6 +15,7 @@ const { msgHandler } = require('./helpers/messages.js');
 const reunion = require('./helpers/reunionsHandler.js');
 const d = require('./helpers/secondary/date.js');
 
+// every 60sec in prod and 10sec in local, the bot will load this
 const intervalFunc = () => {
   const now = d.hours(new Date(), +2);
   reunion[`${prod ? 'h' : 'localH'}andlers`].list({ noLogs: true }).then(e => {
