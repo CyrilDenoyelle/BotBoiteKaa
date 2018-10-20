@@ -11,7 +11,8 @@ const client = new Discord.Client();
 const prod = process.env.DATABASE_URL ? true : false;
 
 // alter Date Object
-Date.prototype.addHours = (h) => this.setTime(this.getTime() + (h * 60 * 60 * 1000));
+// Date.prototype.addHours = (h) => this.setTime(this.getTime() + (h * 60 * 60 * 1000));
+Date.prototype.addHours = (h) => console.log('this Date', this);
 
 const { msgHandler } = require('./helpers/messages.js');
 const reunion = require('./helpers/reunionsHandler.js');
