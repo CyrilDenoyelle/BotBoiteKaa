@@ -1,18 +1,27 @@
-let reunions = [];
+
+//require
 const pgc = require('../db/postgresClient');
 const uuid = require('uuid');
-const prod = process.env.DATABASE_URL ? true : false;
-
+const d = require('./secondary/date');
 
 const isUuid = (id) => /[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/.test(id);
+
+// env vars
+const prod = process.env.DATABASE_URL ? true : false;
+
+// local vars
+let reunions = [];
+
 
 const paramsFormaters = {
   create: (msg) => {
     const args = msg.content.split('create ')[1].split(', ');
     if (args.length >= 2) {
-      const now = new Date().valueOf() + 36000;
+      const now = d.hours(new Date(), 2);
       const argsDate = new Date(args[1]);
       const reuDate = new Date(Date.UTC(argsDate.getFullYear(), argsDate.getMonth(), argsDate.getDate(), argsDate.getHours(), argsDate.getMinutes(), argsDate.getSeconds()));
+
+      if (new Date(reuDate).getTime() < now) return false;
 
       return params = {
         id: uuid(),
@@ -21,9 +30,7 @@ const paramsFormaters = {
         user_id: msg.author.id,
         created_at: now
       }
-    } else {
-      return false;
-    }
+    } else return false;
   },
   delete: (msg) => {
     const id = msg.content && msg.content.split(' ')[2] || typeof msg === 'string' && msg; // in case we call delete function with id
