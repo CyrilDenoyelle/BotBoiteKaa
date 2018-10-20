@@ -30,15 +30,15 @@ const paramsFormaters = {
         user_id: msg.author.id,
         created_at: now
       }
-    } else return false;
+    }
+    return false;
   },
   delete: (msg) => {
     const id = msg.content && msg.content.split(' ')[2] || typeof msg === 'string' && msg; // in case we call delete function with id
     if (isUuid(id)) {
       return id;
-    } else {
-      return false;
     }
+    return false;
   }
 }
 
@@ -52,9 +52,8 @@ const h = {
             .then(created => {
               res({ msgTemplateName: 'createReunion', payload: created });
             });
-        } else {
-          rej({ tutoName: 'createReunion' });
         }
+        else rej({ tutoName: 'createReunion' })
       });
     },
 
@@ -84,9 +83,8 @@ const h = {
                 });
               });
             });
-        } else {
-          rej({ tutoName: 'deleteReunion' });
         }
+        rej({ tutoName: 'deleteReunion' });
       });
     }
   },
