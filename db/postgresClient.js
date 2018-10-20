@@ -12,7 +12,6 @@ const generalFormater = (params) => {
 
 const createSqlFormater = (params) => {
   return `(${Object.keys(params).join(', ')}) VALUES ('${Object.values(params).join('\', \'')}')`;
-
 }
 
 const createReunion = (params) => {
@@ -25,15 +24,15 @@ const createReunion = (params) => {
       resolve(params);
       tempClient.end();
     });
-    rej({ tutoName: 'createReunion', err: 'no sql response' });
+    // rej({ tutoName: 'createReunion', err: 'no sql response' });
   });
 };
 
-const listReunion = (nologs) => {
+const listReunion = ({ noLogs }) => {
   return new Promise((resolve, rej) => {
     tempClient = client();
     tempClient.connect();
-    if (!nologs) console.log(`SQL LISTREUNION => SELECT * FROM reunion;`);
+    if (!noLogs) console.log(`SQL LISTREUNION => SELECT * FROM reunion;`);
     tempClient.query(`SELECT * FROM reunion;`, (err, res) => {
       if (err) {
         console.log('error', err);
