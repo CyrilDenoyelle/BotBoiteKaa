@@ -75,7 +75,7 @@ const h = {
                   msgTemplateName: 'deleteReunion',
                   payload: deletedReunion
                 });
-              })
+              });
             });
         } else {
           rej({ tutoName: 'deleteReunion' });
