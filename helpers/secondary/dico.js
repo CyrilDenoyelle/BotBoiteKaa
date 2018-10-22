@@ -1,4 +1,4 @@
-module.exports = () => [
+words = [
   'Rhododendron',
   'Glaire',
   'Slibard',
@@ -51,3 +51,6 @@ module.exports = () => [
   'Enclume',
   'Chalumeau'
 ]
+module.exports = () => {
+  return words;
+}
