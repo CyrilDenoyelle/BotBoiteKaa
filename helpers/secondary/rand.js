@@ -5,7 +5,7 @@ const on100 = (chances) => {
 
 
 const onArray = (arr) => {
-  console.log('arr rand.js', arr);
+  console.log('arr.length rand.js', arr.length);
   return arr[Math.random() * arr.length - 1];
 }
 
