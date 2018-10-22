@@ -57,8 +57,7 @@ msgHandler = (msg) => {
     }
 
     if (msg.guild === null) {
-      console.log(`${rand.onArray(dico())}`)
-      msg.reply(`oui oui`);
+      msg.reply(rand.onArray(dico()));
     }
 
   }
