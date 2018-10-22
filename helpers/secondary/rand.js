@@ -3,6 +3,12 @@ const on100 = (chances) => {
   return (Math.random() * 100 <= chances);
 }
 
+
+const onArray = (arr) => {
+  return arr[Math.random() * arr.length - 1];
+}
+
 module.exports = {
-  on100
+  on100,
+  onArray
 }

@@ -4,6 +4,7 @@ const reunion = require('./reunionsHandler.js');
 const { isWhiteListGuild } = require('./middlewares/guilds.js');
 const msgTemplate = require('./botResponseTemplates');
 const rand = require('./secondary/rand');
+const dico = require('./secondary/dico');
 
 msgHandler = (msg) => {
   // IN EVERY CASES
@@ -56,7 +57,7 @@ msgHandler = (msg) => {
     }
 
     if (msg.guild === null) {
-      msg.reply('coucou');
+      msg.reply(rand.onArray(dico));
     }
 
   }
