@@ -61,7 +61,7 @@ msgHandler = (msg) => {
       if (msg.content.includes('kamoulox')) {
         msg.reply(rand.onArray(dico()));
       } else if (msg.content && msg.content.length > 0) {
-        recastReply({ msg });
+        talk(msg.content);
       }
     }
   }
