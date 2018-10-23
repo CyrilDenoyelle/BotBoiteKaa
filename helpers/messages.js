@@ -5,6 +5,7 @@ const { isWhiteListGuild } = require('./middlewares/guilds.js');
 const msgTemplate = require('./botResponseTemplates');
 const rand = require('./secondary/rand');
 const dico = require('./secondary/dico');
+const { reply: recastReply, talk } = require('./recastai/recastaiClient.js');
 
 msgHandler = (msg) => {
   // IN EVERY CASES
@@ -56,10 +57,13 @@ msgHandler = (msg) => {
       }
     }
 
-    if (msg.guild === null) {
-      msg.reply(rand.onArray(dico()));
+    if (msg.guild === null) { // PM
+      if (msg.content.includes('kamoulox')) {
+        msg.reply(rand.onArray(dico()));
+      } else if (msg.content && msg.content.length > 0) {
+        recastReply({ msg });
+      }
     }
-
   }
 }
 module.exports = {
