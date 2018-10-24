@@ -1,10 +1,13 @@
-var port = process.env.PORT || 8080;
+const config = require('./config.js');
+config ? config() : null;
+const port = process.env.PORT || 8080;
 const express = require('express');
 express()
   .get('/', (req, res) => { res })
   .listen(port, function () {
     console.log('Our app is running on http://localhost:' + port);
   });
+
 // set discorde BOT
 const { Client, RichEmbed } = require('discord.js');
 const client = new Client();
@@ -33,20 +36,12 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}! id: ${client.user.id}`);
 
   client.channels.get(process.env.UP_GEN).send('@here COOLCOOLCOOL');
+
   intervalFunc();
   setInterval(() => {
     intervalFunc();
   }, prod ? 60000 : 10000);
 
-  if (!prod) {
-    [
-      '!reunion R&D 2018-10-14T17:23:00',
-      '!reunion coucou 2018-10-14T17:24:00',
-      '!reunion trulu 2018-10-14T17:25:00'
-    ].map(e => {
-      reunion.handlers.newReunionSeeds(e);
-    });
-  }
 });
 
 client.on('message', msg => {
@@ -54,5 +49,5 @@ client.on('message', msg => {
 });
 
 
-const token = process.env.TDPASS || require('./token');
+const token = process.env.TDPASS;
 client.login(token);
