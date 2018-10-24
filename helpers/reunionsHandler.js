@@ -103,7 +103,7 @@ const h = {
       });
     },
     list: () => {
-      return new Promise(() => {
+      return new Promise((res, rej) => {
         res({
           msgTemplateName: 'listReunion',
           payload: reunions
