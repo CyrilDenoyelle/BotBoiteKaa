@@ -1,4 +1,4 @@
-const config = require('./config.js');
+const config = require('./config.js') || null;
 config ? config() : null;
 const port = process.env.PORT || 8080;
 const express = require('express');
