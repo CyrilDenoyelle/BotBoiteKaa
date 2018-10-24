@@ -1,5 +1,12 @@
-const config = require('./config.js') || null;
-config ? config() : null;
+
+try {
+  require('./config.js')();
+} catch (e) {
+  if (e instanceof Error && e.code === "MODULE_NOT_FOUND") {
+    console.log("I'm On Heroku Biatches");
+  } else throw e;
+}
+
 const port = process.env.PORT || 8080;
 const express = require('express');
 express()
