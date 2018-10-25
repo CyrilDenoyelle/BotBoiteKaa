@@ -23,7 +23,7 @@ the most importants variables are:
 
 Invite your bot !! wub wub wub...
 
-![alt text](https://gph.is/KAdkY5)
+![alt text](https://i.giphy.com/media/3vf6m8eJUwSIw/giphy.webp)
 
 to invite da bot => go on that link `https://discordapp.com/api/oauth2/authorize?client_id={WITH_DA_BOT_CLIENT_ID_BIATCHES}&scope=bot&permissions=1`
 
