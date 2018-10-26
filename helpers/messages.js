@@ -6,10 +6,13 @@ const msgTemplate = require('./botResponseTemplates');
 const rand = require('./secondary/rand');
 const dico = require('./secondary/dico');
 const { reply: recastReply, talk } = require('./recastai/recastaiClient.js');
+const includesOneOf = require('./secondary/oneOf/includesOneOf.js');
+
 
 msgHandler = (msg) => {
   // IN EVERY CASES
-  if (msg.content.toLowerCase().includes('bite') || msg.content.toLowerCase().includes('queue')) {
+  // if (msg.content.toLowerCase().includes('bite') || msg.content.toLowerCase().includes('queue')) {
+  if (includesOneOf(msg.content, ['bite', 'queue', 'zizi', 'prepu', 'organe genital', 'pine'])) {
     msg.react("🍆");
   }
 
@@ -61,7 +64,16 @@ msgHandler = (msg) => {
       if (msg.content.includes('kamoulox')) {
         msg.reply(rand.onArray(dico()));
       } else if (msg.content && msg.content.length > 0) {
-        talk(msg.content);
+        // talk(msg.content);
+        recastReply({
+          type: "message",
+          value: {
+            type: "text",
+            content: "Bonjour !"
+          }
+        }).then(res => {
+          console.log('res recastai', res);
+        })
       }
     }
   }
