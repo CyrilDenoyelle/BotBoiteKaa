@@ -42,7 +42,8 @@ const intervalFunc = () => {
 client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}! id: ${client.user.id}`);
 
-  client.channels.get(process.env.UP_GEN).send('@here COOLCOOLCOOL');
+  client.channels.get(process.env.UP_GEN).send('UP UP UP PUTAIN');
+  client.users.get(process.env.ADMIN).createDM().then(e => e.send('Bonjour he suis UP prèt a développer... biatche'));
 
   intervalFunc();
   setInterval(() => {
