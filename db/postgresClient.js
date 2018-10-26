@@ -80,9 +80,29 @@ const updateReunion = (id, params) => {
   });
 };
 
+// redirect_msg
+const createRedirect = (params) => {
+  return new Promise((resolve, rej) => {
+    tempClient = client();
+    tempClient.connect();
+    console.log(`SQL CREATEREDIRECT => INSERT INTO redirect_msg ${createSqlFormater(params)}`);
+    tempClient.query(`INSERT INTO redirect_msg ${createSqlFormater(params)}`, (err, res) => {
+      if (err) {
+        console.log('error sql', err);
+        console.log('res sql', res);
+        return rej({ tutoNam: 'createRedirect', err })
+      };
+      resolve(params);
+      tempClient.end();
+    });
+    // rej({ tutoName: 'createReunion', err: 'no sql response' });
+  });
+}
+
 module.exports = {
   createReunion,
   listReunion,
   getReunionById,
-  updateReunion
+  updateReunion,
+  createRedirect
 }
