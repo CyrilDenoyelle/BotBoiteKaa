@@ -1,6 +1,7 @@
 
 // requires
 const reunion = require('./reunionsHandler.js');
+const redirectMsg = require('./redirectMsgHandler.js');
 const { isWhiteListGuild } = require('./middlewares/guilds.js');
 const msgTemplate = require('./botResponseTemplates');
 const rand = require('./secondary/rand');
@@ -8,12 +9,17 @@ const dico = require('./secondary/dico');
 const { reply: recastReply, talk } = require('./recastai/recastaiClient.js');
 const { includesOneOf, startsWithOneOf } = require('./secondary/oneOf.js');
 
+let allRedirectsMsg;
+redirectMsg.msgHandler({ content: '!redirect list' })
+  .then(e => {
+    allRedirectsMsg = e.payload
+  })
 
 msgHandler = (msg, client) => {
   // IN EVERY CASES
   // if (msg.content.toLowerCase().includes('bite') || msg.content.toLowerCase().includes('queue')) {
-  if (includesOneOf(msg.content, ['bite', 'queue', 'zizi', 'prepu', 'organe genital', 'pine'])) {
-    msg.react("🍆");
+  if (includesOneOf(msg.content, ['bite', 'queue', 'zizi', 'prepu', 'organe genital', 'pine', 'kiki'])) {
+    msg.react("🍆").catch(e => console.log('msg.react(eggplant) throwed: ', e));
   }
 
   // IF NOT SELF MESSAGE
@@ -40,6 +46,29 @@ msgHandler = (msg, client) => {
       client.channels.get('501763051075141635').send(`${msg.author.username} posted ${urls.join(' ')}`);
     }
 
+    if (msg.content.includes('!redirect')) {
+      redirectMsg.msgHandler(msg)
+        .then(e => {
+          if (e && e.msgTemplateName) {
+            msgTemplate[e.msgTemplateName](msg, e.payload);
+          } else if (e.tutoName) {
+            msg.reply(msgTemplate.tutos[e.tutoName]);
+          }
+        })
+        .catch(e => {
+          if (e.tutoName) {
+            msg.reply(msgTemplate.tutos[e.tutoName]);
+          }
+          // setTimeout();
+          console.log(`that message "${msg.content}" throwed this:`, e);
+        });
+    }
+    const filteredRedirect = allRedirectsMsg.filter(e => e.from_id == msg.channel.id && msg.content.includes(e.triggering_word))
+    if (filteredRedirect.length > 0) {
+      filteredRedirect.map(redirect => {
+        client.channels.get(redirect.to_id).send(`${msg.author.username} posted ${msg.content}`);
+      })
+    }
 
     // GUILD MIDDLEWARES
     //  || msg.author.id == process.env.ADMIN
