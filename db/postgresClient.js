@@ -99,10 +99,27 @@ const createRedirect = (params) => {
   });
 }
 
+const listRedirect = () => {
+  return new Promise((resolve, rej) => {
+    tempClient = client();
+    tempClient.connect();
+    if (!noLogs) console.log(`SQL LISTREUNION => SELECT * FROM redirect_msg;`);
+    tempClient.query(`SELECT * FROM redirect_msg;`, (err, res) => {
+      if (err) {
+        console.log('error', err);
+        return null;
+      }
+      resolve(res.rows);
+      tempClient.end();
+    });
+  });
+}
+
 module.exports = {
   createReunion,
   listReunion,
   getReunionById,
   updateReunion,
-  createRedirect
+  createRedirect,
+  listRedirect
 }
