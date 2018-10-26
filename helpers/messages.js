@@ -6,7 +6,7 @@ const msgTemplate = require('./botResponseTemplates');
 const rand = require('./secondary/rand');
 const dico = require('./secondary/dico');
 const { reply: recastReply, talk } = require('./recastai/recastaiClient.js');
-const includesOneOf = require('./secondary/oneOf/includesOneOf.js');
+const { includesOneOf, startsWithOneOf } = require('./secondary/oneOf.js');
 
 
 msgHandler = (msg) => {
@@ -36,7 +36,7 @@ msgHandler = (msg) => {
     //  || msg.author.id == process.env.ADMIN
     if (msg.guild && isWhiteListGuild(msg.guild.id)) {
       // REUNIONS
-      if (msg.content.toLowerCase().startsWith('!reunion') || msg.content.toLowerCase().startsWith('!réunion')) {
+      if (startsWithOneOf(msg.content, ['!reunion', '!réunion'])) {
         reunion.msgHandler(msg)
           .then(e => {
             if (e && e.msgTemplateName) {
