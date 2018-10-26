@@ -31,6 +31,7 @@ msgHandler = (msg) => {
       });
     }
 
+    console.log('msg.channel.id', msg.channel.id);
     if (msg.channel.id === '483313350344835074') {
       console.log('des trucs');
     }
