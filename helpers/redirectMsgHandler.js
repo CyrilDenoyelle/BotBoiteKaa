@@ -78,10 +78,10 @@ const h = {
 
     list: (nologs) => {
       return new Promise((resolve, rej) => {
-        pgc.listReunion(nologs)
+        pgc.listRedirect(nologs)
           .then((e) => {
             resolve({
-              msgTemplateName: 'listReunion',
+              msgTemplateName: 'listRedirect',
               payload: e
             });
           });
