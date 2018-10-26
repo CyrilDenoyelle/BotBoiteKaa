@@ -31,6 +31,10 @@ msgHandler = (msg) => {
       });
     }
 
+    if (msg.channel === '483313350344835074') {
+      console.log('des trucs');
+    }
+
 
     // GUILD MIDDLEWARES
     //  || msg.author.id == process.env.ADMIN
