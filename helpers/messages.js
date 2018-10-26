@@ -64,16 +64,19 @@ msgHandler = (msg) => {
       if (msg.content.includes('kamoulox')) {
         msg.reply(rand.onArray(dico()));
       } else if (msg.content && msg.content.length > 0) {
-        // talk(msg.content);
-        recastReply({
-          type: "message",
-          value: {
-            type: "text",
-            content: msg.content
-          }
-        }).then(res => {
-          console.log('res recastai', res);
-        })
+        talk(msg.content)
+          .then((res) => {
+            console.log(res.raw);
+          });
+        // recastReply({
+        //   type: "message",
+        //   value: {
+        //     type: "text",
+        //     content: msg.content
+        //   }
+        // }).then(res => {
+        //   console.log('res recastai', res);
+        // })
       }
     }
   }
