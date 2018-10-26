@@ -27,12 +27,8 @@ const reply = (request, response) => {
 }
 
 const talk = (text) => {
-
-  const request = new recastai.request(process.env.RECAST_AI, 'en')
-  request.analyseText(text)
-    .then(function (res) {
-      console.log(res.raw);
-    });
+  const request = new recastai.request(process.env.RECAST_AI);
+  return request.analyseText(text);
 }
 
 module.exports = {
