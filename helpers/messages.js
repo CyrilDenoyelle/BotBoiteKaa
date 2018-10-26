@@ -49,7 +49,7 @@ msgHandler = (msg) => {
             if (e.tutoName) {
               msg.reply(msgTemplate.tutos[e.tutoName]);
             }
-            setTimeout()
+            // setTimeout();
             console.log(`that message "${msg.content}" throwed this:`, e);
           });
       }
@@ -69,7 +69,7 @@ msgHandler = (msg) => {
           type: "message",
           value: {
             type: "text",
-            content: "Bonjour !"
+            content: msg.content
           }
         }).then(res => {
           console.log('res recastai', res);
