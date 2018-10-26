@@ -9,7 +9,7 @@ const { reply: recastReply, talk } = require('./recastai/recastaiClient.js');
 const { includesOneOf, startsWithOneOf } = require('./secondary/oneOf.js');
 
 
-msgHandler = (msg) => {
+msgHandler = (msg, client) => {
   // IN EVERY CASES
   // if (msg.content.toLowerCase().includes('bite') || msg.content.toLowerCase().includes('queue')) {
   if (includesOneOf(msg.content, ['bite', 'queue', 'zizi', 'prepu', 'organe genital', 'pine'])) {
@@ -31,9 +31,13 @@ msgHandler = (msg) => {
       });
     }
 
-    console.log('msg.channel.id', msg.channel.id);
-    if (msg.channel.id === '483313350344835074') {
-      console.log('des trucs');
+    if (msg.channel.id === '483313350344835074' && msg.content.includes('https')) {
+      let urls = [];
+      msg.content.split(' ')
+        .map(el => {
+          el.includes('https') ? urls.push(el) : null;
+        })
+      client.channels.get('501763051075141635').send(`${msg.author.username} posted ${urls.join(' ')}`);
     }
 
 

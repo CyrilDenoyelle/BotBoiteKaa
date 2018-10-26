@@ -52,7 +52,7 @@ client.on('ready', () => {
 });
 
 client.on('message', msg => {
-  msgHandler(msg);
+  msgHandler(msg, client);
 });
 
 
