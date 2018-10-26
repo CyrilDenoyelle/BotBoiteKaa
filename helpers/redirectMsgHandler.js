@@ -18,8 +18,8 @@ const paramsFormaters = {
     const preargs = msg.content.slice(17);
     console.log('preargs', preargs);
     let args;
-    if (preargs && preargs === ' ') {
-      args = preargs[1].split(', ');
+    if (preargs) {
+      args = preargs.split(', ');
     } else {
       return false;
     }
