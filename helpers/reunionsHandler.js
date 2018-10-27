@@ -37,14 +37,13 @@ const paramsFormaters = {
           params.error = 'INVALID DATE';
         };
       }
-      return params
+      return params;
     }
     return false;
   },
   delete: (msg) => {
     if (!msg) return { error: 'NO MSG' };
     if (msg.content) {
-      console.log('uuid = ', msg.content.split(' ')[2]);
       if (isUuid(msg.content.split(' ')[2])) {
         return { id: msg.content.split(' ')[2] };
       }
@@ -85,6 +84,7 @@ const h = {
 
     delete: (msg) => {
       const { id, error } = paramsFormaters.delete(msg);
+      console.log('getreunionbyid')
       return new Promise((resolve, rej) => {
         if (!error) {
           pgc.getReunionById(id)
@@ -97,8 +97,7 @@ const h = {
                 });
               });
             });
-        }
-        rej({ tutoName: 'deleteReunion', error });
+        } else rej({ tutoName: 'deleteReunion', error });
       });
     }
   },
@@ -124,8 +123,6 @@ const h = {
     },
     delete: (msg) => {
       const { id, error } = paramsFormaters.delete(msg);
-      console.log('error', error);
-      console.log('id', id);
       return new Promise((res, rej) => {
         if (reunions.length > 0) {
           reunions.map((e) => {
@@ -139,7 +136,6 @@ const h = {
             }
           })
         } else {
-          console.log('reunions', reunions);
           rej({ tutoName: 'deleteReunion', error: 'NO REUNION REGISTERED LOCALLY' });
         }
         rej({ tutoName: 'deleteReunion', error });
