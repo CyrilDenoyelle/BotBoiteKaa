@@ -40,14 +40,17 @@ msgHandler = (msg) => {
         reunion.msgHandler(msg)
           .then(e => {
             if (e && e.msgTemplateName) {
-              msgTemplate[e.msgTemplateName](msg, e.payload);
+              msgTemplate[e.msgTemplateName](msg, e.payload)
+                .then(e => e.delete(5 * 60 * 1000));// delete it after 5mins
             } else if (e.tutoName) {
-              msg.reply(msgTemplate.tutos[e.tutoName]);
+              msg.reply(msgTemplate.tutos[e.tutoName])
+                .then(e => e.delete(5 * 60 * 1000));// delete it after 5mins
             }
           })
           .catch(e => {
             if (e.tutoName) {
-              msg.reply(msgTemplate.tutos[e.tutoName]);
+              msg.reply(msgTemplate.tutos[e.tutoName])
+                .then(e => e.delete(5 * 60 * 1000));// delete it after 5mins
             }
             // setTimeout();
             console.log(`that message "${msg.content}" throwed this:`, e);
@@ -56,7 +59,8 @@ msgHandler = (msg) => {
 
       // ask for reunion tuto
       if (msg.content.startsWith('?reunion')) {
-        msg.reply(msgTemplate.tutos['reunion']);
+        msg.reply(msgTemplate.tutos['reunion'])
+          .then(e => e.delete(5 * 60 * 1000));// delete it after 5mins
       }
     }
 
