@@ -16,7 +16,6 @@ let reunions = [];
 const paramsFormaters = {
   create: (msg) => {
     const args = msg.content.slice(16).split(', ');
-    console.log('args', args);
     if (args.length >= 2) {
       const now = d.hours(new Date(), prod ? 2 : 0);
       const date = new Date(args[1]);
@@ -40,7 +39,7 @@ const paramsFormaters = {
       }
       return params;
     }
-    return { error: 'EVERYTHING' };
+    return { error: 'NOT ENOUGH ARGUMENTS' };
   },
   delete: (msg) => {
     if (!msg) return { error: 'NO MSG' };
