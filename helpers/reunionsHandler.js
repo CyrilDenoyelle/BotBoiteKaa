@@ -15,15 +15,13 @@ let reunions = [];
 
 const paramsFormaters = {
   create: (msg) => {
-    const args = msg.content.split('create ')[1].split(', ');
+    const args = msg.content.slice(16).split(', ');
     if (args.length >= 2) {
-      const now = d.hours(new Date(), 2);
+      const now = d.hours(new Date(), prod ? 2 : 0);
       const date = new Date(args[1]);
       // const reuDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()));
 
-      if (new Date(date).getTime() < now) return false;
-
-      return params = {
+      let params = {
         id: uuid(),
         name: args[0],
         date,
@@ -31,13 +29,30 @@ const paramsFormaters = {
         discord_place: msg.guild.id,
         created_at: now
       }
+      if (new Date(date).getTime() < now || date == "Invalid Date") {
+        params.errors = [];
+        if (new Date(date).getTime() < now) {
+          params.errors.push('date in past');
+        }
+        if (date === "Invalid Date") {
+          params.errors.push('Invalid Date');
+        };
+      }
+      return params
     }
     return false;
   },
   delete: (msg) => {
-    const id = msg.content && msg.content.split(' ')[2] || typeof msg === 'string' && msg; // in case we call delete function with id
-    if (isUuid(id)) {
-      return id;
+    if (msg) {
+      if (msg.content) {
+        if (isUuid(msg.content.split(' ')[2])) {
+          msg.content.split(' ')[2];
+        }
+      }
+      else if (isUuid(msg)) {
+        return msg;
+      }
+      return false
     }
     return false;
   }
@@ -48,13 +63,13 @@ const h = {
     create: (msg) => {
       return new Promise((res, rej) => {
         const params = paramsFormaters.create(msg);
-        if (params) {
+        if (!params.errors) {
           pgc.createReunion(params)
             .then(created => {
               res({ msgTemplateName: 'createReunion', payload: created });
             });
         } else {
-          rej({ tutoName: 'createReunion' })
+          rej({ tutoName: 'createReunion', errors: params.errors });
         }
       });
     },
@@ -95,11 +110,11 @@ const h = {
     create: (msg) => {
       return new Promise((res, rej) => {
         const params = paramsFormaters.create(msg);
-        if (params) {
+        if (!params.errors) {
           reunions.push(params);
           res({ msgTemplateName: 'createReunion', payload: params });
         }
-        rej({ tutoName: 'createReunion' });
+        rej({ tutoName: 'createReunion', errors: params.errors });
       });
     },
     list: () => {
@@ -111,11 +126,11 @@ const h = {
       });
     },
     delete: (msg) => {
-      const id = msg.split(' ')[2];
+      const id = paramsFormaters.delete(msg);
       return new Promise((res, rej) => {
         reunions.map((e) => {
           if (e.id === id) {
-            e.isDeleted = true;
+            e.is_deleted = true;
             deletedReunion = e;
             return res({
               msgTemplateName: 'deleteReunion',
