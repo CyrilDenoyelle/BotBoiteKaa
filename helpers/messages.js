@@ -7,8 +7,14 @@ const rand = require('./secondary/rand');
 const dico = require('./secondary/dico');
 const { reply: recastReply, talk } = require('./recastai/recastaiClient.js');
 const { includesOneOf, startsWithOneOf } = require('./secondary/oneOf.js');
-
-
+const request = require('request'); // https://kaamelott.chaudie.re/api/random
+const kaa = (msg) => {
+  request('https://kaamelott.chaudie.re/api/random', { json: true }, (err, res) => {
+    if (err) { console.log(err); }
+    const { body } = res;
+    msg.channel.send(msgTemplate.citationTemplate({ body }))
+  });
+}
 msgHandler = (msg) => {
   // IN EVERY CASES
   // if (msg.content.toLowerCase().includes('bite') || msg.content.toLowerCase().includes('queue')) {
@@ -18,7 +24,6 @@ msgHandler = (msg) => {
 
   // IF NOT SELF MESSAGE
   if (msg.author.id !== process.env.SELF_ID) {
-
     console.log('msg.author.id', msg.author.id);
     if (msg.content.toLowerCase().includes('pong')) {
       msg.channel.send(`Ping ${rand.on100(10) ? 'biatch' : ''}`, {
@@ -29,6 +34,9 @@ msgHandler = (msg) => {
       msg.channel.send(`Pong! ${rand.on100(10) ? 'biatch' : ''}`, {
         tts: true
       });
+    }
+    if (includesOneOf(msg.content, ['kaa', 'kaamelott'])) {
+      kaa(msg);
     }
 
 
