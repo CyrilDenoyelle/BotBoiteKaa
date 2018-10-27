@@ -15,7 +15,8 @@ let reunions = [];
 
 const paramsFormaters = {
   create: (msg) => {
-    const args = msg.content.slice(16).split(', ');
+    const content = msg.content || msg;
+    const args = content.slice(16).split(', ');
     if (args.length >= 2) {
       const now = d.hours(new Date(), prod ? 2 : 0);
       const date = new Date(args[1]);
@@ -25,8 +26,8 @@ const paramsFormaters = {
         id: uuid(),
         name: args[0],
         date,
-        user_id: msg.author.id,
-        discord_place: msg.guild.id,
+        user_id: (msg.author && msg.author.id) || process.env.ADMIN,
+        discord_place: (msg.guild && msg.guild.id) || process.env.DEFAULT_GUILD,
         created_at: now
       }
       if (new Date(date).getTime() < now || date == "Invalid Date") {
@@ -40,6 +41,19 @@ const paramsFormaters = {
       return params;
     }
     return { error: 'NOT ENOUGH ARGUMENTS' };
+  },
+  list: (msg) => {// !reunion list
+    if (msg.content && msg.content.length > 13) {
+      const preargs = msg.content.slice(14);
+      if (preargs.length > 0) {
+        const args = msg.content.slice(14).split(', ');
+
+        const withDeleted = args[0];
+        const noLogs = args[1];
+
+        return { noLogs, withDeleted };
+      } else return { noLogs: true, withDeleted: false };
+    } else return { noLogs: true, withDeleted: false };
   },
   delete: (msg) => {
     if (!msg) return { error: 'NO MSG' };
@@ -70,9 +84,9 @@ const h = {
       });
     },
 
-    list: (nologs) => {
+    list: (msg) => {
       return new Promise((resolve, rej) => {
-        pgc.listReunion(nologs)
+        pgc.listReunion(paramsFormaters.list(msg))
           .then((e) => {
             resolve({
               msgTemplateName: 'listReunion',
@@ -112,11 +126,19 @@ const h = {
         rej({ tutoName: 'createReunion', error: params.error });
       });
     },
-    list: () => {
+    list: (msg) => {
       return new Promise((res, rej) => {
+        const { noLogs, withDeleted } = paramsFormaters.list(msg)
+        console.log('{ noLogs, withDeleted }', { noLogs, withDeleted });
+        const f = e => {
+          if (!withDeleted) {
+            return !e.is_deleted;
+          }
+          return true;
+        }
         res({
           msgTemplateName: 'listReunion',
-          payload: reunions
+          payload: reunions.filter(f)
         });
       });
     },
@@ -153,9 +175,15 @@ msgHandler = (msg) => {
     return h[p][s](msg);
   }
   return new Promise((res, rej) => {
-    res({ tutoName: 'reunion' })
+    res({ tutoName: 'reunion' });
   })
 }
+
+setTimeout(() => {
+  h.localHandlers.create('!reunion create trululu1, 2030-10-27T18:00:00');
+  h.localHandlers.create('!reunion create trululu2, 2030-10-27T18:00:00');
+  h.localHandlers.create('!reunion create trululu3, 2030-10-27T18:00:00');
+}, 2000);
 
 module.exports = {
   msgHandler,
