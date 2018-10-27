@@ -84,7 +84,6 @@ const h = {
 
     delete: (msg) => {
       const { id, error } = paramsFormaters.delete(msg);
-      console.log('getreunionbyid')
       return new Promise((resolve, rej) => {
         if (!error) {
           pgc.getReunionById(id)
