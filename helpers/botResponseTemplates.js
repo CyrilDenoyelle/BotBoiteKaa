@@ -4,7 +4,8 @@ const listReunion = (msg, allReunions) => {
   allReunions.map(r => {
     list.push(`${r.id} | ${r.name} | ${r.date}`);
   });
-  return msg.reply(`\n id | name | date \n ${list.join('\n')}`);
+  const r = list.length > 0 ? `\n id | name | date \n ${list.join('\n')}` : `pas de réunion ici.`;
+  return msg.reply(r);
 }
 
 const createReunion = (msg, created) => {
@@ -16,9 +17,9 @@ const deleteReunion = (msg, deleted) => {
 }
 
 const tutos = {
-  createReunion: `pour créer une réunion votre message doit ressembler a ça les biatches: \n"!reunion create pourquoi sans apostrophe, AAAA-MM-JJTHH:mm:ss" ça marche pas si la date est pas dans l'turfu. \n(attention ce truk va faire un "@"everyone sur le discord a l'heure donnée.)`,
-  deleteReunion: `pour annuler une réunion: "!reunion delete ID_REUNION." ("!reunion list" affiche toutes les réunions)`,
-  listReunion: `"!reunion list" affiche toutes les réunions`,
+  createReunion: `pour créer une réunion votre message doit ressembler a ça les biatches: \n"!reunion create pourquoi sans apostrophe, AAAA-MM-JJTHH:mm:ss". \n(attention ce truk va faire un "@"everyone sur le discord a l'heure donnée.)`,
+  deleteReunion: `pour annuler une réunion: "!reunion delete ID_REUNION." ("!reunion list" affiche les réunions)`,
+  listReunion: `"!reunion list" affiche les réunions avenir, ajouter "true" pour afficher toute les réunions`,
   reunion: `pour utiliser les fonctions de réunion votre message doit ressembler a ça les biatches: \n"!reunion create pourquoi sans apostrophe, AAAA-MM-JJTHH:mm:ss" \npour annuler une reunion: c'est tres simple aussi "!reunion list" affiche toute les réunions il suffit alors de faire un "!reunion delete ID_REUNION".`,
   helpReunion: `azerjkqsldfkxcvnorutapiurqkdjwbcxbkhfdgaurieysqgojfsnbmsfh`
 }
