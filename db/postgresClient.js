@@ -32,12 +32,12 @@ const createReunion = (params) => {
   });
 };
 
-const listReunion = ({ noLogs }) => {
+const listReunion = ({ noLogs, withDeleted }) => {
   return new Promise((resolve, rej) => {
     tempClient = client();
     tempClient.connect();
     if (!noLogs) console.log(`SQL LISTREUNION => SELECT * FROM reunion;`);
-    tempClient.query(`SELECT * FROM reunion;`, (err, res) => {
+    tempClient.query(`SELECT * FROM reunion${!withDeleted ? ' WHERE is_deleted = NULL OR is_deleted = false' : ''};`, (err, res) => {
       if (err) {
         console.log('error', err);
         return null;
