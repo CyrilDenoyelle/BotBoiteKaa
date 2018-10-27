@@ -4,15 +4,15 @@ const listReunion = (msg, allReunions) => {
   allReunions.map(r => {
     list.push(`${r.id} | ${r.name} | ${r.date}`);
   });
-  msg.reply(`\n id | name | date \n ${list.join('\n')}`);
+  return msg.reply(`\n id | name | date \n ${list.join('\n')}`);
 }
 
 const createReunion = (msg, created) => {
-  msg.reply(`c'est vous l'doc doc: réunion créée \n ${created.id} | ${created.name} | ${created.date}`);
+  return msg.reply(`c'est vous l'doc doc: réunion créée \n ${created.id} | ${created.name} | ${created.date}`);
 }
 
 const deleteReunion = (msg, deleted) => {
-  msg.reply(`c'est vous l'doc doc: réunion supprimée \n ${deleted.name} | ${deleted.date}`);
+  return msg.reply(`c'est vous l'doc doc: réunion supprimée \n ${deleted.name} | ${deleted.date}`);
 }
 
 const tutos = {

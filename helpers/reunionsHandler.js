@@ -15,15 +15,13 @@ let reunions = [];
 
 const paramsFormaters = {
   create: (msg) => {
-    const args = msg.content.split('create ')[1].split(', ');
+    const args = msg.content.slice(16).split(', ');
     if (args.length >= 2) {
-      const now = d.hours(new Date(), 2);
+      const now = d.hours(new Date(), prod ? 2 : 0);
       const date = new Date(args[1]);
       // const reuDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()));
 
-      if (new Date(date).getTime() < now) return false;
-
-      return params = {
+      let params = {
         id: uuid(),
         name: args[0],
         date,
@@ -31,15 +29,28 @@ const paramsFormaters = {
         discord_place: msg.guild.id,
         created_at: now
       }
+      if (new Date(date).getTime() < now || date == "Invalid Date") {
+        if (new Date(date).getTime() < now) {
+          params.error = 'DATE IN PAST';
+        }
+        else if (date == "Invalid Date") {
+          params.error = 'INVALID DATE';
+        };
+      }
+      return params;
     }
-    return false;
+    return { error: 'NOT ENOUGH ARGUMENTS' };
   },
   delete: (msg) => {
-    const id = msg.content && msg.content.split(' ')[2] || typeof msg === 'string' && msg; // in case we call delete function with id
-    if (isUuid(id)) {
-      return id;
+    if (!msg) return { error: 'NO MSG' };
+    if (msg.content) {
+      if (isUuid(msg.content.split(' ')[2])) {
+        return { id: msg.content.split(' ')[2] };
+      }
+      else return { error: 'MSG ID ARG IS NOT A UUID' };
     }
-    return false;
+    else if (isUuid(msg)) return { id: msg };
+    return { error: 'NO MSG CONTENT' };
   }
 }
 
@@ -48,13 +59,13 @@ const h = {
     create: (msg) => {
       return new Promise((res, rej) => {
         const params = paramsFormaters.create(msg);
-        if (params) {
+        if (!params.error) {
           pgc.createReunion(params)
             .then(created => {
               res({ msgTemplateName: 'createReunion', payload: created });
             });
         } else {
-          rej({ tutoName: 'createReunion' })
+          rej({ tutoName: 'createReunion', error: params.error });
         }
       });
     },
@@ -72,9 +83,9 @@ const h = {
     },
 
     delete: (msg) => {
-      const id = paramsFormaters.delete(msg);
+      const { id, error } = paramsFormaters.delete(msg);
       return new Promise((resolve, rej) => {
-        if (id) {
+        if (!error) {
           pgc.getReunionById(id)
             .then(deletedReunion => {
               deletedReunion.is_deleted = true;
@@ -85,8 +96,7 @@ const h = {
                 });
               });
             });
-        }
-        rej({ tutoName: 'deleteReunion' });
+        } else rej({ tutoName: 'deleteReunion', error });
       });
     }
   },
@@ -95,11 +105,11 @@ const h = {
     create: (msg) => {
       return new Promise((res, rej) => {
         const params = paramsFormaters.create(msg);
-        if (params) {
+        if (!params.error) {
           reunions.push(params);
           res({ msgTemplateName: 'createReunion', payload: params });
         }
-        rej({ tutoName: 'createReunion' });
+        rej({ tutoName: 'createReunion', error: params.error });
       });
     },
     list: () => {
@@ -111,19 +121,23 @@ const h = {
       });
     },
     delete: (msg) => {
-      const id = msg.split(' ')[2];
+      const { id, error } = paramsFormaters.delete(msg);
       return new Promise((res, rej) => {
-        reunions.map((e) => {
-          if (e.id === id) {
-            e.isDeleted = true;
-            deletedReunion = e;
-            return res({
-              msgTemplateName: 'deleteReunion',
-              payload: deletedReunion
-            });
-          }
-        });
-        rej({ tutoName: 'deleteReunion' });
+        if (reunions.length > 0) {
+          reunions.map((e) => {
+            if (e.id === id) {
+              e.is_deleted = true;
+              const deletedReunion = e;
+              return res({
+                msgTemplateName: 'deleteReunion',
+                payload: deletedReunion
+              });
+            }
+          })
+        } else {
+          rej({ tutoName: 'deleteReunion', error: 'NO REUNION REGISTERED LOCALLY' });
+        }
+        rej({ tutoName: 'deleteReunion', error });
       });
     }
   }
