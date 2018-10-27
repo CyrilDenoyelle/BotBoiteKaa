@@ -15,6 +15,11 @@ const createReunion = (msg, created) => {
 const deleteReunion = (msg, deleted) => {
   return msg.reply(`c'est vous l'doc doc: réunion supprimée \n ${deleted.name} | ${deleted.date}`);
 }
+const citationTemplate = ({ body }) => {
+  const { citation: { infos: { personnage, saison, episode } } } = body;
+  const citation = body.citation.citation.startsWith(' ') ? body.citation.citation.slice(1) : body.citation.citation;
+  return `"${citation}" ${personnage}, ${saison}, episode${episode}`;
+}
 
 const tutos = {
   createReunion: `pour créer une réunion votre message doit ressembler a ça les biatches: \n"!reunion create pourquoi sans apostrophe, AAAA-MM-JJTHH:mm:ss". \n(attention ce truk va faire un "@"everyone sur le discord a l'heure donnée.)`,
@@ -28,5 +33,6 @@ module.exports = {
   listReunion,
   createReunion,
   deleteReunion,
+  citationTemplate,
   tutos
 }
