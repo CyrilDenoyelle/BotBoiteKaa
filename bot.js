@@ -36,13 +36,15 @@ const intervalFunc = () => {
         const guild = client.guilds.get(row.discord_place) // get the guild where the message v'been posted
         guild
           .channels // get all channels in guild
-          .find(e => e.name === 'reunions').send(`${prod ? '@everyone' : '@veryone'} c'est l'heure de ${row.name}, now ${now}`);
+          .find(e => e.name === 'reunions') // find reunions channel
+          .send(`${prod ? '@everyone' : '@veryone'} c'est l'heure de ${row.name}`);
 
         guild
           .members // get all members in guild
           .map(member => {
-            if (member.user.id !== process.env.SELF_ID) {
-              member.user.createDM().then(dm => dm.send(`Salut ${member.user.username} c'est l'heure de ${row.name}, now ${now}`));
+            if (member.user.id !== process.env.SELF_ID) { // if member is not self (self is da bot..)
+              member.user.createDM() // create a direct message with the user
+                .then(dm => dm.send(`Salut ${member.user.username} c'est l'heure de ${row.name}`));
             }
           });
 
