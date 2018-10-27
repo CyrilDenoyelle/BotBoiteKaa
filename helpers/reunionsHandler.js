@@ -30,12 +30,11 @@ const paramsFormaters = {
         created_at: now
       }
       if (new Date(date).getTime() < now || date == "Invalid Date") {
-        params.errors = [];
         if (new Date(date).getTime() < now) {
-          params.errors.push('date in past');
+          params.error = 'DATE IN PAST';
         }
-        if (date === "Invalid Date") {
-          params.errors.push('Invalid Date');
+        else if (date == "Invalid Date") {
+          params.error = 'INVALID DATE';
         };
       }
       return params
@@ -43,18 +42,16 @@ const paramsFormaters = {
     return false;
   },
   delete: (msg) => {
-    if (msg) {
-      if (msg.content) {
-        if (isUuid(msg.content.split(' ')[2])) {
-          msg.content.split(' ')[2];
-        }
+    if (!msg) return { error: 'NO MSG' };
+    if (msg.content) {
+      console.log('uuid = ', msg.content.split(' ')[2]);
+      if (isUuid(msg.content.split(' ')[2])) {
+        return { id: msg.content.split(' ')[2] };
       }
-      else if (isUuid(msg)) {
-        return msg;
-      }
-      return false
+      else return { error: 'MSG ID ARG IS NOT A UUID' };
     }
-    return false;
+    else if (isUuid(msg)) return { id: msg };
+    return { error: 'NO MSG CONTENT' };
   }
 }
 
@@ -63,13 +60,13 @@ const h = {
     create: (msg) => {
       return new Promise((res, rej) => {
         const params = paramsFormaters.create(msg);
-        if (!params.errors) {
+        if (!params.error) {
           pgc.createReunion(params)
             .then(created => {
               res({ msgTemplateName: 'createReunion', payload: created });
             });
         } else {
-          rej({ tutoName: 'createReunion', errors: params.errors });
+          rej({ tutoName: 'createReunion', error: params.error });
         }
       });
     },
@@ -87,9 +84,9 @@ const h = {
     },
 
     delete: (msg) => {
-      const id = paramsFormaters.delete(msg);
+      const { id, error } = paramsFormaters.delete(msg);
       return new Promise((resolve, rej) => {
-        if (id) {
+        if (!error) {
           pgc.getReunionById(id)
             .then(deletedReunion => {
               deletedReunion.is_deleted = true;
@@ -101,7 +98,7 @@ const h = {
               });
             });
         }
-        rej({ tutoName: 'deleteReunion' });
+        rej({ tutoName: 'deleteReunion', error });
       });
     }
   },
@@ -110,11 +107,11 @@ const h = {
     create: (msg) => {
       return new Promise((res, rej) => {
         const params = paramsFormaters.create(msg);
-        if (!params.errors) {
+        if (!params.error) {
           reunions.push(params);
           res({ msgTemplateName: 'createReunion', payload: params });
         }
-        rej({ tutoName: 'createReunion', errors: params.errors });
+        rej({ tutoName: 'createReunion', error: params.error });
       });
     },
     list: () => {
@@ -126,19 +123,26 @@ const h = {
       });
     },
     delete: (msg) => {
-      const id = paramsFormaters.delete(msg);
+      const { id, error } = paramsFormaters.delete(msg);
+      console.log('error', error);
+      console.log('id', id);
       return new Promise((res, rej) => {
-        reunions.map((e) => {
-          if (e.id === id) {
-            e.is_deleted = true;
-            deletedReunion = e;
-            return res({
-              msgTemplateName: 'deleteReunion',
-              payload: deletedReunion
-            });
-          }
-        });
-        rej({ tutoName: 'deleteReunion' });
+        if (reunions.length > 0) {
+          reunions.map((e) => {
+            if (e.id === id) {
+              e.is_deleted = true;
+              const deletedReunion = e;
+              return res({
+                msgTemplateName: 'deleteReunion',
+                payload: deletedReunion
+              });
+            }
+          })
+        } else {
+          console.log('reunions', reunions);
+          rej({ tutoName: 'deleteReunion', error: 'NO REUNION REGISTERED LOCALLY' });
+        }
+        rej({ tutoName: 'deleteReunion', error });
       });
     }
   }
