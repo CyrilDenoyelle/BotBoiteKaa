@@ -129,7 +129,6 @@ const h = {
     list: (msg) => {
       return new Promise((res, rej) => {
         const { noLogs, withDeleted } = paramsFormaters.list(msg)
-        console.log('{ noLogs, withDeleted }', { noLogs, withDeleted });
         const f = e => {
           if (!withDeleted) {
             return !e.is_deleted;
