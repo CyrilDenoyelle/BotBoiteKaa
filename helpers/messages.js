@@ -28,6 +28,7 @@ msgHandler = (msg) => {
 
   // IF NOT SELF MESSAGE
   if (msg.author.id !== process.env.SELF_ID) {
+    // PING PONG
     if (msg.content.toLowerCase().includes('pong')) {
       msg.channel.send(`Ping ${rand.on100(10) ? 'biatch' : ''}`, {
         tts: true
@@ -38,10 +39,31 @@ msgHandler = (msg) => {
         tts: true
       });
     }
+    // KAAMELOTT-API
     if (includesOneOf(msg.content, ['kaa', 'kaamelott'])) {
       kaa(msg);
     }
 
+    // DIRECT MESSAGES
+    if (msg.guild === null) {
+      if (msg.content.includes('kamoulox')) {
+        msg.reply(rand.onArray(dico()));
+      } else if (msg.content && msg.content.length > 0) {
+        talk(msg.content)
+          .then((res) => {
+            console.log(res.raw);
+          });
+        // recastReply({
+        //   type: "message",
+        //   value: {
+        //     type: "text",
+        //     content: msg.content
+        //   }
+        // }).then(res => {
+        //   console.log('res recastai', res);
+        // })
+      }
+    }
 
     // GUILD MIDDLEWARES
     //  || msg.author.id == process.env.ADMIN
@@ -75,26 +97,6 @@ msgHandler = (msg) => {
       }
     }
 
-    // DIRECT MESSAGES
-    if (msg.guild === null) {
-      if (msg.content.includes('kamoulox')) {
-        msg.reply(rand.onArray(dico()));
-      } else if (msg.content && msg.content.length > 0) {
-        // talk(msg.content)
-        //   .then((res) => {
-        //     console.log(res.raw);
-        //   });
-        // recastReply({
-        //   type: "message",
-        //   value: {
-        //     type: "text",
-        //     content: msg.content
-        //   }
-        // }).then(res => {
-        //   console.log('res recastai', res);
-        // })
-      }
-    }
   }
 }
 module.exports = {
