@@ -8,6 +8,13 @@ const dico = require('./secondary/dico');
 const { reply: recastReply, talk } = require('./recastai/recastaiClient.js');
 const { includesOneOf, startsWithOneOf } = require('./secondary/oneOf.js');
 const request = require('request'); // https://kaamelott.chaudie.re/api/random
+const kaaQuizz = require('./secondary/kaaQuizz');
+
+// local var
+let quizzInProgress = false;
+let quizzChannel;
+let answer;
+
 
 // request
 const kaa = (msg) => {
@@ -22,9 +29,9 @@ const kaa = (msg) => {
 msgHandler = (msg) => {
   // IN EVERY CASES
   // if (msg.content.toLowerCase().includes('bite') || msg.content.toLowerCase().includes('queue')) {
-  if (includesOneOf(msg.content, ['bite', 'queue', 'zizi', 'prepu', 'organe genital', 'pine'])) {
-    msg.react("🍆");
-  }
+    if (includesOneOf(msg.content, ['bite', 'queue', 'zizi', 'prepu', 'organe genital', 'pine'])) {
+      msg.react("🍆");
+    }
 
   // IF NOT SELF MESSAGE
   if (msg.author.id !== process.env.SELF_ID) {
@@ -40,9 +47,23 @@ msgHandler = (msg) => {
       });
     }
     // KAAMELOTT-API
-    if (includesOneOf(msg.content, ['kaa', 'kaamelott'])) {
+    if (includesOneOf(msg.content, ['kaa', 'kaamelott'])){
       kaa(msg);
     }
+    //Si le message contient quizz 
+    if (includesOneOf(msg.content, ['quizz'])&& !quizzInProgress) {
+      // Initialisation d'un quizz
+      // let curentQuizz = kaaQuizz(msg);
+      quizzInProgress = true;
+      quizzChannel = msg.channel.id;
+      kaaQuizz.question(msg).then((answer)=> console.log('answer',answer));
+    }
+    if (msg.channel.id === quizzChannel && quizzInProgress) {
+      //console.log(curentQuizz.next(msg.content).value);
+      //console.log(answer);
+
+    }
+
 
     // DIRECT MESSAGES
     if (msg.guild === null) {
@@ -50,9 +71,9 @@ msgHandler = (msg) => {
         msg.reply(rand.onArray(dico()));
       } else if (msg.content && msg.content.length > 0) {
         talk(msg.content)
-          .then((res) => {
-            console.log(res.raw);
-          });
+        .then((res) => {
+          console.log(res.raw);
+        });
         // recastReply({
         //   type: "message",
         //   value: {
@@ -71,20 +92,20 @@ msgHandler = (msg) => {
       // REUNIONS
       if (startsWithOneOf(msg.content, ['!reunion', '!réunion'])) {
         reunion.msgHandler(msg)
-          .then(e => {
-            if (e && e.msgTemplateName) {
-              msgTemplate[e.msgTemplateName](msg, e.payload)
+        .then(e => {
+          if (e && e.msgTemplateName) {
+            msgTemplate[e.msgTemplateName](msg, e.payload)
                 .then(sendedMsg => sendedMsg.delete(5 * 60 * 1000));// delete it after 5mins
-            } else if (e.tutoName) {
-              msg.reply(msgTemplate.tutos[e.tutoName])
+              } else if (e.tutoName) {
+                msg.reply(msgTemplate.tutos[e.tutoName])
                 .then(sendedMsg => sendedMsg.delete(5 * 60 * 1000));// delete it after 5mins
-            }
-          })
-          .catch(e => {
-            if (e.tutoName) {
-              msg.reply(msgTemplate.tutos[e.tutoName])
+              }
+            })
+        .catch(e => {
+          if (e.tutoName) {
+            msg.reply(msgTemplate.tutos[e.tutoName])
                 .then(sendedMsg => sendedMsg.delete(5 * 60 * 1000));// delete it after 5mins
-            }
+              }
             // setTimeout();
             console.log(`that message "${msg.content}" throwed this:`, e);
           });
@@ -94,11 +115,11 @@ msgHandler = (msg) => {
       if (msg.content.startsWith('?reunion')) {
         msg.reply(msgTemplate.tutos['reunion'])
           .then(e => e.delete(5 * 60 * 1000));// delete it after 5mins
+        }
       }
-    }
 
+    }
   }
-}
-module.exports = {
-  msgHandler
-}
+  module.exports = {
+    msgHandler
+  }
