@@ -53,14 +53,18 @@ msgHandler = (msg) => {
     // Si le message contient quizz
     if (msg.content.toLowerCase().includes('!quizz')) {
       // Initialisation d'un quizz
-      if (quizzInProgress && msg.channel.id === quizzChannel) msg.channel.send(`La reponse précédente était ${quizzAnswer}`);
-      quizzChannel = msg.channel.id;
-      kaaQuizz.question(msg)
-        .then(({ citation, questionSubject, answer }) => {
-          msg.channel.send(msgTemplate.quizzTemplateQuestion[questionSubject]({ citation }));
-          quizzAnswer = answer;
-          quizzInProgress = true;
-        });
+      if (quizzInProgress && msg.channel.id === quizzChannel) {
+        msg.channel.send(`La reponse précédente était ${quizzAnswer}`);
+        quizzInProgress = false;
+      } else {
+        quizzChannel = msg.channel.id;
+        kaaQuizz.question(msg)
+          .then(({ citation, questionSubject, answer }) => {
+            msg.channel.send(msgTemplate.quizzTemplateQuestion[questionSubject]({ citation }));
+            quizzAnswer = answer;
+            quizzInProgress = true;
+          });
+      }
     } else {
       if (msg.channel.id === quizzChannel && quizzInProgress) {
         if (msg.content.toLowerCase().includes(quizzAnswer.toLowerCase())) {
