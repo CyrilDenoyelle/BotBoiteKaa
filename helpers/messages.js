@@ -51,20 +51,19 @@ msgHandler = (msg) => {
       kaa(msg);
     }
     // Si le message contient quizz
-    if (msg.content.includes('quizz')) {
+    if (msg.content.toLowerCase().includes('quizz')) {
       // Initialisation d'un quizz
       if (quizzInProgress && msg.channel.id === quizzChannel) msg.channel.send(`La reponse précédente était ${quizzAnswer}`);
       quizzChannel = msg.channel.id;
       kaaQuizz.question(msg)
         .then(({ citation, questionSubject, answer }) => {
-          console.log(questionSubject);
           msg.channel.send(msgTemplate.quizzTemplateQuestion[questionSubject]({ citation }));
           quizzAnswer = answer;
           quizzInProgress = true;
         });
     } else {
       if (msg.channel.id === quizzChannel && quizzInProgress) {
-        if (msg.content.includes(quizzAnswer)) {
+        if (msg.content.toLowerCase().includes(quizzAnswer.toLowerCase())) {
           msg.channel.send('Bonne réponse');
           quizzInProgress = false;
         }
