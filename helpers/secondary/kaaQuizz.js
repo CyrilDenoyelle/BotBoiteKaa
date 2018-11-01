@@ -1,11 +1,9 @@
 const request = require('request');
-const msgTemplate = require('../botResponseTemplates');
 const { clearSpaces } = require('./strutils');
 const { onArray } = require('./rand');
 
-const question = (msg) => {
-	return new Promise((resolve, rej) => {
-
+const question = () => {
+	return new Promise((resolve) => {
 		request('https://kaamelott.chaudie.re/api/random', { json: true }, (err, res) => {
 			if (err) { console.log('err', err); }
 			const { body: { citation: { citation, infos } } } = res;
