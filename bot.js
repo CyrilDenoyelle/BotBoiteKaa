@@ -15,15 +15,17 @@ express()
     console.log('Our app is running on http://localhost:' + port);
   });
 
-// set discorde BOT
-const { Client, RichEmbed } = require('discord.js');
-const client = new Client();
-const prod = process.env.DATABASE_URL ? true : false;
-
 // requires
 const { msgHandler } = require('./helpers/messages.js');
 const reunion = require('./helpers/reunionsHandler.js');
 const d = require('./helpers/secondary/date.js');
+const { Client, RichEmbed } = require('discord.js');
+
+// set discorde BOT
+const client = new Client();
+
+// process.env
+const prod = process.env.DATABASE_URL ? true : false;
 
 // every 60sec in prod and 10sec in local, the bot will check if it's time for a reunion and send message to target channels and users
 const intervalFunc = () => {
@@ -55,7 +57,10 @@ const intervalFunc = () => {
 }
 
 client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}! id: ${client.user.id}`);
+  // porcess.env
+  process.env.SELF_ID = client.user.id;
+
+  console.log(`Logged in as ${client.user.tag}! id: ${process.env.SELF_ID}`);
 
   client.channels.get(process.env.UP_GEN).send('UP UP UP PUTAIN') // post a message on UP channel
     .then(e => e.delete(5000)); // delete it after 5 secs

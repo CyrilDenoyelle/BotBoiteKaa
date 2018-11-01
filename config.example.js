@@ -3,7 +3,6 @@ module.exports = () => {
 
   process.env.PORT = Math.floor(Math.random() * 9999);
   process.env.TDPASS = 'YOUDISCORDTOKEN';
-  process.env.SELF_ID = 'ID_OF_YOUR_BOT';
   process.env.ADMIN = 'ADMIN_ID';
   process.env.RECAST_AI = 'YOUR_RECAST_AI';
   process.env.UP_GEN = 'YOUR_CHANNEL_ID';
