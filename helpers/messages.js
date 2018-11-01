@@ -51,7 +51,7 @@ msgHandler = (msg) => {
       kaa(msg);
     }
     // Si le message contient quizz
-    if (msg.content.toLowerCase().includes('quizz')) {
+    if (msg.content.toLowerCase().includes('!quizz')) {
       // Initialisation d'un quizz
       if (quizzInProgress && msg.channel.id === quizzChannel) msg.channel.send(`La reponse précédente était ${quizzAnswer}`);
       quizzChannel = msg.channel.id;
