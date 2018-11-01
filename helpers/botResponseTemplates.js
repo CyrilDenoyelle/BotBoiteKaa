@@ -1,4 +1,9 @@
 
+
+// require
+const { clearSpaces } = require('./secondary/strutils');
+
+
 const listReunion = (msg, allReunions) => {
   list = [];
   allReunions.map(r => {
@@ -15,10 +20,11 @@ const createReunion = (msg, created) => {
 const deleteReunion = (msg, deleted) => {
   return msg.reply(`c'est vous l'doc doc: réunion supprimée \n ${deleted.name} | ${deleted.date}`);
 }
+
 const citationTemplate = ({ body }) => {
   const { citation: { infos: { personnage, saison, episode } } } = body;
   const citation = body.citation.citation.startsWith(' ') ? body.citation.citation.slice(1) : body.citation.citation;
-  return `"${citation}" ${personnage}, ${saison}, episode${episode}`;
+  return `"${clearSpaces(citation)}" ${clearSpaces(personnage)}, ${clearSpaces(saison)}, episode ${clearSpaces(episode)}`;
 }
 
 const quizzTemplateQuestion = {
