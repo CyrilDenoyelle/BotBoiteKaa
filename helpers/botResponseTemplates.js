@@ -21,6 +21,15 @@ const citationTemplate = ({ body }) => {
   return `"${citation}" ${personnage}, ${saison}, episode${episode}`;
 }
 
+const quizzTemplateQuestion = {
+  saison: ({ citation }) => {
+    return `Dans quelle saison est cette citation ? "${citation}"`;
+  },
+  personnage: ({ citation }) => {
+    return `Quel personnage dis cette citation ? "${citation}"`;
+  }
+}
+
 const tutos = {
   createReunion: `pour créer une réunion votre message doit ressembler a ça les biatches: \n"!reunion create pourquoi sans apostrophe, AAAA-MM-JJTHH:mm:ss". \n(attention ce truk va faire un "@"everyone sur le discord a l'heure donnée.)`,
   deleteReunion: `pour annuler une réunion: "!reunion delete ID_REUNION." ("!reunion list" affiche les réunions)`,
@@ -34,5 +43,6 @@ module.exports = {
   createReunion,
   deleteReunion,
   citationTemplate,
-  tutos
+  tutos,
+  quizzTemplateQuestion
 }

@@ -8,6 +8,13 @@ const dico = require('./secondary/dico');
 const { reply: recastReply, talk } = require('./recastai/recastaiClient.js');
 const { includesOneOf, startsWithOneOf } = require('./secondary/oneOf.js');
 const request = require('request'); // https://kaamelott.chaudie.re/api/random
+const kaaQuizz = require('./secondary/kaaQuizz');
+
+// local var
+let quizzInProgress = false;
+let quizzChannel;
+let quizzAnswer;
+
 
 // request
 const kaa = (msg) => {
@@ -43,16 +50,41 @@ msgHandler = (msg) => {
     if (includesOneOf(msg.content, ['kaa', 'kaamelott'])) {
       kaa(msg);
     }
+    // Si le message contient quizz
+    if (msg.content.toLowerCase().includes('quizz')) {
+      // Initialisation d'un quizz
+      if (quizzInProgress && msg.channel.id === quizzChannel) msg.channel.send(`La reponse précédente était ${quizzAnswer}`);
+      quizzChannel = msg.channel.id;
+      kaaQuizz.question(msg)
+        .then(({ citation, questionSubject, answer }) => {
+          msg.channel.send(msgTemplate.quizzTemplateQuestion[questionSubject]({ citation }));
+          quizzAnswer = answer;
+          quizzInProgress = true;
+        });
+    } else {
+      if (msg.channel.id === quizzChannel && quizzInProgress) {
+        if (msg.content.toLowerCase().includes(quizzAnswer.toLowerCase())) {
+          msg.channel.send('Bonne réponse');
+          quizzInProgress = false;
+        }
+      }
+    }
+
+
 
     // DIRECT MESSAGES
     if (msg.guild === null) {
       if (msg.content.includes('kamoulox')) {
         msg.reply(rand.onArray(dico()));
       } else if (msg.content && msg.content.length > 0) {
-        talk(msg.content)
-          .then((res) => {
-            console.log(res.raw);
-          });
+
+
+        // talk(msg.content)
+        //   .then((res) => {
+        //     console.log(res.raw);
+        //   });
+
+
         // recastReply({
         //   type: "message",
         //   value: {
