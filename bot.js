@@ -18,7 +18,10 @@ express()
 // set discorde BOT
 const { Client, RichEmbed } = require('discord.js');
 const client = new Client();
+
+// process.env
 const prod = process.env.DATABASE_URL ? true : false;
+process.env.SELF_ID = client.user.id;
 
 // requires
 const { msgHandler } = require('./helpers/messages.js');
@@ -55,7 +58,7 @@ const intervalFunc = () => {
 }
 
 client.on('ready', () => {
-  console.log(`Logged in as ${client.user.tag}! id: ${client.user.id}`);
+  console.log(`Logged in as ${client.user.tag}! id: ${process.env.SELF_ID}`);
 
   client.channels.get(process.env.UP_GEN).send('UP UP UP PUTAIN') // post a message on UP channel
     .then(e => e.delete(5000)); // delete it after 5 secs
