@@ -5,9 +5,8 @@ const on100 = (chances) => {
 
 
 const onArray = (arr) => {
-  const r = Math.floor(Math.random() * arr.length - 1)
-  const out = arr[r];
-  return out;
+  const r = Math.round(Math.random() * (arr.length - 1));
+  return arr[r];
 }
 
 module.exports = {
