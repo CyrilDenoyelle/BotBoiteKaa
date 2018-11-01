@@ -8,13 +8,7 @@ const dico = require('./secondary/dico');
 const { reply: recastReply, talk } = require('./recastai/recastaiClient.js');
 const { includesOneOf, startsWithOneOf } = require('./secondary/oneOf.js');
 const request = require('request'); // https://kaamelott.chaudie.re/api/random
-const kaaQuizz = require('./secondary/kaaQuizz');
-
-// local var
-let quizzInProgress = false;
-let quizzChannel;
-let quizzAnswer;
-
+const { quizzCall, quizzResponse, getNumberOfQuizzInProgress } = require('./quizzHandler')
 
 // request
 const kaa = (msg) => {
@@ -50,28 +44,12 @@ msgHandler = (msg) => {
     if (includesOneOf(msg.content, ['kaa', 'kaamelott'])) {
       kaa(msg);
     }
+
     // Si le message contient quizz
     if (msg.content.toLowerCase().includes('!quizz')) {
-      // Initialisation d'un quizz
-      if (quizzInProgress && msg.channel.id === quizzChannel) {
-        msg.channel.send(`La reponse précédente était ${quizzAnswer}`);
-        quizzInProgress = false;
-      } else {
-        quizzChannel = msg.channel.id;
-        kaaQuizz.question(msg)
-          .then(({ citation, questionSubject, answer }) => {
-            msg.channel.send(msgTemplate.quizzTemplateQuestion[questionSubject]({ citation }));
-            quizzAnswer = answer;
-            quizzInProgress = true;
-          });
-      }
-    } else {
-      if (msg.channel.id === quizzChannel && quizzInProgress) {
-        if (msg.content.toLowerCase().includes(quizzAnswer.toLowerCase())) {
-          msg.channel.send('Bonne réponse');
-          quizzInProgress = false;
-        }
-      }
+      quizzCall(msg); // init quizz
+    } else if (getNumberOfQuizzInProgress() > 0) {
+      quizzResponse(msg); // check if response is right
     }
 
 
