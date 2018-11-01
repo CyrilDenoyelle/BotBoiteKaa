@@ -79,6 +79,7 @@ client.on('message', msg => {
   msgHandler(msg);
 });
 
+client.on('error', console.error);
 
 const token = process.env.TDPASS;
 client.login(token);
