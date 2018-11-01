@@ -13,7 +13,7 @@ const kaaQuizz = require('./secondary/kaaQuizz');
 // local var
 let quizzInProgress = false;
 let quizzChannel;
-let answer;
+let quizzAnswer;
 
 
 // request
@@ -56,13 +56,22 @@ msgHandler = (msg) => {
       // let curentQuizz = kaaQuizz(msg);
       quizzInProgress = true;
       quizzChannel = msg.channel.id;
-      kaaQuizz.question(msg).then((answer)=> console.log('answer',answer));
-    }
-    if (msg.channel.id === quizzChannel && quizzInProgress) {
-      //console.log(curentQuizz.next(msg.content).value);
-      //console.log(answer);
+      kaaQuizz.question(msg).then((answer)=> {
+        console.log(answer);
+        quizzAnswer = answer;
+      });
 
     }
+    else if (msg.channel.id === quizzChannel && quizzInProgress) {
+      //console.log(curentQuizz.next(msg.content).value);
+      console.log('quizzAnswer',`"${quizzAnswer}"`);
+      console.log('msg.content',msg.content);
+      if (msg.content.includes(quizzAnswer)) {
+        msg.channel.send('Bonne réponse');
+        quizzInProgress = false;
+      }
+    }
+
 
 
     // DIRECT MESSAGES

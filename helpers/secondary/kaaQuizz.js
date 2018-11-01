@@ -20,7 +20,13 @@ const question = (msg)=>{
 			if (err) { console.log('err',err); }
 			const { body } = res;
 			msg.channel.send(msgTemplate.quizzTemplateQuestionSaison({ body }));
-			resolve(body);
+			let {citation:{infos:{saison}}} = body;
+			console.log('saison',saison);
+			const len = saison.split('').length;
+			if (saison.split('')[len-1]=== ' ') {
+				saison = saison.slice(0,saison.length-1);
+			}
+			resolve(saison);
 		});
 	})
 }
