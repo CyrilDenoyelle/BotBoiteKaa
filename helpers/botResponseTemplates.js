@@ -20,10 +20,14 @@ const citationTemplate = ({ body }) => {
   const citation = body.citation.citation.startsWith(' ') ? body.citation.citation.slice(1) : body.citation.citation;
   return `"${citation}" ${personnage}, ${saison}, episode${episode}`;
 }
-const quizzTemplateQuestionSaison = ({ body }) => {
-  const { citation: { infos: {  saison } } } = body;
-  const citation = body.citation.citation.startsWith(' ') ? body.citation.citation.slice(1) : body.citation.citation;
-  return `Dans quelle saison est cette citation ? "${citation}"`;
+
+const quizzTemplateQuestion = {
+  saison: ({ citation }) => {
+    return `Dans quelle saison est cette citation ? "${citation}"`;
+  },
+  personnage: ({ citation }) => {
+    return `Quel personnage dis cette citation ? "${citation}"`;
+  }
 }
 
 const tutos = {
@@ -40,5 +44,5 @@ module.exports = {
   deleteReunion,
   citationTemplate,
   tutos,
-  quizzTemplateQuestionSaison
+  quizzTemplateQuestion
 }
