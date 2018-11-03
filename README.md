@@ -14,7 +14,7 @@ A template of Claptrap UNIT best practices to make your Claptrap UNIT simple to 
 fork da bot AND `npm install` in da bot folda
 rename `config.example.js` in `config.js` then put your env variables in it
 the most importants variables are:
-- TDPASS is your discord bot token (so you need to create a bot, yep... cmon it's simple: [tuto!](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token))
+- TDPASS is your discord bot token (so you need to create a bot, yep... cmon it's simple: ![tuto!](https://github.com/reactiflux/discord-irc/wiki/Creating-a-discord-bot-&-getting-a-token))
 - ADMIN is the admin id
 - UP_GEN is da channel you want da bot to ping when he's UP
 
