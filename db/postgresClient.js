@@ -33,6 +33,7 @@ const createReunion = (params) => {
 };
 
 const listReunion = ({ noLogs, withDeleted }) => {
+  console.log({ noLogs, withDeleted });
   return new Promise((resolve, rej) => {
     tempClient = client();
     tempClient.connect();
