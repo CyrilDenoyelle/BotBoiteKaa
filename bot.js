@@ -29,7 +29,8 @@ const prod = process.env.DATABASE_URL ? true : false;
 
 // every 60sec in prod and 10sec in local, the bot will check if it's time for a reunion and send message to target channels and users
 const intervalFunc = () => {
-  const now = d.hours(new Date(), prod ? 2 : 0);
+  // const now = d.hours(new Date(), prod ? 2 : 0);
+  const now = d.hours(new Date(), 0);
   console.log('now', now);
   reunion[`${prod ? 'h' : 'localH'}andlers`] // if server run in prod call handlers else call localHandlers
     .list({ noLogs: true }).then(e => { // call list function in selected handlsers
@@ -65,7 +66,7 @@ client.on('ready', () => {
   console.log(`Logged in as ${client.user.tag}! id: ${process.env.SELF_ID}`);
 
   // console.log(client.guilds.find((guild) => guild.id === '501763051075141633').roles.find((role) => role.name === 'dev'))
-  console.log(client.guilds.find((guild) => guild.id === '501763051075141633').members.find((user) => user.id === '260058419325698058').roles.find((role) => role.name === 'dev'))
+  // console.log(client.guilds.find((guild) => guild.id === '501763051075141633').members.find((user) => user.id === '260058419325698058').roles.find((role) => role.name === 'dev'))
 
   client.channels.get(process.env.UP_GEN) // get channel with id = process.env.UP_GEN
     .send('UP UP UP PUTAIN') // post a message on founded channel
