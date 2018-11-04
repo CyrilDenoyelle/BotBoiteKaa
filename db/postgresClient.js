@@ -36,7 +36,7 @@ const listReunion = ({ noLogs, withDeleted }) => {
   return new Promise((resolve, rej) => {
     tempClient = client();
     tempClient.connect();
-    !nolog ? console.log(`SQL LISTREUNION => SELECT * FROM reunion${!withDeleted ? ' WHERE is_deleted IS NULL OR is_deleted IS FALSE;' : ''};`) : null;
+    !noLogs ? console.log(`SQL LISTREUNION => SELECT * FROM reunion${!withDeleted ? ' WHERE is_deleted IS NULL OR is_deleted IS FALSE;' : ''};`) : null;
     tempClient.query(`SELECT * FROM reunion${!withDeleted ? ' WHERE is_deleted IS NULL OR is_deleted IS FALSE;' : ''};`, (err, res) => {
       if (err) {
         console.log('error', err);
