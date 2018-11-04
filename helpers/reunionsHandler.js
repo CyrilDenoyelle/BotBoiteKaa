@@ -44,7 +44,7 @@ const paramsFormaters = {
     }
     return { error: 'NOT ENOUGH ARGUMENTS' };
   },
-  list: (msg) => {// !reunion list
+  list: (msg) => {// !reunion list boolean boolean
     if (msg.content && msg.content.length > 13) {
       const preargs = msg.content.slice(14);
       if (preargs.length > 0) {
@@ -55,7 +55,8 @@ const paramsFormaters = {
 
         return { noLogs, withDeleted };
       } else return { noLogs: true, withDeleted: false };
-    } else return { noLogs: true, withDeleted: false };
+    } else if (msg.noLogs || msg.withDeleted) return msg;
+    else return { noLogs: true, withDeleted: false };
   },
   delete: (msg) => {
     if (!msg) return { error: 'NO MSG' };
