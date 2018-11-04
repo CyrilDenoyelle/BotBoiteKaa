@@ -32,7 +32,7 @@ const intervalFunc = () => {
   const now = d.hours(new Date(), prod ? 1 : 0);
   console.log('now', new Date(now)); // log now date to string
   reunion[`${prod ? 'h' : 'localH'}andlers`] // if server run in prod call handlers else call localHandlers
-    .list({ noLogs: false }).then(e => { // call list function in selected handlsers
+    .list({ noLogs: true }).then(e => { // call list function in selected handlsers
       e.payload.map(row => { // iterate on the received list
         if (row && new Date(row.date).getTime() < now && !row.is_deleted) { // if reunion is not deleted and is passed
           reunion[`${prod ? 'h' : 'localH'}andlers`].delete(row.id); // delete reunion
