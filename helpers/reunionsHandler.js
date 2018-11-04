@@ -25,6 +25,7 @@ const paramsFormaters = {
       let params = {
         id: uuid(),
         name: args[0],
+        role: args[2],
         date,
         user_id: (msg.author && msg.author.id) || process.env.ADMIN,
         discord_place: (msg.guild && msg.guild.id) || process.env.DEFAULT_GUILD,
