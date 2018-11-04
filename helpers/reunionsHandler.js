@@ -18,13 +18,14 @@ const paramsFormaters = {
     const content = msg.content || msg;
     const args = content.slice(16).split(', ');
     if (args.length >= 2) {
-      const now = d.hours(new Date(), prod ? 2 : 0);
+      const now = d.hours(new Date(), prod ? 1 : 0);
       const date = new Date(args[1]);
       // const reuDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()));
 
       let params = {
         id: uuid(),
         name: args[0],
+        role: args[2],
         date,
         user_id: (msg.author && msg.author.id) || process.env.ADMIN,
         discord_place: (msg.guild && msg.guild.id) || process.env.DEFAULT_GUILD,
@@ -42,7 +43,7 @@ const paramsFormaters = {
     }
     return { error: 'NOT ENOUGH ARGUMENTS' };
   },
-  list: (msg) => {// !reunion list
+  list: (msg) => {// !reunion list boolean boolean
     if (msg.content && msg.content.length > 13) {
       const preargs = msg.content.slice(14);
       if (preargs.length > 0) {
@@ -52,8 +53,9 @@ const paramsFormaters = {
         const noLogs = args[1];
 
         return { noLogs, withDeleted };
-      } else return { noLogs: true, withDeleted: false };
-    } else return { noLogs: true, withDeleted: false };
+      }
+    } else if (msg.noLogs || msg.withDeleted) return msg;
+    return { noLogs: true, withDeleted: false };
   },
   delete: (msg) => {
     if (!msg) return { error: 'NO MSG' };
@@ -129,6 +131,7 @@ const h = {
     list: (msg) => {
       return new Promise((res, rej) => {
         const { noLogs, withDeleted } = paramsFormaters.list(msg)
+        console.log({ noLogs, withDeleted });
         const f = e => {
           if (!withDeleted) {
             return !e.is_deleted;
@@ -180,8 +183,8 @@ msgHandler = (msg) => {
 
 setTimeout(() => {
   h.localHandlers.create('!reunion create trululu1, 2030-10-27T18:00:00');
-  h.localHandlers.create('!reunion create trululu2, 2030-10-27T18:00:00');
-  h.localHandlers.create('!reunion create trululu3, 2030-10-27T18:00:00');
+  h.localHandlers.create('!reunion create trululu2, 2030-10-27T18:00:00, admin');
+  h.localHandlers.create('!reunion create trululu3, 2030-10-27T18:00:00, dev');
 }, 2000);
 
 module.exports = {

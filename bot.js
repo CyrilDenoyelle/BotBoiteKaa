@@ -29,31 +29,36 @@ const prod = process.env.DATABASE_URL ? true : false;
 
 // every 60sec in prod and 10sec in local, the bot will check if it's time for a reunion and send message to target channels and users
 const intervalFunc = () => {
-  const now = d.hours(new Date(), prod ? 2 : 0);
-  reunion[`${prod ? 'h' : 'localH'}andlers`].list({ noLogs: true }).then(e => {
-    e.payload.map(row => {
-      if (row && new Date(row.date).getTime() < now && !row.is_deleted) {
-        reunion[`${prod ? 'h' : 'localH'}andlers`].delete(row.id);
+  const now = d.hours(new Date(), prod ? 1 : 0);
+  console.log('now', new Date(now)); // log now date to string
+  reunion[`${prod ? 'h' : 'localH'}andlers`] // if server run in prod call handlers else call localHandlers
+    .list({ noLogs: true }).then(e => { // call list function in selected handlsers
+      e.payload.map(row => { // iterate on the received list
+        if (row && new Date(row.date).getTime() < now && !row.is_deleted) { // if reunion is not deleted and is passed
+          reunion[`${prod ? 'h' : 'localH'}andlers`].delete(row.id); // delete reunion
 
-        const guild = client.guilds.get(row.discord_place) // get the guild where the message v'been posted
-        guild
-          .channels // get all channels in guild
-          .find(e => e.name === 'reunions') // find reunions channel
-          .send(`${prod ? '@everyone' : '@veryone'} c'est l'heure de ${row.name}`);
+          const guild = client.guilds.get(row.discord_place) // get the guild where the message have been posted
+          const reunionForRole = row.role ? guild.roles.find(role => role.name === row.role) : guild.roles.find(role => role.name === '@everyone'); // get role of invited members
 
-        guild
-          .members // get all members in guild
-          .map(member => {
-            if (member.user.id !== process.env.SELF_ID) { // if member is not self (self is the bot..)
-              member.user.createDM() // create a direct message with the user
-                .then(dm => dm.send(`Salut ${member.user.username} c'est l'heure de ${row.name}`));
-            }
-          });
+          guild
+            .channels // get all channels in guild
+            .find(e => e.name === 'reunions') // find reunions channel
+            .send(`${reunionForRole} c'est l'heure de ${row.name}`); // send msg
 
-        console.log(`C'est l'heure de ${row.name} sur le discorde id:${row.discord_place}.`);
-      }
+          guild
+            .members // get all members in guild
+            .filter(member => member.roles.find(role => role === reunionForRole)) // filter all member get only member who have the role
+            .map(member => { // iterate on members
+              if (member.user.id !== process.env.SELF_ID) { // if member is not self (self is the bot..)
+                member.user.createDM() // create a direct message with the user
+                  .then(dm => dm.send(`Salut ${member.user.username} c'est l'heure de ${row.name}`));
+              }
+            });
+
+          console.log(`C'est l'heure de ${row.name} sur le discorde id:${row.discord_place}.`);
+        }
+      });
     });
-  });
 }
 
 client.on('ready', () => {
@@ -61,6 +66,9 @@ client.on('ready', () => {
   process.env.SELF_ID = client.user.id;
 
   console.log(`Logged in as ${client.user.tag}! id: ${process.env.SELF_ID}`);
+
+  // console.log(client.guilds.find((guild) => guild.id === '501763051075141633').roles.find((role) => role.name === 'dev'))
+  // console.log(client.guilds.find((guild) => guild.id === '501763051075141633').members.find((user) => user.id === '260058419325698058').roles.find((role) => role.name === 'dev'))
 
   client.channels.get(process.env.UP_GEN) // get channel with id = process.env.UP_GEN
     .send('UP UP UP PUTAIN') // post a message on founded channel
