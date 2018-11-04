@@ -43,7 +43,6 @@ const listReunion = ({ noLogs, withDeleted }) => {
         console.log('error', err);
         return null;
       }
-      console.log(res);
       resolve(res.rows);
       tempClient.end();
     });
