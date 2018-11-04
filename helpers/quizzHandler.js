@@ -21,7 +21,7 @@ const quizzCall = (msg) => {
       quizzChannel.inProgress = false;
       // console.log('quizzChannels', quizzChannels);
     } else { // si non pas de quizz en cours on start un quizz dans le channel
-      kaaQuizz.question(msg)
+      kaaQuizz.question()
         .then(({ citation, questionSubject, answer }) => {
           msg.channel.send(msgTemplate.quizzTemplateQuestion[questionSubject]({ citation }));
           quizzChannel.answer = answer; // set la reponse
@@ -30,7 +30,7 @@ const quizzCall = (msg) => {
         });
     }
   } else { // si non pas de channel qui match donc on stock un nouveau quizzChannel et on start un quizz dans ce channel
-    kaaQuizz.question(msg)
+    kaaQuizz.question()
       .then(({ citation, questionSubject, answer }) => {
         msg.channel.send(msgTemplate.quizzTemplateQuestion[questionSubject]({ citation }));
 
