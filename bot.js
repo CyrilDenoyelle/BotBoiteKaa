@@ -29,8 +29,7 @@ const prod = process.env.DATABASE_URL ? true : false;
 
 // every 60sec in prod and 10sec in local, the bot will check if it's time for a reunion and send message to target channels and users
 const intervalFunc = () => {
-  // const now = d.hours(new Date(), prod ? 1 : 1);
-  const now = d.hours(new Date(), 1);
+  const now = d.hours(new Date(), prod ? 1 : 0);
   console.log('now', new Date(now)); // log now date to string
   reunion[`${prod ? 'h' : 'localH'}andlers`] // if server run in prod call handlers else call localHandlers
     .list({ noLogs: false }).then(e => { // call list function in selected handlsers
@@ -39,13 +38,16 @@ const intervalFunc = () => {
           reunion[`${prod ? 'h' : 'localH'}andlers`].delete(row.id); // delete reunion
 
           const guild = client.guilds.get(row.discord_place) // get the guild where the message have been posted
+          const reunionForRole = row.role ? guild.roles.find(role => role.name === row.role) : guild.roles.find(role => role.name === '@everyone'); // get role of invited members
+
           guild
             .channels // get all channels in guild
             .find(e => e.name === 'reunions') // find reunions channel
-            .send(`${prod ? '@everyone' : '@veryone'} c'est l'heure de ${row.name}`); // send msg
+            .send(`${reunionForRole} c'est l'heure de ${row.name}`); // send msg
 
           guild
             .members // get all members in guild
+            .filter(member => member.roles.find(role => role === reunionForRole)) // filter all member get only member who have the role
             .map(member => { // iterate on members
               if (member.user.id !== process.env.SELF_ID) { // if member is not self (self is the bot..)
                 member.user.createDM() // create a direct message with the user
