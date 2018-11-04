@@ -53,9 +53,9 @@ const paramsFormaters = {
         const noLogs = args[1];
 
         return { noLogs, withDeleted };
-      } else return { noLogs: true, withDeleted: false };
+      }
     } else if (msg.noLogs || msg.withDeleted) return msg;
-    else return { noLogs: true, withDeleted: false };
+    return { noLogs: true, withDeleted: false };
   },
   delete: (msg) => {
     if (!msg) return { error: 'NO MSG' };
@@ -131,6 +131,7 @@ const h = {
     list: (msg) => {
       return new Promise((res, rej) => {
         const { noLogs, withDeleted } = paramsFormaters.list(msg)
+        console.log({ noLogs, withDeleted });
         const f = e => {
           if (!withDeleted) {
             return !e.is_deleted;
@@ -182,8 +183,8 @@ msgHandler = (msg) => {
 
 setTimeout(() => {
   h.localHandlers.create('!reunion create trululu1, 2030-10-27T18:00:00');
-  h.localHandlers.create('!reunion create trululu2, 2030-10-27T18:00:00');
-  h.localHandlers.create('!reunion create trululu3, 2030-10-27T18:00:00');
+  h.localHandlers.create('!reunion create trululu2, 2030-10-27T18:00:00, admin');
+  h.localHandlers.create('!reunion create trululu3, 2030-10-27T18:00:00, dev');
 }, 2000);
 
 module.exports = {
