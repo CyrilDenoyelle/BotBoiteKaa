@@ -30,7 +30,6 @@ const prod = process.env.DATABASE_URL ? true : false;
 // every 60sec in prod and 10sec in local, the bot will check if it's time for a reunion and send message to target channels and users
 const intervalFunc = () => {
   const now = d.hours(new Date(), prod ? 1 : 0);
-  console.log('now', new Date(now)); // log now date to string
   reunion[`${prod ? 'h' : 'localH'}andlers`] // if server run in prod call handlers else call localHandlers
     .list({ noLogs: true }).then(e => { // call list function in selected handlsers
       e.payload.map(row => { // iterate on the received list
@@ -55,7 +54,7 @@ const intervalFunc = () => {
               }
             });
 
-          console.log(`C'est l'heure de ${row.name} sur le discorde id:${row.discord_place}.`);
+          console.log(`C'est l'heure de ${row.name} sur le discorde id:${row.discord_place}. now: ${new Date(now)}`);
         }
       });
     });
