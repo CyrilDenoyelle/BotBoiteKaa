@@ -31,7 +31,7 @@ const paramsFormaters = {
         discord_place: (msg.guild && msg.guild.id) || process.env.DEFAULT_GUILD,
         created_at: now
       }
-      if (d.hours(new Date(date).getTime(), prod ? 2 : 0) < now || date == "Invalid Date") {
+      if (new Date(date).getTime() < now || date == "Invalid Date") {
         if (new Date(date).getTime() < now) {
           params.error = 'DATE IN PAST';
         }
