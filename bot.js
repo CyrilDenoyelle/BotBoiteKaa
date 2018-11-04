@@ -29,9 +29,9 @@ const prod = process.env.DATABASE_URL ? true : false;
 
 // every 60sec in prod and 10sec in local, the bot will check if it's time for a reunion and send message to target channels and users
 const intervalFunc = () => {
-  // const now = d.hours(new Date(), prod ? 2 : 0);
-  const now = d.hours(new Date(), 0);
-  console.log('now', now);
+  // const now = d.hours(new Date(), prod ? 1 : 1);
+  const now = d.hours(new Date(), 1);
+  console.log('now', new Date(now)); // log now date to string
   reunion[`${prod ? 'h' : 'localH'}andlers`] // if server run in prod call handlers else call localHandlers
     .list({ noLogs: false }).then(e => { // call list function in selected handlsers
       e.payload.map(row => { // iterate on the received list
