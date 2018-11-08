@@ -27,9 +27,6 @@ msgHandler = (msg) => {
     msg.react("🍆");
   }
 
-  if (msg.content === 'logservertime') {
-    console.log('server time is ', new Date());
-  }
 
   // IF NOT SELF MESSAGE
   if (msg.author.id !== process.env.SELF_ID) {
@@ -106,6 +103,10 @@ msgHandler = (msg) => {
             // setTimeout();
             console.log(`that message "${msg.content}" throwed this:`, e);
           });
+      }
+
+      if (msg.content === 'logservertime') {
+        console.log('server time is ', new Date());
       }
 
       // ask for reunion tuto
