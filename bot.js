@@ -64,7 +64,7 @@ client.on('ready', () => {
   // porcess.env (get bot id for self messages detection)
   process.env.SELF_ID = client.user.id;
 
-  console.log(`Logged in as ${client.user.tag}! id: ${process.env.SELF_ID}, au quatrième top il sera: ${now()}`);
+  console.log(`Logged in as ${client.user.tag}! id: ${process.env.SELF_ID}, au quatrième top il sera: ${d.now()}`);
 
   // console.log(client.guilds.find((guild) => guild.id === '501763051075141633').roles.find((role) => role.name === 'dev'))
   // console.log(client.guilds.find((guild) => guild.id === '501763051075141633').members.find((user) => user.id === '260058419325698058').roles.find((role) => role.name === 'dev'))
