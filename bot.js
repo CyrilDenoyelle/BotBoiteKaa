@@ -29,7 +29,7 @@ const prod = process.env.DATABASE_URL ? true : false;
 
 // every 60sec in prod and 10sec in local, the bot will check if it's time for a reunion and send message to target channels and users
 const intervalFunc = () => {
-  const now = d.hours(new Date(), prod ? 1 : 0);
+  const now = d.now();
   reunion[`${prod ? 'h' : 'localH'}andlers`] // if server run in prod call handlers else call localHandlers
     .list({ noLogs: true }).then(e => { // call list function in selected handlsers
       e.payload.map(row => { // iterate on the received list
@@ -64,7 +64,7 @@ client.on('ready', () => {
   // porcess.env (get bot id for self messages detection)
   process.env.SELF_ID = client.user.id;
 
-  console.log(`Logged in as ${client.user.tag}! id: ${process.env.SELF_ID}`);
+  console.log(`Logged in as ${client.user.tag}! id: ${process.env.SELF_ID}, au quatrième top il sera: ${now()}`);
 
   // console.log(client.guilds.find((guild) => guild.id === '501763051075141633').roles.find((role) => role.name === 'dev'))
   // console.log(client.guilds.find((guild) => guild.id === '501763051075141633').members.find((user) => user.id === '260058419325698058').roles.find((role) => role.name === 'dev'))

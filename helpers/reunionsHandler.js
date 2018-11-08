@@ -18,7 +18,7 @@ const paramsFormaters = {
     const content = msg.content || msg;
     const args = content.slice(16).split(', ');
     if (args.length >= 2) {
-      const now = d.hours(new Date(), prod ? 1 : 0);
+      const now = d.now();
       const date = new Date(args[1]);
       // const reuDate = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate(), date.getHours(), date.getMinutes(), date.getSeconds()));
 
