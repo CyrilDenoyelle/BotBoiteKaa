@@ -5,6 +5,7 @@ const msgTemplate = require('./botResponseTemplates');
 
 // local var
 let quizzChannels = [];
+let quizzPlayers = [];
 
 
 const quizzCall = (msg) => {
@@ -22,17 +23,17 @@ const quizzCall = (msg) => {
       // console.log('quizzChannels', quizzChannels);
     } else { // si non pas de quizz en cours on start un quizz dans le channel
       kaaQuizz.question()
-        .then(({ citation, questionSubject, answer }) => {
-          msg.channel.send(msgTemplate.quizzTemplateQuestion[questionSubject]({ citation }));
-          quizzChannel.answer = answer; // set la reponse
-          quizzChannel.inProgress = true;
-          // console.log('quizzChannels', quizzChannels);
-        });
+      .then(({ citation, questionSubject, answer }) => {
+        msg.channel.send(msgTemplate.quizzTemplateQuestion[questionSubject]({ citation }));
+        quizzChannel.answer = answer; // set la reponse
+        quizzChannel.inProgress = true;
+        // console.log('quizzChannels', quizzChannels);
+      });
     }
   } else { // si non pas de channel qui match donc on stock un nouveau quizzChannel et on start un quizz dans ce channel
     kaaQuizz.question()
-      .then(({ citation, questionSubject, answer }) => {
-        msg.channel.send(msgTemplate.quizzTemplateQuestion[questionSubject]({ citation }));
+    .then(({ citation, questionSubject, answer }) => {
+      msg.channel.send(msgTemplate.quizzTemplateQuestion[questionSubject]({ citation }));
 
         quizzChannels.push({ // add new quizzChannel to list
           id: msg.channel.id,
@@ -50,15 +51,33 @@ const quizzResponse = (msg) => {
     console.log('problemos? quizzChannelsFiltered.length > 1\n quizzChannelsFiltered = ', quizzChannelsFiltered); // on log le souci
   }
 
-  if (quizzChannelsFiltered.length >= 1) {
+  if (quizzChannelsFiltered.length >= 1) { // Si un quizz est dans au moins un channel
     const quizzChannel = quizzChannelsFiltered[0]; // on prend le premier
-    if (quizzChannel.inProgress && msg.content.toLowerCase() === quizzChannel.answer.toLowerCase()) {
-      // si il est en cours et que le message est la bonne reponse
-      msg.channel.send('Bonne réponse');
-      quizzChannel.inProgress = false
+    if (quizzChannel.inProgress){ // Si un quizz est en cours
+      quizzPlayer = getQuizzPlayerById(msg.author.id); // Vérifie si le player du message à déjà joué
+      // Si il n'est pas répertorié
+      if (quizzPlayer.length <= 0) { 
+        // Ajoute le player à la liste avec un score de 0
+        quizzPlayers.push({ 
+          id: msg.author.id,
+          score:0,
+          name:msg.author.username
+        })
+        quizzPlayer=getQuizzPlayerById(msg.author.id);
+      }
+      if(msg.content.toLowerCase() === quizzChannel.answer.toLowerCase()) {
+        // si il est en cours et que le message est la bonne reponse
+        quizzPlayer[0].score+=1;
+        msg.channel.send(`Bonne réponse, score: ${quizzPlayer[0].score}`);
+        quizzChannel.inProgress = false;
+      }
+      else{
+        quizzPlayer[0].score=0;
+        msg.channel.send(`Mauvaise réponse, score: ${quizzPlayer[0].score}`);
+      }
+      console.log(getQuizzPlayerById(msg.author.id));
     }
   }
-  // console.log('quizzChannels', quizzChannels);
 }
 
 const getNumberOfQuizzInProgress = () => {
@@ -67,6 +86,10 @@ const getNumberOfQuizzInProgress = () => {
 
 const getQuizzByChannelId = (id) => {
   return quizzChannels.filter((quizzChan) => quizzChan.id === id);
+}
+
+const getQuizzPlayerById = (id) => {
+  return quizzPlayers.filter((quizzPlayer) => quizzPlayer.id === id);
 }
 
 module.exports = {
