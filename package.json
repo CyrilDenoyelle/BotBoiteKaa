@@ -17,5 +17,10 @@
     "recastai": "^4.0.0",
     "request": "^2.88.0",
     "uuid": "^3.3.2"
+  },
+  "devDependencies": {
+    "eslint": "^5.9.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0"
   }
 }
