@@ -1,4 +1,4 @@
-const prod = process.env.DATABASE_URL ? true : false;
+const prod = process.env.DATABASE_URL || false;
 
 const days = (date, d) => date.setTime(date.getTime() + (d * 24 * 60 * 60 * 1000));
 const hours = (date, h) => date.setTime(date.getTime() + (h * 60 * 60 * 1000));
