@@ -22,7 +22,7 @@ const createReunion = params => new Promise((resolve, rej) => {
     if (err) {
       console.log('error sql', err);
       console.log('res sql', res);
-      return rej(new Error({ tutoName: 'createReunion', err }));
+      return rej({ tutoName: 'createReunion', err });
     }
     tempClient.end();
     return resolve(params);
