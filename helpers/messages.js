@@ -15,7 +15,7 @@ const { quizzCall, quizzResponse, getNumberOfQuizzInProgress } = require('./quiz
 // request
 const kaa = (msg) => {
   request('https://kaamelott.chaudie.re/api/random', { json: true }, (err, res) => {
-    if (err) { console.log(err); }
+    if (err) { console.log(JSON.stringify(err)); }
     const { body } = res;
     msg.channel.send(msgTemplate.citationTemplate({ body }));
   });
@@ -101,7 +101,7 @@ const msgHandler = (msg) => {
                 .then(sendedMsg => sendedMsg.delete(5 * 60 * 1000));// delete it after 5mins
             }
             // setTimeout();
-            console.log(`message "${msg.content}" throwed this:`, e);
+            console.log(`message "${msg.content}" throwed this:`, JSON.stringify(e));
           });
       }
       // ask for reunion tuto

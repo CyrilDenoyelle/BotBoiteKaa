@@ -5,7 +5,7 @@ const uuid = require('uuid');
 const d = require('./secondary/date');
 const pgc = require('../db/postgresClient');
 
-const isUuid = id => /[0-9a-fA-F]{8}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{4}\-[0-9a-fA-F]{12}/.test(id);
+const isUuid = id => /[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/.test(id);
 
 // env vars
 const prod = process.env.DATABASE_URL || false;
@@ -82,7 +82,7 @@ const h = {
             res({ msgTemplateName: 'createReunion', payload: created });
           });
       } else {
-        rej(new Error({ tutoName: 'createReunion', error: params.error }));
+        rej({ tutoName: 'createReunion', error: params.error });
       }
     }),
 
@@ -111,7 +111,7 @@ const h = {
                   });
                 });
             });
-        } else rej(new Error({ tutoName: 'deleteReunion', error }));
+        } else rej({ tutoName: 'deleteReunion', error });
       });
     }
   },
@@ -123,7 +123,7 @@ const h = {
         reunions.push(params);
         res({ msgTemplateName: 'createReunion', payload: params });
       }
-      rej(new Error({ tutoName: 'createReunion', error: params.error }));
+      rej({ tutoName: 'createReunion', error: params.error });
     }),
     list: msg => new Promise((res) => {
       const { noLogs, withDeleted } = paramsFormaters.list(msg);
@@ -143,21 +143,16 @@ const h = {
       const { id, error } = paramsFormaters.delete(msg);
       return new Promise((res, rej) => {
         if (reunions.length > 0) {
-          reunions.forEach((e) => {
-            if (e.id === id) {
-              e.is_deleted = true;
-              const deletedReunion = e;
-              return res({
-                msgTemplateName: 'deleteReunion',
-                payload: deletedReunion
-              });
-            }
-            return rej(new Error({ tutoName: 'deleteReunion', error: 'NO REUNION FOUND' }));
-          });
-        } else {
-          rej(new Error({ tutoName: 'deleteReunion', error: 'NO REUNION REGISTERED LOCALLY' }));
+          const filteredReunions = reunions.filter(reunion => (reunion.id === id));
+          if (filteredReunions.length > 0) {
+            return res({
+              msgTemplateName: 'deleteReunion',
+              payload: filteredReunions[0]
+            });
+          }
+          return rej({ tutoName: 'deleteReunion', error: 'NO REUNION FOUND' });
         }
-        rej(new Error({ tutoName: 'deleteReunion', error }));
+        return rej({ tutoName: 'deleteReunion', error });
       });
     }
   }
