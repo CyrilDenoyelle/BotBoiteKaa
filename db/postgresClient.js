@@ -31,7 +31,6 @@ const createReunion = params => new Promise((resolve, rej) => {
 });
 
 const listReunion = ({ sqlFilters, logs }) => new Promise((resolve) => {
-  console.log('sqlFilters', `"${sqlFilters}"`);
   const tempClient = client();
   tempClient.connect();
   if (logs) console.log(`SQL LISTREUNION => "SELECT * FROM reunion${sqlFilters};"`);
