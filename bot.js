@@ -11,7 +11,7 @@ express()
   .get('/', (req, res) => { res; })
   .listen(port, () => {
     console.log(`Our app is running on http://localhost: ${port}`);
-  })
+  });
 
 // requires
 const { msgHandler } = require('./helpers/messages.js');

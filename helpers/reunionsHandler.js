@@ -195,6 +195,7 @@ const h = {
               reunion.is_deleted = true;
               return true;
             }
+            return false;
           });
           if (filteredReunions.length > 0) {
             return res({
