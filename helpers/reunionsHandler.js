@@ -40,7 +40,7 @@ const objFiltersToSqlFilters = (filters, guildId) => {
     }
   }
   if (sqlStrTabl.length > 0) return ` WHERE${sqlStrTabl.join(' AND')}`;
-  return '';
+  return ` WHERE discord_place = '${guildId || process.env.DEFAULT_GUILD}' AND (is_deleted IS NULL OR is_deleted IS FALSE)`;
 };
 
 
