@@ -12,6 +12,36 @@ const prod = process.env.DATABASE_URL || false;
 
 // local vars
 const reunions = [];
+const possibleFilter = ['all', 'deleted', 'everywhere'];
+
+const whereFilterSql = (filters) => {
+  const filtersKeys = Object.keys(filters);
+
+  const str = filtersKeys.reduce((result, filter) => {
+    result.push(` ${filter} = ${filters[filter]}`);
+    return result;
+  }, []).join(' AND');
+
+  return ` WHERE${str}`;
+};
+
+const objFiltersToSqlFilters = (filters, guildId) => {
+  const sqlStrTabl = [];
+  if (Object.keys(filters).filter(key => possibleFilter.includes(key)).length > 0) {
+    if (!filters.everywhere && guildId) {
+      sqlStrTabl.push(` discord_place = ${guildId}`);
+    }
+    if (!filters.all) {
+      if (filters.deleted) {
+        sqlStrTabl.push(' is_deleted IS TRUE');
+      } else {
+        sqlStrTabl.push(' (is_deleted IS NULL OR is_deleted IS FALSE)');
+      }
+    }
+  }
+  if (sqlStrTabl.length > 0) return ` WHERE${sqlStrTabl.join(' AND')}`;
+  return '';
+};
 
 
 const paramsFormaters = {
@@ -44,19 +74,27 @@ const paramsFormaters = {
     }
     return { error: 'NOT ENOUGH ARGUMENTS' };
   },
-  list: (msg) => { // !reunion list boolean boolean
-    if (msg.content && msg.content.length > 13) {
+  list: (msg) => { // !reunion list all, deleted, everywhere, logs
+    if (msg && msg.content && msg.content.length > 13) {
       const preargs = msg.content.slice(14);
-      if (preargs.length > 0) {
-        const args = msg.content.slice(14).split(', ');
+      const args = preargs.split(' ');
+      const filters = {};
+      let logs = false;
 
-        const withDeleted = args[0];
-        const noLogs = args[1];
+      args.forEach((arg) => {
+        if (possibleFilter.includes(arg)) filters[arg] = true;
+        if (arg === 'logs') logs = true;
+      });
 
-        return { noLogs, withDeleted };
-      }
-    } else if (msg.noLogs || msg.withDeleted) return msg;
-    return { noLogs: true, withDeleted: false };
+      const payload = { guild: msg.guild.id, filters };
+
+      if (logs) payload.logs = true;
+
+      console.log(payload);
+      return payload;
+    }
+    if (msg && msg.filters && msg.guild) return msg;
+    return { guild: msg && msg.guild && msg.guild.id, logs: false, filters: { deleted: false, here: false } };
   },
   delete: (msg) => {
     if (!msg) return { error: 'NO MSG' };
@@ -85,9 +123,10 @@ const h = {
         rej({ tutoName: 'createReunion', error: params.error });
       }
     }),
-
     list: msg => new Promise((resolve) => {
-      pgc.listReunion(paramsFormaters.list(msg))
+      const { filters, logs } = paramsFormaters.list(msg);
+      const sqlFilters = objFiltersToSqlFilters(filters, msg && msg.guild && msg.guild.id);
+      pgc.listReunion({ sqlFilters, logs })
         .then((e) => {
           resolve({
             msgTemplateName: 'listReunion',
@@ -126,24 +165,42 @@ const h = {
       rej({ tutoName: 'createReunion', error: params.error });
     }),
     list: msg => new Promise((res) => {
-      const { noLogs, withDeleted } = paramsFormaters.list(msg);
-      console.log({ noLogs, withDeleted });
+
+      const { filters, guild, logs } = paramsFormaters.list(msg);
+
       const f = (e) => {
-        if (!withDeleted) {
-          return !e.is_deleted;
+        // ['all', 'deleted', 'everywhere', 'logs'];
+        if (!filters.everywhere && guild !== e.discord_place) {
+          return false;
         }
-        return true;
+        if (filters.all) {
+          return true;
+        }
+        if (filters.deleted) {
+          return e.is_deleted;
+        }
+        return !e.is_deleted;
       };
+
+      console.log('objFiltersToSqlFilters', objFiltersToSqlFilters(filters, msg && msg.guild && msg.guild.id));
+
+      const filtered = reunions.filter(f);
+      if (logs) console.log({ filters, guild });
       res({
         msgTemplateName: 'listReunion',
-        payload: reunions.filter(f)
+        payload: filtered
       });
     }),
     delete: (msg) => {
       const { id, error } = paramsFormaters.delete(msg);
       return new Promise((res, rej) => {
         if (reunions.length > 0) {
-          const filteredReunions = reunions.filter(reunion => (reunion.id === id));
+          const filteredReunions = reunions.filter((reunion) => {
+            if (reunion.id === id) {
+              reunion.is_deleted = true;
+              return true;
+            }
+          });
           if (filteredReunions.length > 0) {
             return res({
               msgTemplateName: 'deleteReunion',

@@ -30,11 +30,11 @@ const createReunion = params => new Promise((resolve, rej) => {
   // rej({ tutoName: 'createReunion', err: 'no sql response' });
 });
 
-const listReunion = ({ noLogs, withDeleted }) => new Promise((resolve) => {
+const listReunion = ({ sqlFilters, logs }) => new Promise((resolve) => {
   const tempClient = client();
   tempClient.connect();
-  !noLogs ? console.log(`SQL LISTREUNION => SELECT * FROM reunion${!withDeleted ? ' WHERE is_deleted IS NULL OR is_deleted IS FALSE;' : ''};`) : null;
-  tempClient.query(`SELECT * FROM reunion${!withDeleted ? ' WHERE is_deleted IS NULL OR is_deleted IS FALSE;' : ''};`, (err, res) => {
+  if (logs) console.log(`SQL LISTREUNION => SELECT * FROM reunion${sqlFilters};`);
+  tempClient.query(`SELECT * FROM reunion${sqlFilters};`, (err, res) => {
     if (err) {
       console.log('error', err);
       return null;
