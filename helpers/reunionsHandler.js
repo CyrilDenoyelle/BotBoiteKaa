@@ -29,7 +29,7 @@ const objFiltersToSqlFilters = (filters, guildId) => {
   const sqlStrTabl = [];
   if (Object.keys(filters).filter(key => possibleFilter.includes(key)).length > 0) {
     if (!filters.everywhere && guildId) {
-      sqlStrTabl.push(` discord_place = ${guildId}`);
+      sqlStrTabl.push(` discord_place = "${guildId}"`);
     }
     if (!filters.all) {
       if (filters.deleted) {
@@ -74,7 +74,7 @@ const paramsFormaters = {
     }
     return { error: 'NOT ENOUGH ARGUMENTS' };
   },
-  list: (msg) => { // !reunion list all, deleted, everywhere, logs
+  list: (msg) => { // !reunion list all deleted everywhere logs
     if (msg && msg.content && msg.content.length > 13) {
       const preargs = msg.content.slice(14);
       const args = preargs.split(' ');
@@ -86,9 +86,7 @@ const paramsFormaters = {
         if (arg === 'logs') logs = true;
       });
 
-      const payload = { guild: msg.guild.id, filters };
-
-      if (logs) payload.logs = true;
+      const payload = { guild: msg.guild.id, filters, logs };
 
       console.log(payload);
       return payload;
@@ -181,8 +179,6 @@ const h = {
         }
         return !e.is_deleted;
       };
-
-      console.log('objFiltersToSqlFilters', objFiltersToSqlFilters(filters, msg && msg.guild && msg.guild.id));
 
       const filtered = reunions.filter(f);
       if (logs) console.log({ filters, guild });
