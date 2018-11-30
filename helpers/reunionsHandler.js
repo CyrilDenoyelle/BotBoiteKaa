@@ -29,7 +29,7 @@ const objFiltersToSqlFilters = (filters, guildId) => {
   const sqlStrTabl = [];
   if (Object.keys(filters).filter(key => possibleFilter.includes(key)).length > 0) {
     if (!filters.everywhere && guildId) {
-      sqlStrTabl.push(` discord_place = "${guildId}"`);
+      sqlStrTabl.push(` discord_place = '${guildId}'`);
     }
     if (!filters.all) {
       if (filters.deleted) {
