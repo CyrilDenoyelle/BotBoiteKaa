@@ -1,16 +1,13 @@
 
 const express = require('express');
 const { Client } = require('discord.js');
-const config = require('./config.js'); // we try to execture the config.js file
-
-
-try {
-  config();
-} catch (e) {
+const config = require('./config.js').catch((e) => {
   if (e instanceof Error && e.code === 'MODULE_NOT_FOUND') { // if there is no config.js file we are on heroku server
     console.log("I'm On Heroku Biatches");
   } else throw e;
-}
+}); // we try to execture the config.js file
+
+config();
 
 const port = process.env.PORT || 8080;
 express()
