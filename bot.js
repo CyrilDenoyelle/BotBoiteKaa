@@ -1,23 +1,17 @@
 
 const express = require('express');
 const { Client } = require('discord.js');
-const config = require('./config.js'); // we try to execture the config.js file
 
+const prod = process.env.DATABASE_URL || false;
 
-try {
-  config();
-} catch (e) {
-  if (e instanceof Error && e.code === 'MODULE_NOT_FOUND') { // if there is no config.js file we are on heroku server
-    console.log("I'm On Heroku Biatches");
-  } else throw e;
-}
+if (!prod) require('./config.js')();
 
 const port = process.env.PORT || 8080;
 express()
   .get('/', (req, res) => { res; })
   .listen(port, () => {
     console.log(`Our app is running on http://localhost: ${port}`);
-  });
+  })
 
 // requires
 const { msgHandler } = require('./helpers/messages.js');
@@ -28,13 +22,12 @@ const d = require('./helpers/secondary/date.js');
 const client = new Client();
 
 // process.env (set environement variables)
-const prod = process.env.DATABASE_URL || false;
 
 // every 60sec in prod and 10sec in local, the bot will check if it's time for a reunion and send message to target channels and users
 const intervalFunc = () => {
   const now = d.now();
   reunion[`${prod ? 'h' : 'localH'}andlers`] // if server run in prod call handlers else call localHandlers
-    .list({ noLogs: true }).then((e) => { // call list function in selected handlsers
+    .list({ logs: false }).then((e) => { // call list function in selected handlsers
       e.payload.forEach((row) => { // iterate on the received list
         if (row && new Date(row.date).getTime() < now && !row.is_deleted) { // if reunion is not deleted and is passed
           reunion[`${prod ? 'h' : 'localH'}andlers`].delete(row.id); // delete reunion
