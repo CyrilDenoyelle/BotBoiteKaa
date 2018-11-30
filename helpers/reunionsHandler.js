@@ -88,11 +88,7 @@ const paramsFormaters = {
         if (possibleFilter.includes(arg)) filters[arg] = true;
         if (arg === 'logs') logs = true;
       });
-
-      const payload = { guild: msg.guild.id, filters, logs };
-
-      console.log(payload);
-      return payload;
+      return { guild: msg.guild.id, filters, logs };
     }
     if (msg && msg.filters && msg.guild) return msg;
     return { guild: msg && msg.guild && msg.guild.id, logs: false, filters: { deleted: false, here: false } };
