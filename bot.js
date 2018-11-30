@@ -1,20 +1,17 @@
 
 const express = require('express');
 const { Client } = require('discord.js');
-const config = require('./config.js').catch((e) => {
-  if (e instanceof Error && e.code === 'MODULE_NOT_FOUND') { // if there is no config.js file we are on heroku server
-    console.log("I'm On Heroku Biatches");
-  } else throw e;
-}); // we try to execture the config.js file
 
-config();
+const prod = process.env.DATABASE_URL || false;
+
+if (!prod) require('./config.js')();
 
 const port = process.env.PORT || 8080;
 express()
   .get('/', (req, res) => { res; })
   .listen(port, () => {
     console.log(`Our app is running on http://localhost: ${port}`);
-  });
+  })
 
 // requires
 const { msgHandler } = require('./helpers/messages.js');
@@ -25,7 +22,6 @@ const d = require('./helpers/secondary/date.js');
 const client = new Client();
 
 // process.env (set environement variables)
-const prod = process.env.DATABASE_URL || false;
 
 // every 60sec in prod and 10sec in local, the bot will check if it's time for a reunion and send message to target channels and users
 const intervalFunc = () => {
