@@ -50,4 +50,4 @@ module.exports = () => [
   'Parpaing',
   'Enclume',
   'Chalumeau'
-]
+];

@@ -4,8 +4,17 @@ const kaaQuizz = require('./secondary/kaaQuizz');
 const msgTemplate = require('./botResponseTemplates');
 
 // local var
-let quizzChannels = [];
+const quizzChannels = [];
 
+const getNumberOfQuizzInProgress = () => {
+  const nb = quizzChannels.length > 0 ? quizzChannels.filter(quizzChan => quizzChan.inProgress).length : 0;
+  return nb;
+};
+
+const getQuizzByChannelId = (id) => {
+  const quizz = quizzChannels.filter(quizzChan => quizzChan.id === id);
+  return quizz;
+};
 
 const quizzCall = (msg) => {
   const quizzChannelsFiltered = getQuizzByChannelId(msg.channel.id);
@@ -16,7 +25,7 @@ const quizzCall = (msg) => {
 
     const quizzChannel = quizzChannelsFiltered[0]; // on prend le premier qui vient
 
-    if (quizzChannel.inProgress) { // si le quizz trouvé est en cours 
+    if (quizzChannel.inProgress) { // si le quizz trouvé est en cours
       msg.channel.send(`La reponse précédente était: "${quizzChannel.answer}"`); // on donne la reponse
       quizzChannel.inProgress = false;
       // console.log('quizzChannels', quizzChannels);
@@ -38,11 +47,11 @@ const quizzCall = (msg) => {
           id: msg.channel.id,
           inProgress: true,
           answer
-        })
+        });
         // console.log('quizzChannels', quizzChannels);
       });
   }
-}
+};
 
 const quizzResponse = (msg) => {
   const quizzChannelsFiltered = getQuizzByChannelId(msg.channel.id);
@@ -55,22 +64,15 @@ const quizzResponse = (msg) => {
     if (quizzChannel.inProgress && msg.content.toLowerCase() === quizzChannel.answer.toLowerCase()) {
       // si il est en cours et que le message est la bonne reponse
       msg.channel.send('Bonne réponse');
-      quizzChannel.inProgress = false
+      quizzChannel.inProgress = false;
     }
   }
   // console.log('quizzChannels', quizzChannels);
-}
+};
 
-const getNumberOfQuizzInProgress = () => {
-  return quizzChannels.length > 0 ? quizzChannels.filter((quizzChan) => quizzChan.inProgress).length : 0;
-}
-
-const getQuizzByChannelId = (id) => {
-  return quizzChannels.filter((quizzChan) => quizzChan.id === id);
-}
 
 module.exports = {
   quizzCall,
   quizzResponse,
   getNumberOfQuizzInProgress
-}
+};

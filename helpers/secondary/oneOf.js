@@ -1,22 +1,22 @@
 
 
 const includesOneOf = (text, arr) => {
-  output = false;
-  arr.map(str => {
+  let output = false;
+  arr.forEach((str) => {
     text.toLowerCase().includes(str) ? output = true : null;
   });
   return output;
-}
+};
 
 const startsWithOneOf = (text, arr) => {
-  output = false;
-  arr.map(str => {
+  let output = false;
+  arr.forEach((str) => {
     text.toLowerCase().startsWith(str) ? output = true : null;
-  })
+  });
   return output;
-}
+};
 
 module.exports = {
   includesOneOf,
   startsWithOneOf
-}
+};
