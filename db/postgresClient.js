@@ -31,10 +31,10 @@ const createReunion = params => new Promise((resolve, rej) => {
 });
 
 const listReunion = ({ sqlFilters, logs }) => new Promise((resolve) => {
-  console.log('sqlFilters', sqlFilters);
-  const tempClient = client();
+  console.log('sqlFilters', `"${sqlFilters}"`);
+  tempClient = client();
   tempClient.connect();
-  if (logs) console.log(`SQL LISTREUNION => SELECT * FROM reunion${sqlFilters};`);
+  if (logs) console.log(`SQL LISTREUNION => "SELECT * FROM reunion${sqlFilters};"`);
   tempClient.query(`SELECT * FROM reunion${sqlFilters};`, (err, res) => {
     if (err) {
       console.log('error', err);
