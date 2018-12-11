@@ -24,7 +24,7 @@ const citationTemplate = ({ body }) => {
 };
 
 const quizzTemplateQuestion = {
-  saison: ({ citation }) => `Dans quelle saison est cette citation ? "${citation}"`,
+  saison: ({ citation }) => `Dans quelle livre est cette citation ? "${citation}"`,
   personnage: ({ citation }) => `Quel personnage dis cette citation ? "${citation}"`,
 };
 
