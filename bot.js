@@ -8,7 +8,7 @@ if (!prod) require('./config.js')();
 
 const port = process.env.PORT || 8080;
 express()
-  .get('/', (req, res) => { res; })
+  .get('/', (req, res) => { JSON.parse(res); })
   .listen(port, () => {
     console.log(`Our app is running on http://localhost: ${port}`);
   });
