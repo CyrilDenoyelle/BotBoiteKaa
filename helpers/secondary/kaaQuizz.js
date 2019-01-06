@@ -1,6 +1,5 @@
 
 const request = require('request');
-const { clearSpaces } = require('./strutils');
 const { onArray } = require('./rand');
 
 const question = () => new Promise(resolve => request('https://kaamelott.chaudie.re/api/random', { json: true }, (err, res) => {
@@ -11,7 +10,7 @@ const question = () => new Promise(resolve => request('https://kaamelott.chaudie
   const questionSubject = infos[randKey] ? randKey : 'saison';
   const answer = infos[questionSubject];
 
-  resolve({ citation: clearSpaces(citation), questionSubject, answer: clearSpaces(answer) });
+  resolve({ citation: citation.trim(), questionSubject, answer: answer.trim() });
 }));
 
 module.exports = {
