@@ -1,9 +1,4 @@
 
-
-// require
-const { clearSpaces } = require('./secondary/strutils');
-
-
 const listReunion = (msg, allReunions) => {
   const list = [];
   allReunions.forEach((r) => {
@@ -20,7 +15,7 @@ const deleteReunion = (msg, deleted) => msg.reply(`c'est vous l'doc doc: réunio
 const citationTemplate = ({ body }) => {
   const { citation: { infos: { personnage, saison, episode } } } = body;
   const citation = body.citation.citation.startsWith(' ') ? body.citation.citation.slice(1) : body.citation.citation;
-  return `"${clearSpaces(citation)}" ${clearSpaces(personnage)}, ${clearSpaces(saison)}, episode ${clearSpaces(episode)}`;
+  return `"${citation.trim()}" ${personnage.trim()}, ${saison.trim()}, episode ${episode.trim()}`;
 };
 
 const quizzTemplateQuestion = {
