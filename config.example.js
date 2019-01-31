@@ -5,6 +5,6 @@ module.exports = () => {
   process.env.ADMIN = 'ADMIN_ID';
   process.env.RECAST_AI = 'YOUR_RECAST_AI';
   process.env.UP_GEN = 'YOUR_CHANNEL_ID';
-  process.env.WHITE_LIST = '["WHITELISTED_CHANNEL", "WHITELISTED_CHANNEL", "WHITELISTED_CHANNEL"]';
+  process.env.WHITE_LIST = '["WHITELISTED_GUILD", "WHITELISTED_GUILD", "WHITELISTED_GUILD"]';
   process.env.DEFAULT_GUILD = 'YOUR_DEFAULT_GUILD_ID';
 };

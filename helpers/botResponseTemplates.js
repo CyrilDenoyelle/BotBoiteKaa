@@ -15,7 +15,7 @@ const deleteReunion = (msg, deleted) => msg.reply(`c'est vous l'doc doc: réunio
 const citationTemplate = ({ body }) => {
   const { citation: { infos: { personnage, saison, episode } } } = body;
   const citation = body.citation.citation.startsWith(' ') ? body.citation.citation.slice(1) : body.citation.citation;
-  return `"${citation.trim()}" ${personnage.trim()}, ${saison.trim()}, episode ${episode.trim()}`;
+  return `"${citation && citation.trim()}" ${personnage && personnage.trim()}, ${saison && saison.trim()}, episode ${episode && episode.trim()}`;
 };
 
 const quizzTemplateQuestion = {
