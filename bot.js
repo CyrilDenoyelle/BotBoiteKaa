@@ -82,4 +82,4 @@ client.on('message', (msg) => { // on message received in any channel where the 
 
 client.on('error', console.error);
 
-client.login(process.env.TDPASS); // log the bot to discord servers with the env var process.env.TDPASS = token of the bot
+client.login(process.env.TDPASS).catch(console.error); // log the bot to discord servers with the env var process.env.TDPASS = token of the bot
